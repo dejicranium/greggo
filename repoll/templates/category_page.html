@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {%if category %}
+           Polls in {{category.category_name}} category
+        {% endif %}
+    </head>
+
+    <body>
+        <div class="container">
+            <feed-item v-for="activity in activities" 
+                :activity='activity' 
+                :user_logged_in='userLoggedIn'
+                :show_comment_modal='showCommentModal'
+                @act_close_comment_modal='closeModal'
+                @act_show_comment_modal='showCommModal'
+                @set_activity_comment_details='setActivityCommentDetails'
+                @set_option_comment_details='setOptionCommentDetails'
+                @show_auth_modal="showAuthModal"
+                @act_show_view_comments_modal='showViewComments'
+                :key='activity.id'>	
+            </feed-item>
+        </div>
+
+
+
+
+    <template id='feed-item'>
+            <div class="feed-container">
+                    <!--you will have to re-write the styles. This modal imports from authentication modal-->
+            
+    
+    
+                <!--This div will be shown for poll activities --> 
+                <div class="feed-card" v-if="activity.type=='poll'">
+                    
+                    <div class='poll'>
+    
+                    <div class="avatar">
+                         <img v-if='activity.userPic == null' src="https://www.w3schools.com/howto/img_avatar.png"/> 
+                         <img v-if='activity.userPic != null' :src='activity.userPic'>
+                    </div>
+    
+    
+                    <div class="beside-avatar-box">
+                        <div class="author-details">
+                            <p class="name" >((activity.userName))</p>
+                            <p class="username"></p>
+                            <p class="action">asked</p>
+                        </div>
+    
+                        <div class="categories-container">
+    
+                        </div>
+    
+                        <h6 class="poll-question"><a :href="'localhost:6543/poll/' + activity.id + '/'">((activity.question))</a></h6>
+                        <div class="poll-info" v-if='activity.info'>
+                            <div v-if='infoHasLink' class='link-info' style='display:flex; padding: 5px; flex-direction:row; border:0.5px solid lightgrey; border-radius:10px;'>
+                                <img :src='infoLinkThumb' width='150' height='100' style='margin-right:5px;'/>
+                                <div style='display:flex; flex-direction:column'>
+                                    <h4>((infoLinkTitle))</h4>
+                                    <p>((infoLinkDescription))<h4>
+                                </div>
+                            </div>
+                            <div v-else>
+                                ((activity.info))
+                            </div>
+                        </div>
+                        
+    
+    
+                        <!--if the poll has ended, just show the results already! --> 
+                        <template v-if='pollHasEnded == false && !isPicturePoll'>						
+                            <!-- this is the default. Shows when the user has not voted -->
+                            <template v-if='!userHasVoted'>
+                                <div class='options' v-for='option in activity.options' :option='option'>
+                                        <label>
+                                            <input type="radio" @click='optionChosen(option.id)' name='option' :value='option.id'>
+                                            <span class='checkmark'></span>
+                                            ((option.option))
+                                        </label>
+    
+                                </div>
+                            </template>
+                            <!-- once the user has voted, this template will come up! --> 
+                            <template v-else-if='userHasVoted && !isPicturePoll'>
+                                <div class='options'>
+                                     <div class="ans-cnt" v-for="option in calculatedScores" :option='option'>
+                                        <div class="ans">
+                                            <div class="ans-voted">
+                                                <span class="percent">((option.percent))</span>
+                                                <span class="txt">((option.option))</span>
+                                            </div>
+                                            <span class="first-bg"></span>
+                                            <span :class="{bg:true}" :style='{width: option.percent}'></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+    
+    
+                            <template v-else-if='!userHasVoted && isPicturePoll'>
+                                   <div class='picture-options'>
+                                    <label>
+                                        <input type='radio' name='checkbox'/>
+                                        <img src='data:image/jpeg;base64,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'/>
+                                
+                                        <span class='checkbox'></span>
+    
+                                        <span>Wizkid</span>
+                                     </label>
+    
+                                   </div>
+                            </template>
+    
+                        <!--	<template>
+                                <div class='img-opt-container'>
+                                    <label v-for='option in calculatedScores' :option='option'>
+                                        <input type='radio'/>
+                                        <img :src='option.imageLink'/>
+                                        <div class=''>
+                                            <span>((option.option))</span>
+                                            <span checkmark></span>
+                                        </div>
+                                    </label>
+                                </div>
+                        </template> -->
+    
+                        </template>
+    
+                        <!--options-->
+                        <p class="votes">((totalVotes)) votes</p>
+    
+                        <button v-on:click='vote' v-show='!userHasVoted' id='vote-btn'><i class="far fa-check-circle button-icon"></i>Vote</button>
+                        <button v-on:click='addComment' v-show='!userHasVoted' id='comment-btn'><i class="far fa-comment button-icon"></i>Comment</button>
+                        <button v-show='!userHasVoted'><i class="far fa-chart-bar button-icon"></i>Results</button>
+                        <button  v-show='userHasVoted'><i class="fas fa-chart-pie button-icon"></i>View Breakdown</button>
+                    </div>
+    
+                    <div @click='show_view_comments_modal'>
+                    <!--	<h5>View Comments </h5> -->
+                    </div>
+                </div>
+                </div>
+                
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            <!---This is the comment div --> 
+                <div class="feed-card" v-else-if='activity.type=="comment"'>
+                        
+                        <div class="avatar">
+                             <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+                             <img v-else :src='activity.userPic'>
+                        </div>
+    
+                        <div class="beside-avatar-box">
+                            <div class="author-details">
+                                <p class="name">((activity.commenter))</p>
+                                <p class="username"></p>
+                                <p class="action"> commented</p>
+                            </div>
+    
+    
+                            <h2 class="chosen-option">((activity.option_chosen))</h2>
+                            <p class="comment">((activity.comment))</p>
+    
+    
+                            <div>
+                                <p class="comment-question"><span style='font-weight:normal;' v-if='activity.poll'></span>
+                                    ((activity.poll))
+                                </p>
+    
+                                <p class='comment-opinion' v-else-if='activity.opinion'>((activity.opinion))</p>
+                            </div>
+    
+                            <button><i class="far fa-thumbs-up button-icon"></i>Like</button>
+                            <button @click="share"><i class="far fa-share-square button-icon"></i>Share</button>
+                        </div>
+    
+                </div>
+    
+    
+    
+                <div class="feed-card" v-else-if='activity.type=="opinion"'>
+    
+                        <div class="avatar" v-if='activity.trigger'>
+                             <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png" style='margin-top:12px;'/>
+                             <img v-else :src='activity.userPic'>
+                        </div>
+    
+                        <div class="avatar" v-else>
+                             <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+                             <img v-else :src='activity.userPic'>
+                        </div>
+                    
+                        <div class="beside-avatar-box">
+                            <div v-if='activity.trigger' style='margin-bottom:0px;'>
+                                <p style='color:darkgrey; font-size:11px'>((activity.triggerActor)) ((activity.trigger))</p>
+                            </div>
+                            <div class="author-details">
+                                <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.userId)) (deji)</p>
+                                <p class="username"></p>
+                            </div>
+    
+                            <p class="comment">((activity.opinion))</p>
+                            <p class='votes'>((activity.numOfComments)) comments</p>
+                            
+                            <button @click='addComment("Agree")'><i class="fa fa-check button-icon" aria-hidden="true"></i>Agree</button>
+                            <button @click='addComment("Disagree")'><i class="far fa-thumbs-down button-icon"></i>Disagree</button>
+                            <button @click='like'>Like</button>
+                        </div>
+    
+                </div>
+    
+    
+        <!--if poll is a picture poll" --> 
+    
+    
+        
+    
+        </div>
+    
+    
+    
+    </template>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script>
+
+
+    Vue.component('feed-item', {
+		template: '#feed-item',
+		props: ['activity', 'option', 'user_logged_in', 'show_comment_modal', 'show_view_comments_modal'],
+		delimiters: ['((', '))'],
+		data(){
+			return{
+
+				//these are for the polls.
+				userHasVoted: this.activity.userHasVoted,
+				pollHasEnded: this.activity.hasEnded,
+				isPicturePoll: this.activity.isPicturePoll,
+				justVotedScore: 0,
+				poll_votes: this.activity.totalVotes,
+				chosenOption: 0,
+				chosenOptionName: this.getChosenOptionName(),
+				infoHasLink: this.activity.hasUrlInInfo,
+				infoLinkThumb: this.activity.infoPageThumb,
+				infoLinkTitle: this.activity.infoPageTitle,
+				infoLinkDescription: this.activity.infoPageDescription,
+				seenPollResults: this.activity.userHasSeenResults,
+						
+			}
+			
+
+			
+		},
+		mounted(){
+
+		
+		},
+
+		methods:{
+			share(){
+				vm = this;
+				if(this.activity.type =='comment'){
+					axios.post(siteUrl + '/share/', {
+						comment_id: vm.activity.id,
+					});
+				}
+			
+			},
+
+			changeActivityData(id, value){
+				this.$set(this.activity. id, value);
+			},
+
+			openBreakDownWindow(){
+				window.open( siteUrl + '/poll/demographic-metrics/' + this.activity.id);
+			},
+
+			
+			showViewCommentsModal(){
+				this.$emit('act_show_view_comments_modal', true);
+			},
+
+			closeModal(){
+				this.$emit('act_close_comment_modal', false)
+			},
+			
+			like(){
+				vm = this;
+				if(this.activity.type == 'opinion'){
+					axios.post(siteUrl + '/like/', {
+						opinion_id: vm.activity.id,
+					}).then(function(response){
+
+					});
+				}
+				else if (this.activity.type == 'comment'){
+					axios.post(siteUrl + '/like/', {
+
+					}).then(function(response){
+
+					});
+				}
+			},
+			addComment(option){
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					//check if the activity is an opinion
+					if (this.activity.type = 'opinion'){
+							activities = this.activity.options.filter(i=> i.option == option);
+							this.chosenOption = activities[0].id;
+						
+					}
+					else{
+						alert('Select an option');
+						return 0;
+					}
+				}
+				var val = true; 
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details', this.chosenOption);
+
+			},
+
+			optionChosen(optionId){
+				this.chosenOption = optionId;
+
+			},
+
+			getChosenOptionName(){
+				var chosenOptionId = this.chosenOption;
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id == chosenOptionId){
+						return this.activity.options.option;
+					}
+				}
+			},
+
+			
+			vote: function(){
+				vm = this;
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					alert('Select an option');
+					return 0;
+				}
+
+				this.activity.totalVotes += 1;
+				this.userHasVoted = true;
+
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id  == this.chosenOption){
+						this.activity.options[i].score += 1;
+						break;
+					}
+				}
+                
+				this.userHasVoted = true;
+				var pollID = this.activity.id;
+				axios.post(siteUrl + '/vote/',{
+					poll_id: pollID, 
+					option_id: vm.chosenOption,
+				}).then(function(response){
+				
+				}).catch(function(error){
+					this.userHasVoted = false;
+				})
+
+
+			},
+			comment: function(){
+				if (this.user_logged_in == false){
+					alert ("You need to be logged in first");
+					return 0;
+				}
+			},
+
+			seeResults: function(){
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				this.seenPollResults = true;
+
+
+				axios.post(siteUrl + '/viewresults',{
+					poll_id: this.activity.id,
+				}).then(function(response){
+					
+				}).catch(function(error){
+
+
+				});
+				
+			},
+
+		},
+
+		computed:{
+
+			
+			totalVotes(){
+				return this.activity.totalVotes;
+			},
+
+
+			calculatedScores(){
+				if(this.activity.totalVotes ==0){
+					return this.activity.options.map(a=>{
+						a.percent = '0%'
+						return a
+					})
+			}
+				return this.activity.options.filter(a=>{
+                    if (!isNaN(a.score) && a.score > 0){
+                        a.percent = ( Math.round( (parseInt(a.score)/this.activity.totalVotes ) * 100) ) + '%'
+					}
+					else{
+                        a.percent =  '0%'
+					}
+                    return a
+                })
+		},
+
+
+
+	
+	}
+
+	});
+
+    
+    window.app = new Vue({
+
+		el: '#container',
+		delimiters: ['((','))'],
+
+		data(){
+			return{
+				loading: true,
+
+				sidebarContentSelectedClass: 'sidebar-content-selected',
+
+				activities: [],
+				categories: [],
+				subscriptions: [],
+
+				userLoggedIn: false,
+				userName: '',
+				userPic: '',
+
+				optionToCommentOn: 0,
+				activityToCommentOn: {},
+
+
+				showNewSelectionModal: false,
+				showAuthenticationModal: false,
+				showCommentModal: false,
+				showSidebar: false,
+				showCategories: false,
+				showViewCommentsModal: false,
+				showCreateNewPollModal: false,
+				showSubscriptions:false,
+				showCreateNewOpinionModal: false,
+				
+
+			}
+		},
+
+		computed:{
+			sortedSubscriptionsList(){
+				var sortedSubscriptions = this._sortCategoryList(this.subscriptions);
+				return sortedSubscriptions;
+			},
+
+			sortedCategoriesList(){
+				var sortedCategories = this._sortCategoryList(this.categories);
+				return sortedCategories;
+			},
+		},
+
+		methods:{
+			_sortCategoryList(list){
+				list.sort(function(a, b){
+					if (a.categoryName < b.categoryName) return -1;
+					if (a.categoryName > b.categoryName) return 1;
+				})
+				return list;
+			},
+
+			mShowNewSelectionModal(){
+				this.showNewSelectionModal = true; 
+			},
+
+		
+
+			showNewPollModal(){
+				this.showCreateNewPollModal = true;
+			},
+			showNewOpinionModal(){
+				this.showCreateNewOpinionModal = true;
+			},
+			showViewComments(value){
+				this.showViewCommentsModal = true;
+			},
+			
+			toggleSubscriptions(){
+			},
+
+			toggleShowCategories(){
+				this.showCategories = !this.showCategories;
+			},
+			toggleAuthModal(){
+				this.showAuthenticationModal = !this.show_auth_modal;
+			},
+
+
+			closeModal(newData){
+				if(this.showCommentModal == true){
+					this.showCommentModal = false;
+				}
+				if(this.showAuthenticationModal == true){
+					this.showAuthenticationModal = false;
+				}
+				if(this.showSidebar == true){
+					this.showSidebar = false;
+				}
+
+				if(this.showCommentModal == true){
+					this.showCommentModal == false;
+				}
+				this.showCreateNewOpinionModal = false
+
+			},
+
+			setActivityCommentDetails(activity){
+				this.activityToCommentOn = activity;
+			},
+
+			setOptionCommentDetails(optionId){
+				this.optionToCommentOn = optionId;
+			},
+
+			showCommModal(newData){
+				this.showCommentModal = true;
+			},
+
+			showAuthModal(newData){
+				this.showAuthenticationModal = newData;
+			},
+
+			subscribeToCategory(categoryId){
+				var category = this.categories.filter(c=> c.categoryId==categoryId);
+				var category = category[0]; //because the above returns a list of one object;
+				var categoryIndex = this.categories.indexOf(category); //we need the index of the category so we can remove it from list of categories
+
+				this.subscriptions.push(category);
+				this.categories.splice(categoryIndex, 1);
+			},
+
+			unsubscribeFromCategory(categoryId){
+				var category = this.subscriptions.filter(c=> c.categoryId==categoryId);
+				var category = category[0]; //because the above returns a list of one object;
+				var categoryIndex = this.subscriptions.indexOf(category); //we need the index of the category so we can remove it from list of categories
+
+				this.subscriptions.splice(categoryIndex, 1);
+				this.categories.push(category);
+			}
+
+		},
+
+
+		//this is what happens when you load the page.
+		//automaticall
+		created(){
+			vm = this;
+
+			axios.get(siteUrl + '/get/polls/category_id='{{category.category_id}}).then(response => {
+			//this will give a list of polls
+			var response_list = response.data.activities;
+			this.activities = response_list;
+			this.userName = response.data.userName;
+			this.userPic = response.data.userPic;
+			this.userLoggedIn = response.data.user_logged_in; 
+			
+
+			
+			});
+			//get categories data
+			axios.get(siteUrl + '/categories').then(response => {
+				this.categories = response.data.categories;
+			});
+
+			//axios.get(siteUrl + '/show_subscriptions').then(response => {
+			//	this.subscriptions = response.data.subscriptions;
+			//})
+
+
+		},
+
+
+
+	});
+
+	/**
+
+
+	**/
+    
+	</script>
+    <body>
+</html>

@@ -1,0 +1,13 @@
+{% extends "layout.jinja2" %}
+
+
+{% block content %}
+	{% if options %}
+		{% for option in options %}
+			<h1>{{option.option_title}} -- {{option.votes}}</h1>
+		{% endfor %}
+	{% else %}
+		<h1> No options </h1>
+	{% endif %}
+
+{% endblock %}

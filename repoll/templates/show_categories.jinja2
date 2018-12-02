@@ -1,0 +1,11 @@
+{% block content %}
+	{% if categories %}
+		{% for category in categories %}
+			<h1>{{category.category_name}}</h1> <a href="{{request.route_url('subscribe_to_category', category_id=category.id)}}">Subscribe</a>
+		{% endfor %}
+	{% else %}
+		<h1>No followers to show</h1>
+	{% endif %}
+	
+
+{% endblock %}

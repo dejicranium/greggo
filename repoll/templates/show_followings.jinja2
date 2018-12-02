@@ -1,0 +1,8 @@
+{% block content %}
+	{% if followings %}
+		{% for following in followings %}
+			{{following.user_id.first_name}} is followed by {{following.follower_id.first_name}}
+		{% endfor %}
+	{%endif %}
+
+{% endblock content %}

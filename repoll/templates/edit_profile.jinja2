@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    {% if user %}
+    <title> Edit Profile - {{user.full_name}} </title>
+    {%else %}
+    <title>Access Denied</title>
+    {% endif %} 
+        <style>
+            *{
+                margin:0;
+                padding: 0;
+            }
+
+            body{
+                background-color: #F7F7F7;
+
+            }
+
+            .container{
+                background-color: white;
+                border: 0.5px 0.5px 0.5px 0.5px solid lightgrey;
+                width: 80%;
+                margin:auto;
+                text-align:center;
+			    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+                margin-top: 50px;
+                padding-top: 20px;
+                padding-bottom:20px;
+
+            }
+            .input-div{
+                position: flex;
+                flex-direction: column;
+                flex-wrap:wrap;
+                margin-bottom: 10px;
+            }
+
+            label{
+                position: block;
+                width: 100%;
+            }
+
+            input{
+                border: 0;
+                border-bottom: 1px solid grey;
+            }
+
+            input:active  label {
+                color:teal;
+            }
+        
+        </style>
+    </head>
+
+    
+
+
+
+    <body>
+
+        <div class="container">
+            <div class='input-div'>          
+                <label for='username'>Username</label><br>
+                {% if user.username %}
+                <input id="username" type="text" value="{{user.username}}"/>
+                {% else %}
+                <input id="username" type="text" value=""/>
+                {% endif %}
+
+            </div>
+
+            <div class="input-div">
+                <label for='phone'>Phone No.</label><br>
+                {% if user.phone_number %}
+                <input id='phone' type="text" value="{{user.phone_number}}"/>
+                {% else %}
+                <input id='phone' type='text' value""/>
+                {% endif %}       
+            </div>
+
+            <div class="input-div">
+                <label for='password'>Password</label><br>
+                <input id="password" type="password" value='{{user.password}}'/>
+            </div>
+            
+            <div class='input-div'>
+                <label for='bio'>Bio</label><br>
+                {% if user.bio %}
+                <input id='bio' type='text' value="{{user.bio}}"/>
+                {% else %}
+                <input id='bio' type='text'/>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class='container subscriptions'>
+
+
+        </div>
+
+
+
+    </body>
+
+    
+</html>

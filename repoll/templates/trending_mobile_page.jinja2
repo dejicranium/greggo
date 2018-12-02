@@ -1,0 +1,3011 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - Mobile</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Libre+Franklin' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'/>
+	<link rel="stylesheet" href="{{request.static_url('repoll:static/styles.css')}}"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+
+	<style>
+	
+
+ #t{
+    flex-basis:50%; 
+    display:flex; 
+    border-right:solid 0.5px lightgrey; 
+    background-color:whitesmoke; 
+    text-align:center;
+    align-items:center; 
+    justify-content:center;
+}
+.modal-body{
+	position:;
+	padding:10px;
+	width:95%;
+}
+.modal-body button{
+	position:absolute;
+	right:20px;
+	left:;
+	bottom:10px;
+	box-sizing; border-box;
+}
+
+.form-control{
+	box-sizing:border-box;
+	height:4s0px;
+}
+#selected-tab{
+    flex-basis:50%; 
+    display:flex; 
+    border-right:solid 0.5px lightgrey; 
+    background-color:white; 
+    text-align:center;
+    align-items:center; 
+    justify-content:center;
+}
+	</style>
+</head>
+
+
+
+<body>
+
+<div id="container">
+
+
+
+<!--BEGINNING OF THE ACTUAL BODY -->
+
+
+
+	{%include 'not_home_navbar_template.jinja2' %}
+
+
+
+
+	<div class='body-container'>
+
+		<div style='width:20px; height:auto; margin:0 auto;'>
+		<img src="{{request.static_url('repoll:static/rename.svg')}}" style='margin:0 auto; width:20px;height:20px;' v-show='loading' />
+		</div>
+
+		<sidebar :categories='categories' 
+		:subscriptions='subscriptions' 
+		:toggle_show_categories='toggleShowCategories' 
+		:close_modal='closeModal'>
+		</sidebar>
+		<reply :activity="activityToReplyTo" 
+				:show_reply_modal='showReplyModal'
+				@close_modal='closeModal'
+				></reply>
+
+		<feed-item v-for="activity in activities" 
+			:activity='activity'
+			ref='something' 
+			:user_logged_in='userLoggedIn'
+			:show_comment_modal='showCommentModal'
+			@act_close_comment_modal='closeModal'
+			@act_show_comment_modal='showCommModal'
+			@set_activity_comment_details='setActivityCommentDetails'
+			@set_option_comment_details='setOptionCommentDetails'
+			@show_auth_modal="showAuthModal"
+			@act_show_view_comments_modal='showViewComments'
+			:key="'index' + activities.indexOf(activity) + '-' + activity.id"
+			@set_activity_respondent_details='setActivityRespondentDetails'
+			@set_reply_activity_details='setReplyActivityDetails'>	
+		</feed-item>
+		
+		<respondents-modal :show_respondents_modal='showRespondentsModal' 
+							:activity='activityToGetRespondents'
+							>
+
+		</respondents-modal>
+
+
+		<new-opinion-modal 
+			:show_opinion_modal='showCreateNewOpinionModal'
+			@act_add_to_activities='addToActivitiesList'
+			@close_new_opinion_modal='closeModal'>
+		</new-opinion-modal>
+
+		<add-new-comment-modal 
+		:show_comment_modal='showCommentModal' 
+		:activity='activityToCommentOn'
+		@close_add_coment_modal='closeModal'
+		:option='optionToCommentOn'
+		@activity_voted='changeActivityJustVoted'>
+		</add-new-comment-modal>
+	
+	
+
+		<authentication-modal :categories="sortedCategoriesList" :show_authentication_modal="showAuthenticationModal" @close_auth_modal="closeModal"></authentication-modal>	
+		<show-new-poll-modal 
+			:show_new_poll_modal='showCreateNewPollModal' 
+			:categories='sortedCategoriesList'
+			@close_new_poll_modal='closeModal'></show-new-poll-modal>
+		<comments :show_view_comments_modal='showViewCommentsModal'></comments>
+		<div style='width:20px; height:auto; margin:0 auto; display:none;' v-show='loadingMoreContent'>
+		<img src="{{request.static_url('repoll:static/rename.svg')}}" style='margin:0 auto; width:20px;height:20px;' />
+		</div>
+	</div>
+
+	<div id='snackbar'></div>
+
+</div>
+
+
+
+<template id='new-opinion-template' type='x/template'>
+	<transition name='modal'>
+		<div class='modal-mask' v-show='show_opinion_modal' @click='closeModal'>
+			<div class='modal-container' @click.stop >
+				<div class='modal-header' style='color:black'>
+					<h3>New opinion</h3>
+				</div>
+				
+				<form id='opinion-form' enctype='multipart/form-data' method='post'>
+				<div class='modal-body new-opinion-modal-body' style="width:100%; box-sizing:border-box; padding:0px">
+					<textarea style='width: 100%; height: 100px; border-radius:0px; font-size:13px; margin-bottom:5px;; ' v-model='opinion' id='comment-input' @click='autoResize' class='form-control' name='comment' form='comment-form' placeholder='Have your say'></textarea>
+					
+          		<label @click='addOpinionImage' id='opinion-image-label'style='background-color:lightgrey; display:inline-block; padding:5px; border-radius:5px; margin-left:10px;'>
+				  <input type="file" style='display:none'
+               		id="opinion-image" name="opinion-image"
+					
+               		accept="image/png, image/jpeg" />
+					<span><i class="far fa-image button-icon" ></i>Add image</span>
+					<img id='opinion-image-display'></img>					
+
+				</label><br>
+
+					<button type='button' id='createOpinionButton'style='margin-bottom: 10px; border-radius:10px; margin-left:10px;margin-right:10px;' @click='createOpinion'>  <i class="fa fa-circle-o-notch fa-spin" v-if=''></i>Share</button>
+				</div> 
+
+				</form>
+
+
+			
+
+
+			</div> 
+
+		</div>
+	</transition>
+</template>
+
+
+</template>
+<template type='x/template' id="show-new-poll-modal-template">
+	<transition name="modal">
+		<div class="modal-mask" v-show='show_new_poll_modal' @click='closeModal'>
+
+
+			<div class="modal-container new-poll-modal" @click.stop>
+
+				<!--there should be an if condition here
+					to decide what to show to the user in the header.
+					Basically, we'll need to check the leadingIntent-->
+			
+			
+				<div class="modal-header" style='display:flex; flex-direction:row; color:grey; font-size: 15px;padding:0px;  height:50px;'>					
+					<div :id='[pollType=="normal" ? "selected-tab" : "t"]' @click='pollType="normal"'>Normal</div>
+					<div :id='[pollType=="picture" ? "selected-tab" : "t"]' @click='pollType="picture"'>Picture</div>
+				</div>
+
+
+				<div class="modal-body" style='padding:0px;'>
+
+					<div class='normal-poll-div' v-if='pollType == "normal"'>
+						<form method="post" accept-charset="utf-8" enctype="multipart/form-data" id='new-poll-form'>
+							
+						<div style='padding: 10px 16px'>
+							<div style='width:94%'>
+								<input type='text' 
+									class='form-control' 
+									name='question' 
+									id='poll-question' 
+									placeholder='Question'
+									 
+								/>
+							</div>
+
+
+							<div class='add-context'>
+								<textarea style='margin-bottom:5px;' @click='autoResize' placeholder= "Provide context: info, explanation, link or image."  name='info' class='form-control'></textarea>
+								
+								
+								<label for="context-image" id='add-context-image' style='margin-bottom:;color:teal;height:20px;' @click='addContextImage'> Add Context Image </label>
+								<img id='contextImageDisplay'></img>
+								<input type="file"
+								 id="context-image" 
+								 name="context-image"
+								 value="Add Image"
+								 accept=".jpg, .jpeg, .png" >
+							
+							</div>
+						
+
+							<div style='margin-bottom: 5px;'>
+								<div v-for='option in options' :option='option' class='options-box'>							
+									<input type='text' 
+									class='form-control ' 
+										:placeholder='option.placeholder' 
+									v-model='option.text'/>								
+								</div>
+
+								<p type='' @click='addNewOption' style='position:relative; left: 0; color:teal; text-decoration:; height:30px;font-weight:bold;' > + Add Option</p>
+							</div>
+							</div>						
+						
+							<div style='width:100%; box-sizing:border-box;'>
+								<div style='background-color:;width:100%;padding-left:16px; margin-bottom:10px;'>
+									<div style='margin-bottom:'>
+									<label for='duration' class='form-label' style='font-weight:;font-size:12px;'> Duration: <span class='required'>*</span> </label>
+										<select id="duration" name='timeDue' style='background-color:;'>
+											<option value="1"> 24 hours</option>
+											<option value="2"> 2 days</option>
+											<option value="3"> 3 days</option>
+											<option value="4"> 4 days</option>
+											<option value="5"> 5 days</option>
+											<option value="6"> 6 days</option>
+											<option value="7"> 1 week</option>
+										</select>
+									</div>
+								</div>
+
+								<div style='padding:5px 16px; background-color:;'>	
+									<label for='category' class='form-label' style='font-weight:;font-size:12px;'> Publish to: <span class='required'>*</span> </label>
+
+									<div class='categories-selection'>
+										<label v-for='category in categories' :category='category' @click='chooseCategory(category.categoryId)'>
+										<input type='checkbox' value='category.categoryId'/> ((category.categoryName))
+										<span class='checkmark'></span>
+
+									</label>
+									</div>
+								
+							
+									<button type='button' @click='createPoll'> <i class="fa fa-circle-o-notch fa-spin" v-if=''></i>Ask</button>
+
+								</div>
+						
+							</div>
+
+						</form>
+
+
+					</div>
+
+
+					<div v-else style='padding: 10px 16px;'>								
+						<form enctype='multipart/form-data' id='image-poll-form'>
+							<input type='text' 
+									class='form-control' 
+									name='question' 
+									id='poll-question' 
+									placeholder='Question'
+									 style=''
+								/>
+							
+							<div style='dislay:flex; flex-direction:row; flex-wrap:wrap; width:100%;'>
+							<div v-for='option in imageOptions' :option='option' style='flex-basis:20%; display:flex; margin-bottom:20px; flex-direction:row; flex-wrap:wrap'>
+								<div style='margin:auto; text-align:center; flex-wrap:wrap; box-sizing:box-sizing;'>	
+									<div style=' margin-bottom:5px;'>
+
+										<img height="120" width='120' :id="'image-display-' + option.classKey" style='border:0.5px solid darkgrey; border-radius:5px; background-color:whitesmoke;'/>
+									</div>
+								
+									<input type='text'
+										name='option' 
+										class='form-control' 
+										placeholder='Option title'
+										style='width: 100%; height:40px; margin:auto; margin-bottom:5px;'/><br>
+								
+									<label style='color:teal; font-weight:bold;'>
+									<input type='file' 
+										style='width:100%; height:30px; display:none;' 
+										@click='triggerListener(option.classKey)'
+										:id="'image-button-' + option.classKey"
+										name='optionImage'
+										accept=".jpg, .jpeg, .png" >
+									+Add image</label>
+													
+								</div>
+							</div>
+							</div>
+							<button type='button' @click='addNewOption'>Add Option</button>
+
+
+							<div style='width:100%; box-sizing:border-box;'>
+							<div style='background-color:;width:100%;padding-left:16px; margin-bottom:10px;'>
+								<div style='margin-bottom:'>
+								<label for='duration' class='form-label' style='font-weight:;font-size:12px;'> Duration: <span class='required'>*</span> </label>
+									<select id="duration" name='timeDue' style='background-color:;'>
+										<option value="1"> 24 hours</option>
+										<option value="2"> 2 days</option>
+										<option value="3"> 3 days</option>
+										<option value="4"> 4 days</option>
+										<option value="5"> 5 days</option>
+										<option value="6"> 6 days</option>
+										<option value="7"> 1 week</option>
+									</select>
+								</div>
+							</div>
+
+							<div style='padding:5px 16px; background-color:;'>	
+								<label for='category' class='form-label' style='font-weight:;font-size:12px;'> Publish to: <span class='required'>*</span> </label>
+
+								<div class='categories-selection'>
+								<label v-for='category in categories' :category='category' @click='chooseCategory(category.categoryId)'>
+									<input type='checkbox' value='category.categoryId'/> ((category.categoryName))
+									<span class='checkmark'></span>
+
+								</label>
+								</div>
+								
+							
+							</div>
+							<button @click='createImagePoll'> Share </button>
+					</div>
+				</div>
+
+					
+
+				
+				</div>
+			
+
+
+
+		</div>
+		</div>
+	</transition>
+</template>
+
+
+
+
+
+
+
+<script type='x/template' id="modal-template">
+	<transition name="modal">
+		<div class="modal-mask" v-show='show_authentication_modal' v-on:click='closeModal'>
+			<div class="modal-container" v-on:click.stop>
+
+				<!--there should be an if condition here
+					to decide what to show to the user in the header.
+					Basically, we'll need to check the leadingIntent-->
+			
+			
+				<div class="modal-header" style='display:flex; flex-direction:row; color:grey; font-size: 15px;padding:0px;  height:50px;'>					
+					<div :id='[intent=="login" ? "selected-tab" : "t"]' @click='intent="login"'>Sign in</div>
+					<div :id='[intent=="register" ? "selected-tab" : "t"]' @click='intent="register"'>Register</div>
+				</div>
+
+					
+
+
+				<div class="modal-body">
+					
+					<div class='login' v-if="intent=='login'">
+
+						<p class='error' style='color:red; font-size:12px; margin-bottom: 10px;'>((loginError))</p>
+						<form name='login-form' id='login-form'>
+						<label class="form-label">
+							Email <br>
+							<input class="form-control" v-model='email' name='email'>
+						</label><br>
+
+						<label class="form-label">
+								Password<br>
+							<input class="form-control" type='password' v-model='password' name='password'>
+						</label><br>
+
+						<button class='' type='submit' value="Login" @click='completeLogin'>Login</button>
+					</form>
+					</div>
+
+
+					<div class='register' v-else>
+							<p class='required' v-show='registrationError'>((registrationErrorText))</p>
+						
+						
+						<form id='register-form' name='register-form' enctype="multipart/form-data">
+							<div class='first-stage' v-if='registerStage == "first"'>
+								<div class='name-div'>
+									<div class='first-name-div' >
+										<label for="first-name" class='form-label'>First Name <span class='required'>*</span></label><br>
+										<input v-model='firstName' id='first-name' class='form-control' name='firsName' type="text" requiredd/>
+									</div>
+							
+									<div class='last-name-div'>
+										<label for='last-name' class='form-label'>Last Name <span class='required'>*</span></label><br> 	
+										<input v-model='lastName' id='last-name' class='form-control' type="text" name='latName' required/>
+									</div>
+
+								</div>
+
+								<label for="username" class="form-label">Username <span class='required'>*</span></label> 
+								<input v-model='userName' id='username' class='form-control' type='text' name='uername' required/>
+
+								<label for="password" class="form-label">Password <span class='required'>*</span></label> 
+								<span style='font-size:10px; color:teal'> 8 or more characters</span>
+								<input v-model='password' id='password' class='form-control' type='password' name='assword' required/>
+						
+
+								<label for="email" class='form-label'>Email Address <span class='required'>*</span></label> 
+								<input v-model='email' id='email' class='form-control' type='text' name='eail' required/>
+
+								<label for="phone" class="form-label">Phone Number <span class='required'>*</span></label> 
+								<input v-model='phone' id='phone' class='form-control' type='text' name='pone' required/>
+								
+								<button @click='nextRegistrationStage' type='button'>Proceed</button>
+
+						</div>
+
+						<div class='second-stage' v-else-if="registerStage =='second'">
+						
+							<div style='margin-bottom:10px'>
+								<span class='' style='text-align: justify; font-size:12px; color:teal'>Please Note: We'll never, EVER, show any of these information in your profile except at your request</span>
+								<span class='' style='font-size:12px; text-align:justify; color:teal'>These details are needed for analysis</span>
+							</div>
+							<div>
+								
+								<label for='sex' class='form-label'>Sex <span class='required'>*</span></label>
+								<select id='sex' name='sx' v-model='sex' class='form-control'>
+									<option value='Female'>Female</option>
+									<option value="Male">Male</option>
+								</select>
+							</div>
+							<div style='display:flex; flex-direction: column; width: 100%'>
+								<label for="" class="form-label">Date of Birth <span class='required'>*</span></label> 
+								<div style='display:flex; flex-direction: row;'>
+									<select class='form-control' style='width:40%; margin-right:2px;' name='birhMonth' v-model='birthMonth'>
+								  		<option value="" selected disabled hidden>Month</option>
+										<option>January</option>
+										<option>February</option>
+										<option>March</option>
+										<option>April</option>
+										<option>May</option>
+										<option>June</option>
+										<option>July</option>
+										<option>August</option>
+										<option>September</option>
+										<option>October</option>
+										<option>November</option>
+										<option>December</option>
+									</select>
+									
+									<input v-model='birthDate' style="width:20%; margin-right:2px;" id='day' name='birthDate' class='form-control' type='number' placeholder='day'/>
+									<select name='birthYear' v-model='birthYear' style='width:40%' class="form-control">
+								  		<option value="" selected disabled hidden>Year</option>
+										<option v-for='year in years' :year='year' :value='year'> ((year))</option>
+
+
+									</select>
+
+								</div>
+								<label for="" class="form-label">Location <span class='required'>*</span></label> 
+								<div style='display:flex; flex-direction: row;'>
+									<select class='form-control' style='width:50%; margin-right:2px;' name='country' v-model='chosenCountry'>
+								  		<option value="" selected disabled hidden>Country</option>
+
+										<option v-for='location in locations' :location='location' :value='location.id'> ((location.country))</option>
+
+									</select>
+									
+									<select name='subUnit' v-model='subUnit' style='width:50%' class="form-control">
+								  		<option value="" selected disabled hidden>Sub-unit</option>
+										<option v-for='subUnit in relevantSubUnits' :subUnit='subUnit' :value='subUnit.id' v-model='subUnit'> ((subUnit.name))</option>
+
+
+									</select>
+
+								</div>
+							</div>
+
+							<button @click='nextRegistrationStage' type='button'>Proceed</button>
+
+						</div>
+					
+						<div class='second-stage' v-if="registerStage =='third'">
+							<label class='form-label' style='font-weight:bold;margin-bottom:10px;'>Subscribe to (at least 10): </label>
+							<div class='registration-categories-selection' style='margin-top:10px;'>
+								<label v-for='category in categories' :category='category' @click='toggleChooseCategory(category.categoryId)'>
+									<input type='checkbox' value='category.categoryId'/> ((category.categoryName))
+									<span class='checkmark'></span>
+
+							</label>
+
+						</div>
+						<button type='button' @click='nextRegistrationStage'>Proceed</button>
+
+					</div>
+
+
+					<div class='second-stage' v-if="registerStage =='fourth'" style='display:flex; flex-direction: column; text-align:center'>
+						<span style='color: teal; font-size: 14px; margin-bottom:5px;'>Choose Profile Picture</span>
+						
+						<div style='text-align:center;'>
+						<img id="profilePicDisplay" width='200' height='200' style='border-radius: 50%'/>
+          				<input type="file"
+               				id="profilePicInput" @click='changeProfilePic' name="profilePic"
+               				accept="image/png, image/jpeg" />
+
+						</div>
+						<button type='button' @click='completeRegistration' > <i class="fa fa-circle-o-notch fa-spin" v-if=''></i>Register</button>
+
+					</div>
+					</form>
+				</div>
+
+				
+		</div>
+			</div>
+
+
+
+			
+		</div>
+	</transition>
+</script>
+	
+
+
+
+
+
+
+
+
+
+
+<script type='x/template' id='add-comment-template'>
+	<transition name='modal'>
+	<div class="modal-mask" id='add-comment-modal' v-show='show_comment_modal' >
+		<div class="modal-container" >
+			<div class='modal-header'>
+				<span class='close-mark'> x </span>
+				<h3>Commenting on:</h3>
+				<h5 v-if='activity.question'>((activity.question))</h5>
+				<h5 v-else>((activity.opinion))</h5>
+			</div>
+			<div class='modal-body'>
+				<form id='comment-form'>
+					<p class='chosen' v-if='chosenOptionTitle'>((chosenOptionTitle))</p>
+					<textarea id='comment-input' @click='autoResize' class='form-control' name='comment' form='comment-form' placeholder='Reason'></textarea>
+				<button @click='comment' id='addCommentButton'> <i class="fa fa-circle-o-notch fa-spin" v-if=''></i>Comment</button>
+				<button v-if='activity.opinion' style='margin-right:10px;' @click='comment'><i class="fa fa-circle-o-notch fa-spin" v-if=''></i>Skip</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	</transition>
+
+</script>
+
+<script type='x/template' id='comments-template'>
+	<transition name='modal'>
+	<div class="modal-mask" id='view-comments-modal' v-if='show_view_comments_modal' >
+		<div class="modal-container">
+			<div class='comment-container'> 
+				<div class='tabs'>
+					<div class='tabs' >
+						<input type='radio' 
+						name='input-tab' 
+						id='all-comments' 
+						/>
+						<label for='all-comments'>All</label>
+					</div>
+
+				<div class='tabs'>
+					<input type='radio' name='input-tab'/>
+					<label></label>
+				</div>
+			</div>
+		<div>
+			<comment></comment>
+		</div>
+
+		</div>
+	
+	
+	</div>
+ </div>
+
+
+		</div>
+	</div>
+	</transition>
+
+
+</script>
+
+<template id='comment-template'>
+		<div class='comment-card'>
+			<div class='author-details'>
+				<h3 class='name'></h3>
+			</div> 
+
+			<div class='chosen-option'>
+				<h4 class='option'></h4>
+			</div>
+
+			<div class='reason'>
+				<p></p>
+			</div>
+
+			<div class='action-buttons'> 
+				<button>Agree <span>245k</span></button> 
+			</div>
+		</div>
+
+</template>
+
+<template id='feed-item'>
+        <div class="feed-container">
+				<!--you will have to re-write the styles. This modal imports from authentication modal-->
+		
+
+
+			<!--This div will be shown for poll activities --> 
+            <div class="feed-card" v-if="activity.type=='poll'" tabindex='0'>
+                
+				<div class='poll'>
+
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:25px;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+
+				<div class="avatar">
+                     <img v-if='activity.userPic == null' src="https://www.w3schools.com/howto/img_avatar.png"/> 
+					 <img v-if='activity.userPic != null' :src='activity.userPic'>
+                </div>
+
+
+                <div class="beside-avatar-box">
+                    <div class="author-details">
+                        <p class="name" >((activity.userName))</p>
+                        <p class="username"></p>
+						<p class='time-added'>((activity.timeAdded))</p>
+
+						<!--<i v-if='!userJustFollowed' class="fas fa-user-plus"></i>
+						<p @click='followOrUnfollowUser' style='position:absolute; right: 0; margin-right:18px; color: teal;' v-if='!userIsFollowing'>Follow</p>
+						-->
+					
+					</div>
+
+                    <div class="categories-container">
+
+                    </div>
+
+                    <h6 class="poll-question"><a :href="'localhost:6543/poll/' + activity.id + '/'">((activity.question))</a></h6>
+                    
+					
+					<div class="poll-info">
+						<div v-if='infoHasLink' class='link-info' style='display:flex; padding: 5px;; flex-direction:row; border:0.5px solid lightgrey; border-radius:10px;'>
+							<img :src='infoLinkThumb' width='150' height='100' style='margin-right:5px;'/>
+							<div style='display:flex; flex-direction:column'>
+								<h4>((infoLinkTitle))</h4>
+								<p>((infoLinkDescription))<h4>
+							</div>
+						</div>
+						<div v-if='activity.info' style='margin-bottom:3px; white-space:;'>
+							((activity.info))
+						</div>
+
+						<div v-if='activity.imageInfo'>
+							<img :src='activity.imageInfo' style=' max-width: 100%; max-height:300px; border-radius:10px'>
+						</div>
+					</div>
+					
+
+
+					<!--if the poll has ended, just show the results already! --> 
+					<template v-if='!pollHasEnded'>						
+						<!-- this is the default. Shows when the user has not voted -->
+						<template v-if='!isPicturePoll'>
+							<template v-if='!userHasVoted && !seenPollResults'>
+								<div class='options' v-for='option in activity.options' :option='option'>
+										<label>
+											<input type="radio" @click='optionChosen(option.id)' name='option' :value='option.id'>
+											<span class='checkmark'></span>
+											((option.option))
+										</label>
+
+								</div>
+							</template>
+						<!-- once the user has voted, this template will come up! --> 
+						<!--<template v-else-if='userHasVoted && !isPicturePoll'>
+						--> 
+							<template v-else-if="userHasVoted || seenPollResults">
+								<div class='options'>
+	 								<div class="ans-cnt" v-for="option in calculatedScores" :option='option'>
+										<div class="ans">
+                                			<div class="ans-voted">
+                                    			<span class="percent">((option.percent))</span>
+                                    			<span class="txt">((option.option))</span>
+                                			</div>
+                                			<span class="first-bg"></span>
+                                			<span :class="{bg:true}" :style='{width: option.percent}'></span>
+                            			</div>
+									</div>
+                    			</div>
+							</template>
+
+						</template>
+
+						<template v-else>
+							 <template v-if='!userHasVoted && !seenPollResults'>
+				   				<div class='picture-options'>
+									<label v-for='option in activity.options' :option="option">
+										<input type='radio' name='checkbox' @click='optionChosen(option.id)' name='option' :value='option.id'/>
+										<img :src='option.image'/>
+							
+										<span class='checkbox'></span>
+
+										<span>((option.option))</span>
+						 			</label>
+
+				   				</div>
+							</template>
+							<template v-else-if='userHasVoted || seenPollResults'>
+				   				<div class='picture-options'>
+									<label v-for='option in calculatedScores' :option="option">
+										<input type='radio' name='checkbox' @click='optionChosen(option.id)' name='option' :value='option.id'/>
+										<img :src='option.image'/>
+							
+										<!--<span class='checkbox' style='opacity:0'></span>-->
+										<label style='background-color: rgba(0, 0, 0, .1);' :style='{width:option.percent}'>
+										<span style='color:black;font-weight:bold;'>((option.percent))</span>
+										</label>
+						 			</label>
+
+				   				</div>
+
+							</template>
+						</template>
+					</template>
+
+					<template v-else>
+						<template v-if='!isPicturePoll'>
+								<div class='options'>
+	 								<div class="ans-cnt" v-for="option in calculatedScores" :option='option'>
+										<div class="ans">
+                                			<div class="ans-voted">
+                                    			<span class="percent">((option.percent))</span>
+                                    			<span class="txt">((option.option))</span>
+                                			</div>
+                                			<span class="first-bg"></span>
+                                			<span :class="{bg:true}" :style='{width: option.percent}'></span>
+                            			</div>
+									</div>
+                    			</div>
+						</template>
+
+
+							<template v-else>
+				   				<div class='picture-options'>
+									<label v-for='option in calculatedScores' :option="option">
+										<input type='radio' name='checkbox' @click='optionChosen(option.id)' name='option' :value='option.id'/>
+										<img :src='option.image'/>
+							
+										<!--<span class='checkbox' style='opacity:0'></span>-->
+										<label style='background-color: rgba(0, 0, 0, .1);' :style='{width:option.percent}'>
+										<span style='color:black;font-weight:bold;'>((option.percent))</span>
+										</label>
+						 			</label>
+
+				   				</div>
+
+							</template>
+					</template> 
+
+
+                    <!--options-->
+
+					<div style='display:flex; flex-direction="row"'>
+                    	<p class="votes" @click='seeRespondents'>((totalVotes)) votes </p>
+                    <p class="votes" style="color:darkgrey;cursor:pointer;"> ((activity.timeRemaining))</p>
+					
+					</div>
+					
+					<button v-on:click='vote' v-show='!userHasVoted && !seenPollResults' id='vote-btn'><i class="far fa-check-circle button-icon"></i>Vote</button>
+                    <button v-on:click='addComment' v-show='!userHasVoted && !seenPollResults' id='comment-btn'><i class="far fa-comment button-icon"></i>Comment</button>
+                    <button v-on:click='seeResults' v-show='!userHasVoted && !seenPollResults'><i class="far fa-chart-bar button-icon"></i>Results</button>
+				<!--	<button v-on:click='like' v-if='(userHasVoted || seenPollResults) && !activityIsAlreadyLiked'><i class="far fa-thumbs-up button-icon"></i>Like <span>((numOfLikes))</button> -->					
+					<button  @click='openBreakDownWindow'v-show='userHasVoted || seenPollResults'><i class="fas fa-chart-pie button-icon"></i>View Breakdown</button>
+				<!--	<p style='font-weight:bold; font-size:12px;' v-if='activityIsAlreadyLiked'> ((numOfLikes)) likes</p> -->
+
+				</div>
+
+				<div @click='show_view_comments_modal'>
+				<!--	<h5>View Comments </h5> -->
+				</div>
+			</div>
+			<div v-show='activity.numOfComments != 0' style='margin-top:5px; padding:5px; text-align:center;vertical-align:middle; border-top:whitesmoke 0.6px solid;'>
+
+				<span style='color:darkgrey'  @click='viewComments'>View Comments</span>
+
+			</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!---This is the comment div --> 
+			<div class="feed-card" v-else-if='activity.type=="comment"' tabindex='0'>
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+					<div class="avatar">
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+                    <div class="beside-avatar-box">
+                        <div class="author-details">
+                            <p class="name" style='font-weight:bold;'>((activity.commenter))</p>
+                            <p class="username"></p>
+                            <p class="action"></p>
+                        </div>
+
+
+                        <h2 class="chosen-option">((activity.option_chosen))</h2>
+                        <p class="comment" style='white-space:;'>((activity.comment))</p>
+
+
+                        <div>
+                            <div class="comment-question" v-if='activity.poll' tab-index="0">
+                                <p class='author-name' style='font-weight:normal; color:teal;'>Poll</p>
+                                <p class='author-name' style='font-size:bold;'>((activity.poll.userName)) <span style="color:lightgray; font-weight:normal;">((activity.poll.timeAdded))</span></p>
+								<p class='question'>((activity.poll.question))</p>
+
+
+                            </div>
+                            
+							
+							<div class="comment-question" v-else-if='activity.opinion' tab-index="0">
+                                <p class='author-name' style='font-weight:normal; color:teal;'>Opinion</p>
+                                <p class='author-name' style='font-size:bold;'>((activity.opinion.userName)) <span style="color:lightgray; font-weight:normal;">((activity.opinion.timeAdded))</span></p>
+								<p class='question'>((activity.opinion.opinion))</p>
+
+
+                            </div>
+
+                        </div>
+
+						<button @click='reply'> <i class="fas fa-reply button-icon"></i>Reply </button>
+						<!--<button @click='like' :id="[activityIsAlreadyLiked ? 'activityIsAlreadyLikedClass' : '']"><i class="far fa-thumbs-up button-icon"></i>Like</button> -->
+						<!--<button @click="share"><i class="far fa-share-square button-icon"></i>Share</button> -->
+
+					</div>
+
+            </div>
+
+
+
+			<div class="feed-card" v-else-if='activity.type=="opinion"' tabindex="0">
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+					<div class="avatar" v-if='activity.trigger'>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png" style='margin-top:12px;'/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+					<div class="avatar" v-else>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+				
+                    <div class="beside-avatar-box">
+						<div v-if='activity.trigger' style='margin-bottom:0px;'>
+							<p style='color:darkgrey; font-size:11px'>((activity.triggerActor)) ((activity.trigger))</p>
+						</div>
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.userName))</p>
+                            <p class="username"></p>
+							<p class='time-added'>((activity.timeAdded))<p>
+                        </div>
+
+                        <p class="comment" style='white-space:'>((activity.opinion))</p>
+						<div style='display:flex; flex-direction:row;'>
+							<img id='opinionContextImage' v-for='image in activity.contextImage' :image='image' :src='image.imgLink' style='width:100%; max-height:200px; border-radius:5px;' >
+
+						</div>
+						<p class='votes'>((activity.numOfComments)) reactions</p>
+
+
+
+						<button @click='addComment("Agree")' v-if='!activity.userHasVoted'><i class="fa fa-check button-icon" aria-hidden="true"></i>Agree</button>
+						<button @click='addComment("Disagree")' v-if='!activity.userHasVoted'><i class="far fa-thumbs-down button-icon"></i>Disagree</button>
+						<button  @click='openBreakDownWindow'v-show='userHasVoted'><i class="fas fa-chart-pie button-icon"></i>View Breakdown</button>
+
+					</div>
+
+            </div>
+
+
+			<div class="feed-card" v-else-if='activity.type=="reply"' tabindex="0">
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+					<div class="avatar" v-if='activity.trigger'>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png" style='margin-top:12px;'/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+					<div class="avatar" v-else>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+				
+                    <div class="beside-avatar-box">
+						<div v-if='activity.trigger' style='margin-bottom:0px;'>
+							<p style='color:darkgrey; font-size:11px'>((activity.triggerActor)) ((activity.trigger))</p>
+						</div>
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.userName)) <span style='color:teal'>=> ((activity.userRepliedTo))</span></p>
+                            <p class="username"></p>
+							<p class='time-added'><p>
+                        </div>
+
+                        <p class="comment" style='white-space:'>((activity.reply))</p>
+						
+		                 <div class="comment-question" v-if='activity.comment' tab-index="0">
+                            <p class='author-name' style='font-weight:normal; color:teal;'>Comment</p>
+                            <p class='author-name' style='font-size:bold;'>((activity.comment.commenter)) <span style="color:lightgray; font-weight:normal;">((activity.comment.timeAdded))</span></p>
+							<p class='question'>((activity.comment.comment))</p>
+
+
+                        </div>						
+						<!-- <button><i class="far fa-thumbs-up button-icon" :id="[activityIsAlreadyLiked? 'activityIsAlreadyLikedClass' : '']" @click='like'></i>Like</button> -->
+						<button @click='reply'><i class="fas fa-reply button-icon"></i> Reply </button>
+
+						
+	
+
+						
+						<p style='text-decoration:; color:darkgrey; margin-top:5px; font-weight: bold; font-size:13px; text-decoration:;' @click='openViewConversationPage'>View conversation</p>
+					</div>
+
+            </div>
+
+			<div class="feed-card" v-else-if='activity.type=="demo"' tabindex="0" style='text-align:center;'>
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+				
+
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.title))</p>
+                        </div>
+						<canvas :id="'metricsChart' + activity.id" style='width:100%' height='200'></canvas>  
+
+
+					
+
+            </div>
+
+	
+	<!--if poll is a picture poll" --> 
+
+
+
+	</div>
+
+</template>
+
+
+	<template id='respondents-template'>
+		<transition name='modal'>
+			<div class="modal-mask" v-show='show_respondents_modal'>
+				<div class="modal-container">
+					<div class="modal-header">
+
+
+					</div>
+					<div class="modal-body">
+						<div class="card" v-for='respondent in respondents'>
+							<img v-if='respondent.userPic' :src='userPic'/>
+								<p>((respondent.userFullName))</p>
+								<p>((respondent.userName))</p>
+							<button> Follow</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</transition>
+	</template>
+
+
+	<template id='reply-template'>
+		<transition name='modal'>
+			<div class="modal-mask" v-show='show_reply_modal' @click='closeModal'>
+				<div class="modal-container" @click.stop>
+					<div class="modal-header">
+						<p v-if="activity.type=='comment'">Replying to ((activity.commenter))</p>
+						<p else>Replying to ((activity.userName))</p>
+
+
+
+						
+
+
+					</div>
+					<div class="modal-body">
+						<textarea v-model='replyText' @click='autoResize' style='height:100px; width:100%;'>
+
+
+						</textarea>	
+						<button @click='reply'><i class="fa fa-circle-o-notch fa-spin" v-if=''></i> Reply</button>
+					</div>
+				
+				
+				</div>
+			
+	
+
+			</div>
+		
+		</transition>
+	</template>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+
+<script type="text/javascript">
+
+	var changeButtonContent = function(button, text){
+		button.innerHTML = text;
+	}
+
+	var showSnackbar = function(text){
+		var snackbar = document.getElementById('snackbar');
+		snackbar.innerHTML = text;
+
+    	snackbar.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    	setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 4000);
+
+	}
+	var siteUrl = "http://localhost:6543";
+	
+
+	Vue.component('reply', {
+		template: '#reply-template', 
+		delimiters: ['((', '))'],
+		props: ['activity',  'show_reply_modal'],
+
+		data(){
+			return{
+				replyText: '',
+				addingReply: false,
+				compLoading: false,
+
+			}
+		},
+
+		methods:{
+			autoResize(event){
+				event.preventDefault();
+				var textarea = event.target;
+				textarea.addEventListener('input', function(){
+					var currentHeight = textarea.offsetHeight;
+					var scrollHeight = textarea.scrollHeight;
+					if (scrollHeight > currentHeight){
+						textarea.style.height = scrollHeight + 'px';
+					}
+				});
+			},
+			closeModal(){
+				this.$emit('close_modal', false);
+
+			},
+			reply(event){
+				
+				var replyButton = event.target;
+				replyButton.disabled = true;
+				vm = this;
+
+				changeButtonContent(replyButton, '...');
+
+				if (this.activity.type == 'comment'){
+					axios.post(siteUrl + '/reply-comment', {
+						comment_id: this.activity.id, 
+						reply: this.replyText,
+						
+					}).then(response=>{
+						changeButtonContent(replyButton, "Reply");	
+						replyButton.disabled = false;
+						vm.closeModal();
+						vm.replyText = '';
+						showSnackbar('Reply Added!');
+				
+					}).catch(error=>{
+						changeButtonContent(replyButton, "Reply");
+						replyButton.disabled = false;
+						showSnackbar('Error Adding Reply');
+
+
+					});
+
+				}
+				else{
+					axios.post(siteUrl + '/reply-reply', {
+						reply_id: this.activity.id, 
+						reply: this.replyText,
+					}).then(response=>{
+						replyButton.disabled = false;
+						changeButtonContent(replyButton, 'Reply')
+						vm.closeModal();
+						vm.replyText = '';
+									showSnackbar('Reply Added!');
+
+					}).catch(error=>{
+						replyButton.disabled = false;
+						changeButtonContent(replyButton, 'Reply');
+
+												showSnackbar('Error Adding Reply');
+
+					});
+		
+				}
+			/**	vm =this;
+				if(vm.activity.type=='comment'){
+					axios.post(siteUrl +  '/reply-comment',{
+						comment_id: vm.activity.id,
+					}).then()
+				}
+
+				else if (this.activity.type=='reply'){
+					axios.post(siteUrl + '/reply-reply', {
+
+					}).then()
+				}
+
+				else if (this.activity.type=='opinion'){
+					axios.post(siteUrl + '/reply-opinion', {
+
+					}).then()
+				}**/
+			},
+
+		}
+	});
+
+	Vue.component('respondents-modal',{
+		template: '#respondents-template',
+		delimiters: ["((", "))"],
+		props: ['show_respondents_modal', 'activity'],
+
+		data(){
+			return{	
+				respondents: [],
+			}
+		},
+		watch:{
+			show_respondents_modal: function(val){
+				if (val == true){
+					axios.get(siteUrl + '/voters/' + this.activity.id, {
+
+					}).then(response=>{
+					this.respondents = response.data;
+					});
+				}
+			},
+		},
+
+		
+
+	});
+
+
+	Vue.component('new-opinion-modal',{ 
+	template: '#new-opinion-template',
+	delimiters: ['((', '))'],
+	props: ['show_opinion_modal'],
+
+	data(){
+		return{
+			opinion: '',
+			newOpinionObject: {},
+ 		}
+	},
+
+	mounted(){
+		
+	},
+
+	methods:{
+
+		addOpinionImage(){
+			var opinionImageInput = document.getElementById('opinion-image');
+			var opinionImageDisplay = document.getElementById('opinion-image-display');
+			var opinionImageInputLabel = document.getElementById('opinion-image-label');
+			var opinionImageInputHeight = opinionImageInputLabel.clientHeight;
+
+			opinionImageInput.addEventListener('input', function(){
+				var imageFiles = opinionImageInput.files;
+				var neededFile = imageFiles[0];
+				opinionImageDisplay.style.height = '20px';
+				opinionImageDisplay.style.width = '20px';
+				opinionImageDisplay.src = window.URL.createObjectURL(neededFile);
+			});
+		},
+
+
+		createOpinion(event){
+			vm = this;
+			/**var target = event.target;
+			event.target.innerHTML = '...';
+			target.disabled = true;
+			axios.post(siteUrl + '/new/opinion',{
+				opinion: vm.opinion,
+			
+			
+			}).then(function(response){
+				vm.opinion = '';
+				target.innerHTML = 'Share';
+				target.disabled = false;
+	
+		**/
+
+				var form = document.getElementById('opinion-form');
+				event.target.disabled = true;
+				var formData = new FormData(form);
+				formData.append('opinion', vm.opinion);
+				var request = new XMLHttpRequest();
+				
+				changeButtonContent(event.target, '...');
+
+				request.open("POST", siteUrl + '/new/opinion');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+							vm.closeModal();
+							showSnackbar('Opinion published!');
+							changeButtonContent(event.target, 'Share');
+							event.target.disabled = false;
+						}
+						else {
+							showSnackbar('There was an error sharing your opinion. Please Retry');
+							changeButtonContent(event.target, 'Share');
+							event.target.disabled = false;
+
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+			},
+		
+			/**	var newActivity = {};
+				
+				vm.alterObject('id', response.data.opinion.id);
+				vm.alterObject('type', 'opinion');
+				{% if user %}
+					vm.alterObject('userName', "{{user.full_name}}");
+				{%endif %}
+				vm.alterObject('userPic', 'https://www.w3schools.com/howto/img_avatar.png');
+				vm.alterObject('opinion', vm.opinion);
+				vm.alterObject('options', response.data.opinion.options);
+				vm.alterObject('numOfVotes', 0);
+				vm.alterObject('numOfComments', 0);
+				vm.alterObject('numOfShares', 0);
+				vm.alterObject('numOfLikes', 0);
+
+				vm.addToActivities();
+				**/
+			
+			/**	vm.closeModal();
+				showSnackbar('Opinion shared!');
+
+				
+			}).catch(function(error){
+				showSnackbar("An error occured while sharing your opinion");
+				target.innerHTML = 'Share';
+				target.disabled = false;
+
+			
+			});
+
+			**/
+	
+	
+		closeModal(){
+			this.$emit('close_new_opinion_modal', true);
+
+		},
+
+		alterObject(key, value){
+			this.$set(this.newOpinionObject, key, value);
+		},
+
+		autoResize(event){
+			event.preventDefault();
+			var textarea = event.target;
+			textarea.addEventListener('input', function(){
+				var currentHeight = textarea.offsetHeight;
+				var scrollHeight = textarea.scrollHeight;
+				if (scrollHeight > currentHeight){
+					textarea.style.height = scrollHeight + 'px';
+				}
+			});
+		},
+
+		addToActivities(){
+			this.$emit('act_add_to_activities', this.newOpinionObject);
+		},
+
+
+	},
+
+	});
+
+	Vue.component('comments', {
+		template: '#comments-template', 
+		delimiters: ['((', '))'],
+		props: ['show_view_comments_modal',],
+		
+		data(){
+			return {
+
+			}
+		}
+
+	});
+
+	Vue.component('comment', {
+		template: '#comment-template',
+		delimiters: ['((', '))'],
+		props: ['comment',],
+
+		data(){
+			return {
+
+			}
+		}
+	});
+
+
+	Vue.component('sidebar',{
+		template: '#sidebar-template',
+		props: ['subscriptions', 'close_modal', 'categories'],
+		delimiters: ["((", "))"],
+
+		data(){
+			return{
+				
+			}
+		},
+
+		methods: {
+			showSubscriptions(){
+				this.$emit('act_show_subscriptions', true);
+			
+			}
+
+		},
+
+
+	});
+	
+	
+	
+	Vue.component('add-new-comment-modal',{
+		template: '#add-comment-template',
+		props: ['show_comment_modal', 'activity', 'option'],
+		delimiters:['((','))'],
+
+		data(){
+			return {
+				
+			}
+		},
+
+		computed:{
+			chosenOptionTitle(){
+				if (this.activity){
+					for (i = 0; i < this.activity.options.length; i++){
+						if (this.activity.options[i].id == this.option){
+							return this.activity.options[i].option;
+						}
+					}
+
+				}
+			},
+
+			agreeOrDisagree(){
+				return this.option;
+			},
+		},
+
+		methods: {
+			comment(event){
+				vm = this;
+				var form = document.getElementById('comment-form');
+				event.preventDefault();
+				document.getElementById('addCommentButton').disabled = true;
+				var formData = new FormData(form);
+				changeButtonContent(event.target, '...');
+				
+				if (this.activity.type=='poll'){
+					vm = this;
+
+					formData.append('poll_id', this.activity.id);
+					formData.append('option_id', this.option);
+					var request = new XMLHttpRequest();
+					request.open("POST", siteUrl + '/comment/');
+					request.onreadystatechange = function(){
+						if (request.readyState = XMLHttpRequest.DONE){
+							if (request.status == 200){
+								vm.$emit('activity_voted', [vm.activity.id, vm.option, vm.activity.type]);
+								vm.closeModal();
+								showSnackbar("Comment added!");
+								changeButtonContent(event.target, 'Comment');
+								document.getElementById('addCommentButton').disabled = false;
+
+							}
+
+
+							else{
+
+								showSnackbar("An error occured while adding your comment");
+								document.getElementById('addCommentButton').disabled = false;
+								changeButtonContent(event.target, 'Comment');
+								vm.closeModal();
+
+							}
+						}
+					}
+					request.send(formData);
+				}
+				else {
+					formData.append('opinion_id', vm.activity.id);
+					formData.append('option_id', vm.option);
+					var request = new XMLHttpRequest();
+					request.open("POST", siteUrl + '/comment/');
+					request.onreadystatechange = function(){
+						if (request.readyState = XMLHttpRequest.DONE){
+							if (request.status == 200){
+								vm.closeModal();
+								changeButtonContent(event.target, 'Comment');
+								vm.$emit('activity_voted', vm.activity.id, vm.option);
+								document.getElementById('addCommentButton').disabled = false;
+
+								//window.location.reload();
+							}
+
+
+							else{
+								document.getElementById('addCommentButton').disabled = false;
+								changeButtonContent(event.target, 'Comment');
+							}
+						}
+					}
+					request.send(formData);					
+				}
+			},
+
+			closeModal(){
+
+
+				this.$emit('close_add_coment_modal', false);
+			},
+
+			autoResize(event){
+				event.preventDefault();
+				var textarea = event.target;
+				textarea.addEventListener('input', function(){
+					var currentHeight = textarea.offsetHeight;
+					var scrollHeight = textarea.scrollHeight;
+	
+					if (scrollHeight > currentHeight){
+						textarea.style.height = scrollHeight + 'px';
+					}
+				});
+			},
+
+			created(){
+			}
+
+	
+		},
+	});
+
+	Vue.component('show-new-poll-modal', {
+		template: '#show-new-poll-modal-template',
+		props: ['show_new_poll_modal', 'categories'],
+		delimiters: ['((', '))'],
+		
+		data(){
+			return{
+
+				options: [{
+					text: '',
+					placeholder: 'Option 1',
+				},
+				{
+					text: '',
+					placeholder: 'Option 2',
+				},
+
+				
+				],
+				alphabets : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+				imageOptions: [{
+					classKey: 1, 
+					placeholder: 'A',
+				},
+				{
+					classKey: 2, 
+					placeholder: 'B',
+				}
+				],
+				toChoosePollType: false,
+				pollType: 'normal',
+				finalChosenCategories: '',
+				finalChosenOptions: '',
+				chosenCategories: [],
+				totalNumOfOptionsChosen: false, 
+
+			}
+		},
+
+		computed:{
+			allowedCategories(){
+				if (this.totalNumOfOptionsChosen == true){
+					var allowed = []
+					for (let i = 0; i < this.chosenCategories.length; i++){
+						var category = this.chosenCategories[i];
+						var cate = this.categories.filter(c=>c.categoryId==category);
+						allowed.push(cate[0]);
+					}
+
+					return allowed;
+				}
+
+				return this.categories;
+			}
+		},
+
+		methods: {
+			triggerListener(classKey){
+				var inputButton = document.getElementById('image-button-' + classKey);
+				var inputDisplay = document.getElementById('image-display-' +classKey);
+				inputButton.addEventListener('input', function(){
+					var imageFiles = inputButton.files;
+					inputDisplay.style.width;
+					inputDisplay.style.height;
+					inputDisplay.src = window.URL.createObjectURL(imageFiles[0]);				
+				});			
+			},
+
+			addContextImage(){
+				var inputButton = document.getElementById('context-image');
+				var inputDisplay = document.getElementById('contextImageDisplay');
+				inputButton.addEventListener('input', function(){
+					var imageFiles = inputButton.files;
+					inputDisplay.style.width = "30px";
+					inputDisplay.style.height = '30px';
+					inputDisplay.src = window.URL.createObjectURL(imageFiles[0]);
+				});
+			},
+
+
+			createPoll(event){
+
+				if (this.chosenCategories.length > 2){
+					showSnackbar('You are allowed to choose only two categories');
+					return 0;
+				}
+
+				var categories = this.flattenCategories();
+				var options = this.flattenOptions();
+				var form = document.getElementById('new-poll-form');
+				event.target.disabled = true;
+				var formData = new FormData(form);
+				formData.append('categories', categories);
+				formData.append('options', options);
+
+				var request = new XMLHttpRequest();
+				vm = this;
+				
+				changeButtonContent(event.target, '...');
+
+				request.open("POST", siteUrl + '/ask');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+							vm.$emit('close_new_poll_modal', true);
+							showSnackbar('Poll published!');
+							changeButtonContent(event.target, 'Share');
+							event.target.disabled = false;
+						}
+						else {
+							showSnackbar('There was an error creating the poll. Please Retry');
+							changeButtonContent(event.target, 'Share');
+							event.target.disabled = false;
+
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+			},
+
+			createImagePoll(event){
+
+				if (this.chosenCategories.length > 2){
+					alert('You are allowed to choose only two categories');
+					return 0;
+				}
+				var form = document.getElementById('image-poll-form');
+				event.target.disabled = true;
+				var formData = new FormData(form);
+				var request = new XMLHttpRequest();
+				vm = this;
+				var categories = this.flattenCategories();
+				formData.append('categories', categories);
+
+				changeButtonContent(event.target, '...');
+
+				request.open("POST", siteUrl + '/ask');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+							vm.$emit('close_new_poll_modal', true);
+							showSnackbar('Poll published!');
+							changeButtonContent(event.target, 'Share');
+							event.target.disabled = false;
+						}
+						else {
+							showSnackbar('There was an error creating the poll. Please Retry');
+							changeButtonContent(event.target, 'Share');
+							event.target.disabled = false;
+
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+			},
+			
+		autoResize(event){
+			event.preventDefault();
+			var textarea = event.target;
+			textarea.addEventListener('input', function(){
+				var currentHeight = textarea.offsetHeight;
+				var scrollHeight = textarea.scrollHeight;
+				if (scrollHeight > currentHeight){
+					textarea.style.height = scrollHeight + 'px';
+				}
+			});
+		},
+			addNewOption(){
+				if (this.options.length < 10){
+					options_length = this.options.length + 1;
+					new_option = {text: '', placeholder: 'Option '+ options_length};
+					this.options.push(new_option);
+			
+				}
+
+			},
+
+			nextNewPollStep(){
+				if(this.pollType != ''){
+					this.toChoosePollType = false;
+
+				}
+			},
+
+			flatten(array){
+				var flattened = array.join(",");
+				return flattened;
+			},
+
+			flattenCategories(){
+				this.finalChosenCategories = this.flatten(this.chosenCategories);
+				return this.finalChosenCategories;
+			},
+
+			flattenOptions(){
+				this.finalChosenOptions = this.flatten(this.options.map(option=>option.text));
+				return this.finalChosenOptions;
+			},
+
+
+			chooseCategory(categoryId){
+				if (this.chosenCategories.length < 2){
+					this.chosenCategories.push(categoryId);
+					var unique = new Set(this.chosenCategories);
+					this.chosenCategories = Array.from(unique);
+				}
+				if (this.chosenCategories.length == 2){
+					//get the category that was inserted
+					this.totalNumOfOptionsChosen = true;
+				}
+			},
+
+			closeModal(){
+				this.$emit('close_new_poll_modal', true);
+			},
+			addFileNameToElement(){
+
+			},
+		},
+
+		mounted(){
+			var addContextImage = document.getElementById('add-context-image');
+			
+
+
+
+
+
+			
+
+			
+				
+		
+		},
+	});
+
+
+	
+	Vue.component('authentication-modal', {
+		template: '#modal-template',
+		props: ['show_authentication_modal', 'categories'],
+		delimiters: ['((', '))'],
+		data(){
+			return{
+				leadingIntent: '', //know what action user wanted to take before wanting to authenticate
+				intent: 'login', //to know whether user wants to login or register
+				loginProgressing: false, 
+				loginError: '',
+				registerStage: 'first',
+				email: '',
+				password: '',
+				firstName: '',
+				lastName: '',
+				userName:'',
+				password: '',
+				phone: '',
+				birthMonth: '',
+				sex: '',
+				birthDate: '',
+				birthYear: '',
+				registrationError: false, 
+				registrationErrorText: '',
+				registrationCategories: '',
+				chosenCategories: [],
+				years: [],
+				locations: [], 
+				chosenCountry: 0,
+				subUnit: 0,
+			}
+
+
+		},
+		
+
+		computed:{
+			relevantSubUnits(){
+				if (this.chosenCountry != 0){
+					var country = this.locations.filter(c=>c.id==this.chosenCountry);
+					var subUnits = country[0]['subUnits'];
+					return subUnits;
+				}
+				else{
+					return [];
+				}
+			},
+
+		},
+		methods:{
+
+			toggleChooseCategory(id){
+				this.chosenCategories.push(id);
+			},
+
+			flattenCategories(){
+				var categories = new Set(this.chosenCategories);
+				var newCategories = Array.from(categories);
+
+				this.registrationCategories = newCategories.join(",");
+
+			},
+
+			verifyFirstRegistrationStage(){
+				var allFieldsFilled = this.email != '' && this.password != '' && this.firstName != '' && this.lastName != '' && this.userName != '' && this.password != '' && this.phone != '';
+				return allFieldsFilled;
+			},
+
+			emailIsEligible(){
+				  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  					return re.test(this.email);
+				
+			},
+
+
+			passwordIsEligible(){
+				return this.password.length > 7;
+			},
+
+			userNameIsEligible(){
+				return this.userName.length > 2;
+			},
+
+			nextRegistrationStage(event){
+				event.preventDefault();
+				var stage = this.registerStage;
+				var canMoveToNextStage = true;
+				vm = this;
+
+				if (stage == 'first' ){
+					var allFieldsFilled = this.verifyFirstRegistrationStage();
+					var passwordIsAcceptable = this.passwordIsEligible();
+					var userNameIsAcceptable = this.userNameIsEligible();
+
+					if (!allFieldsFilled){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText ='Please complete all fields';
+
+					}
+
+					else if(!this.emailIsEligible){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = 'Email address is not a valid';
+					}
+
+
+					else if (!userNameIsAcceptable){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = "Username must be more than 2 characters"
+					}
+
+
+					else if (!passwordIsAcceptable){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = "Password must be at least 8 characters";
+					}
+					
+
+					if (canMoveToNextStage){
+						this.registrationError = false;
+						this.registrationErrorText ='';
+
+						axios.post(siteUrl + '/verify_first_register', {
+							stage: '1',
+							email: vm.email,
+							phone: vm.phone,
+							username: vm.userName,
+
+						}).then(response=>{
+							vm.registerStage = 'second';
+						}).catch(error=>{
+							vm.registrationError = true;
+							vm.registrationErrorText = error.response.data['error'];
+						});
+					}
+
+					
+					
+				}
+				else if (stage == 'second'){
+					canMoveToNextStage = true; 
+
+					if (this.sex == '' || this.birthDate == '' || this.birthMonth == '' || this.birthYear == ""){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = "Please fill all fields";
+					}
+
+					else if(this.birthDate.length > 2){
+						canMoveToNextStage = false;
+						this.registrationError = true; 
+						this.registrationErrorText = "Your birthday looks incorrect";
+					}
+
+					//else if(this.birthYear.length < 4 || this.birthYear > 4){
+					//	canMoveToNextStage = false;
+					//	this.registrationError = true;
+					//	this.registrationErrorText = "Your birth year looks incorrect"
+					//}
+
+					if (canMoveToNextStage){
+						this.registerStage = 'third';
+						this.registrationError = false;
+						this.registrationErrorText = "";
+					}
+				}
+
+				else if (stage == 'third'){
+					canMoveToNextStage = true; 
+
+					if (this.chosenCategories.length < 10){
+						canMoveToNextStage = false;
+						this.registrationError = true; 
+						this.registrationErrorText = 'Please choose at least 10 categories';
+					}
+
+					if (canMoveToNextStage){
+						this.registerStage = "fourth";
+						this.registrationError = false;
+						this.registrationErrorText = "";
+					}
+				}
+			},
+			closeModal(){
+				this.$emit('close_auth_modal', false);
+			},
+
+			changeIntent(){
+				intent = this.intent;
+				if (intent=='login'){
+
+					//make sure we empty the email and password if user already inserted them
+					this.email = '';
+					this.password = '';
+					this.intent = 'register';
+				}
+				else{
+					this.intent = 'login';
+				}
+			},
+			
+			changeProfilePic(){
+				var profilePicInput = document.getElementById('profilePicInput');
+				var profilePicDisplay = document.getElementById('profilePicDisplay');
+
+				profilePicInput.addEventListener('input', function(){
+					var images = profilePicInput.files;
+					profilePicDisplay.src = window.URL.createObjectURL(images[0]);
+				});
+			},
+
+			completeLogin: function(event){
+				vm = this;
+				event.preventDefault();
+				var target = event.target;
+				target.disabled = true;
+
+				target.innerHTML = '...';
+				
+				if (this.email == '' || this.password  == ''){
+					this.loginError='Please fill complete details';
+					return 0;
+				}
+
+				var form = document.getElementById('login-form');
+				var formData = new FormData(form);
+				
+				var request = new XMLHttpRequest();
+				request.open("POST", siteUrl + '/xhr_login');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+								vm.$emit('close_auth_modal', false);
+								window.location.reload();
+								target.innerHTML = 'Sign in';
+								target.disabled = false;
+						}
+						else {
+							vm.loginError = 'Email or password is incorrect';
+							target.innerHTML = 'Sign in';
+							target.disabled = false;
+
+						
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+				
+				//axios.post('http://localhost:6543/login', {
+				//	xhr_login_email: this.email, 
+				//	xhr_login_password: this.password,
+				//}).then(function(response){
+				//	vm.$emit('close_auth_modal', false);
+				//	window.location.reload();
+				//}).catch(function(error){
+				//	alert(error);
+				//});
+			},
+			completeRegistration: function(event){
+				vm = this;
+				this.flattenCategories();
+				event.preventDefault();
+
+				changeButtonContent(event.target, '...');
+				event.target.disabled = true;
+				var form = document.getElementById('register-form');
+				var formData = new FormData(form);
+
+				formData.append('firstName', this.firstName);
+				formData.append('lastName', this.lastName);
+				formData.append('email', this.email);
+				formData.append('password', this.password);
+				formData.append('phone', this.phone);
+				formData.append('username', this.userName);
+				formData.append('sex', this.sex);
+				formData.append('birthDate', this.birthDate);
+				formData.append('birthMonth', this.birthMonth);
+				formData.append('birthYear', this.birthYear);
+				formData.append('country', this.chosenCountry);
+				formData.append('subUnit', this.subUnit);
+				
+
+				formData.append('categories', vm.registrationCategories);
+
+				var request = new XMLHttpRequest();
+				request.open("POST", siteUrl + '/xhr_register');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+								vm.$emit('close_auth_modal', false);
+								window.location.reload();
+								changeButtonContent(event.target, 'Register');
+								event.target.disabled = false;
+						}
+						else {
+
+							changeButtonContent(event.target, 'Register');
+							event.target.disabled = false;
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+						
+		
+		
+			/**
+				axios.post(siteUrl + '/xhr_register', {
+					firstName: vm.firstName.trim(),
+					lastName: vm.lastName.trim(), 
+					userName: vm.userName.trim(), 
+					password: vm.password.trim(), 
+					email: vm.email.trim(), 
+					phone: vm.phone.trim(), 
+					sex: vm.sex, 
+					birthDate: vm.birthDate, 
+					birthMonth: vm.birthMonth, 
+					birthYear: vm.birthYear,
+					categories: vm.registrationCategories,
+				}).then(response=>{
+					vm.$emit('close_auth_modal', false);
+					window.location.reload();
+				})
+
+				**/
+				//});
+			},
+
+
+			 
+
+		},
+		created(){
+
+		},
+
+
+		mounted(){
+		//	vm = this;
+		//	var form = document.getElementById('login-form');
+		//	form.addEventListener('submit', function(event){
+		//		event.preventDefault();
+		//		var form = document.getElementById('login-form');
+		//		var formData = new FormData(form);
+		//		var request = new XMLHttpRequest();
+		//		request.open("POST", 'http://localhost:6543/login');
+		//		request.onload = function(event){
+		//			if (request.status == 200){
+		//				vm.$emit('close_auth_modal', false);
+		//				alert("WELDONE");
+		//			}
+		//			else{
+		//				alert(request.status);
+		//			}
+		//		}
+		//		request.send(formData);
+
+
+		//	});
+			for (let i=2005; i > 1930; i--){
+				this.years.push(i);
+			}
+
+			axios.get(siteUrl + '/get-locations').then(response=>{
+				this.locations = response.data.locations;
+			});
+		},
+	});
+
+
+	/**
+	comment box
+
+	**/
+
+/*
+	#feed-item
+
+*/
+
+const FeedItem = Vue.component('feed-item', {
+		template: '#feed-item',
+		props: ['activity', 'option', 'user_logged_in', 'show_comment_modal', 'show_view_comments_modal'],
+		delimiters: ['((', '))'],
+		data(){
+			return{
+
+				//these are for the polls.
+				pollHasEnded: this.activity.hasEnded,
+				isPicturePoll: this.activity.isPicturePoll,
+				justVotedScore: 0,
+				poll_votes: this.activity.totalVotes,
+				chosenOption: 0,
+				chosenOptionName: this.getChosenOptionName(),
+				infoHasLink: this.activity.hasUrlInfo,
+				infoLinkThumb: this.activity.infoPageThumb,
+				infoLinkTitle: this.activity.infoPageTitle,
+				infoLinkDescription: this.activity.infoPageDescription,
+				userIsFollowing: this.activity.userIsFollowing,
+				seenPollResults: this.activity.userHasSeenResults,
+
+				activityUnliked: false,
+				activityIsAlreadyLikedClass: 'activityIsAlreadyLikedClass',
+				userNotLoggedIn: Boolean({{user_not_logged_in}})		
+			}
+			
+
+			
+		},
+		mounted(){
+			if (this.activity.type == 'demo'){
+				this.getPollMetrics();
+			}
+		
+		},
+
+		methods:{
+
+			openViewConversationPage(){
+				window.open(siteUrl + '/view_conversation/conversation_id=' + this.activity.conversationId +'/reply_id=' + this.activity.id, '_self');
+
+			},
+
+			viewComments(){
+				window.open(siteUrl + '/poll/' + this.activity.id +'/', '_self');
+			},
+			seeRespondents(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				this.$emit('set_activity_respondent_details', this.activity);
+				
+			},
+
+			reply(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				this.$emit('set_reply_activity_details', this.activity);
+			},
+
+			followUser(){
+
+				vm = this;
+				axios.post(siteUrl + '/follow/' + this.activity.userId, {
+				}).then(response =>{
+					this.userJustFollowed = true;
+					this.userIsFollowing = true;
+				});
+
+			},
+
+			unfollowUser(){
+				axios.post(siteUrl + "/unfollow/" + this.activity.userId,{
+				}).then(response=>{
+					this.userJustFollowed = false;
+					this.userIsFollowing = false;
+				});
+
+			},
+	
+			followOrUnfollowUser(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if(!this.userJustFollowed){
+					this.followUser();
+				}
+				else{
+					this.unfollowUser()
+				}
+
+
+			},
+
+			
+			openReply(){
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details',{});
+			},
+
+			//reply(){
+			//	vm = this;
+			//	if(this.activity.type == 'commment'){
+			//		axios.post(siteUrl + '/reply-comment',{
+			//			comment_id = vm.activity.id,
+			//		});
+			//	}
+			//},
+
+			share(){
+
+			},
+
+			changeActivityData(id, value){
+				this.$set(this.activity. id, value);
+			},
+
+			openBreakDownWindow(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if (this.activity.type=='opinion'){
+					window.open(siteUrl + '/opinion/demographic-metrics/' + this.activity.id, '_self');
+
+				}
+				else{
+					window.open(siteUrl + '/poll/demographic-metrics/' + this.activity.id, '_self');
+				}
+			
+			},
+
+			
+			showViewCommentsModal(){
+				this.$emit('act_show_view_comments_modal', true);
+			
+			},
+
+			closeModal(){
+				this.$emit('act_close_comment_modal', false)
+			},
+			
+			like(event){
+				vm = this;
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+				event.target.disabled = true;
+
+				if (!this.activity.userHasLiked){
+					if(this.activity.type == 'reply'){
+						vm.activity.numOfLikes += 1;
+
+						axios.post(siteUrl + '/like/', {
+							
+							reply_id: vm.activity.id,
+						}).then(function(response){
+							vm.activity.userHasLiked = true;
+							event.target.disabled = false;
+						}).catch(function(error){
+							vm.activity.userHasLiked = false;
+							event.target.disabled = false;
+
+						});
+					}
+
+					else if(this.activity.type == 'poll'){
+
+						axios.post(siteUrl + '/like/', {
+							poll_id: vm.activity.id,
+
+						}).then(function(response){
+							vm.activity.userHasLiked = true;
+							vm.activity.numOfLikes += 1;
+							event.target.disabled = false;
+
+
+						}).catch(function(error){
+							event.target.disabled = false;
+
+						});
+					}
+					else if (this.activity.type == 'comment'){
+						
+						event.target.disabled = true;
+
+						axios.post(siteUrl + '/like/', {
+
+						}).then(function(response){
+							event.target.disabled = false;
+
+							vm.activity.userHasLiked = true;
+							vm.activity.numOfLikes += 1;
+
+						}).catch(function(response){
+							event.target.disabled = false;
+
+						});
+					}
+				}
+
+				else {
+					this.unlike(event, this.activity, this.activity.type, this.activity.id);
+
+				}
+			},
+
+			unlike(event, activity, activityType, activityId){
+				vm = this; 
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if (activityType=='poll'){
+					
+					event.target.disabled = true;
+
+					axios.post(siteUrl + '/unlike/', {
+						poll_id: activityId,
+					}).then(response=>{
+						event.target.disabled = false;
+
+						vm.activity.userHasLiked = false;
+						vm.activityUnliked = true;
+						vm.activity.numOfLikes -= 1;
+					}).catch(function(response){
+						vm.activity.userHasLiked = true;
+						event.target.disabled = false;
+
+					});
+
+				}
+
+				else if(activityType='opinion'){
+					
+							event.target.disabled = true;
+
+					axios.post(siteUrl+ '/unlike/', {
+						opinion_id: activityId, 
+					}).then(response=>{
+							event.target.disabled = false;
+
+						vm.activity.userHasLiked = false;
+						vm.activity.numOfLikes -= 1;
+
+					}).catch(response=>{
+							event.target.disabled = false;
+
+					});
+
+				}
+
+				else if(activityType=='comment'){
+							event.target.disabled = true;
+
+					axios.post(siteUrl + '/unlike/' + {
+						comment_id: activityId, 
+					}).then(response=>{
+
+							event.target.disabled = false;
+
+						vm.activity.userHasLiked = false;
+						vm.activity.numOfLikes -= 1;
+
+					}).catch(function(response){
+							event.target.disabled = false;
+
+					});
+				}
+			},
+			
+			addComment(option){
+				
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					//check if the activity is an opinion
+					if (this.activity.type == 'opinion'){
+							activities = this.activity.options.filter(i=> i.option == option);
+							this.chosenOption = activities[0].id;
+						
+					}
+					else{
+						alert('Select an option');
+						return 0;
+					}
+				}
+				var val = true; 
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details', this.chosenOption);
+
+			},
+
+			optionChosen(optionId){
+				this.chosenOption = optionId;
+
+			},
+
+			getChosenOptionName(){
+				var chosenOptionId = this.chosenOption;
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id == chosenOptionId){
+						return this.activity.options.option;
+					}
+				}
+			},
+
+			
+			vote: function(){
+				vm = this;
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					alert('Select an option');
+					return 0;
+				}
+
+				this.activity.totalVotes += 1;
+				this.activity.userHasVoted = true;
+
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id  == this.chosenOption){
+						this.activity.options[i].score += 1;
+						break;
+					}
+				}
+                
+				this.activity.userHasVoted = true;
+				var pollID = this.activity.id;
+				axios.post(siteUrl + '/vote/',{
+					poll_id: pollID, 
+					option_id: vm.chosenOption,
+				}).then(function(response){
+				
+				}).catch(function(error){
+					this.userHasVoted = false;
+				})
+
+
+			},
+			comment: function(){
+				if (this.user_logged_in == false){
+					alert ("You need to be logged in first");
+					return 0;
+				}
+			},
+
+			seeResults: function(){
+				vm = this;
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+					axios.post(siteUrl + '/viewresults',{
+						poll_id: this.activity.id,
+					}).then(function(response){
+						vm.seenPollResults = true;
+					}).catch(function(error){
+						vm.seenPollResults = false;
+
+				});
+
+				
+				
+			},
+			getPollMetrics(){
+				var main_focus = this.activity.main_focus;
+				var sub_focus = this.activity.sub_focus;
+
+				if (main_focus == 'gender'){
+					var labels = ['Male', 'Female'];
+					var data = [this.activity['M'].votes, this.activity['F'].votes];
+
+					this.makePieChart(labels, data);
+				}
+
+				else if (main_focus == 'age_range'){
+					var ages = [];
+					var i = parseInt(this.activity.lowerBound); 
+					var upperBound = parseInt(this.activity.upperBound) + 1;
+					while (i < upperBound){
+						ages.push(i);
+						i++;
+					}
+					var data = [];
+					var age_vote = 0; 
+					var labels = ["some"];
+					ages.forEach(age=>{
+						age_vote += parseInt(this.activity[age].votes);
+					});
+
+					data.push(age_vote);
+
+					this.makePieChart(labels, data);
+				}
+			},
+
+               makePieChart(aLabels, aData){
+                    //destroy a previous chart
+                    
+                    var ctx = document.getElementById('metricsChart' + this.activity.id).getContext('2d');
+
+
+                    var options = {
+                        legend:{
+                            display: true, 
+                            position: "bottom",
+                            labels:{
+                                fontColor: '#333',
+                                fontSize: 13
+                            }
+                        }
+                    };
+                    var data = {
+                        labels: aLabels,
+                        datasets: [
+                            {
+                                data: aData, 
+                                backgroundColor: [
+									"#00796B",
+									'orange',
+									"#C62828",
+									"#8D6E63",
+									"#8BC34A",
+									"#26A69A",
+									'#BF360C',
+									"green",
+									"#1565C0",
+                            
+                                ],
+                                borderColor: [
+									"#00796B",
+									"orange",
+									"#C62828",
+									"#8D6E63",
+									"#8BC34A",
+									"#26A69A",
+									'#BF360C',
+									"green",
+                                    "#1565C0",
+                                ]
+                            }
+                        ]
+                    };
+
+                        
+                        
+                        chart1 = new Chart(ctx, {
+                        type: "pie",
+                        data: data,
+                        options: options
+                    });
+
+                },
+
+		},
+
+		computed:{
+
+			userHasVoted(){
+				return this.activity.userHasVoted;
+			},
+
+			contextImageHeight(){
+				var contextImage =	document.getElementById('opinionContextImage');
+				var width = contextImage.style.width;
+				
+				contextImage.style.height = width;
+			},
+
+
+			totalVotes(){
+				return this.activity.totalVotes;
+			},
+
+			activityIsAlreadyLiked(){
+				
+				return this.activity.userHasLiked;
+			},
+
+			numOfLikes(){
+				return this.activity.numOfLikes;
+			},
+
+			calculatedScores(){
+				if(this.activity.totalVotes ==0){
+					return this.activity.options.map(a=>{
+						a.percent = '0%'
+						return a
+					})
+			}
+				return this.activity.options.filter(a=>{
+                    if (!isNaN(a.score) && a.score > 0){
+                        a.percent = ( Math.round( (parseInt(a.score)/this.activity.totalVotes ) * 100) ) + '%'
+					}
+					else{
+                        a.percent =  '0%'
+					}
+                    return a
+                })
+		},
+
+
+
+	
+	}
+
+	});
+
+
+ window.app = new Vue({
+
+		el: '#container',
+		delimiters: ['((','))'],
+		components: {FeedItem, },
+		data(){
+			return{
+				loading: true,
+				loadingMoreContent: false,
+				locations: true,
+				sidebarContentSelectedClass: 'sidebar-content-selected',
+
+				activities: [],
+				categories: [],
+				subscriptions: [],
+
+				userLoggedIn: false,
+				userName: '',
+				userPic: '',
+
+				optionToCommentOn: 0,
+				activityToReplyTo: {},
+				activityToCommentOn: {},
+
+				showRespondentsModal: false,
+				showNewSelectionModal: false,
+				showAuthenticationModal: false,
+				showReplyModal: false,
+				showCommentModal: false,
+				showSidebar: false,
+				showCategories: false,
+				showViewCommentsModal: false,
+				showCreateNewPollModal: false,
+				showSubscriptions:false,
+				showCreateNewOpinionModal: false,
+				activityToGetRespondents: {},
+				activityToVoteOn: {},
+				
+
+			}
+		},
+
+		computed:{
+			sortedSubscriptionsList(){
+				var sortedSubscriptions = this._sortCategoryList(this.subscriptions);
+				return sortedSubscriptions;
+			},
+
+			sortedCategoriesList(){
+				var sortedCategories = this._sortCategoryList(this.categories);
+				return sortedCategories;
+			},
+		},
+
+		methods:{
+			openPollsVotedIn: function(){
+				window.open(siteUrl + '/polls_voted_in/', '_self');
+
+			},
+
+			openProfile: function(){
+				window.open(siteUrl + '/profile/{{user.id}}/{{user.slug}}', '_self');
+			},
+			_sortCategoryList(list){
+				list.sort(function(a, b){
+					if (a.categoryName < b.categoryName) return -1;
+					if (a.categoryName > b.categoryName) return 1;
+				})
+				return list;
+			},
+
+			mShowNewSelectionModal(){
+				this.showNewSelectionModal = true; 
+			},
+
+		
+
+			showNewPollModal(){
+				this.showCreateNewPollModal = true;
+			},
+			showNewOpinionModal(){
+				this.showCreateNewOpinionModal = true;
+			},
+			showViewComments(value){
+				this.showViewCommentsModal = true;
+			},
+			
+			toggleSubscriptions(){
+			},
+
+			toggleShowCategories(){
+				this.showCategories = !this.showCategories;
+			},
+			toggleAuthModal(){
+				this.showAuthenticationModal = !this.show_auth_modal;
+			},
+
+			closeAddCommentModal(newData){
+				this.showCommentModal = newData;
+			},
+
+
+			closeModal(newData){
+					this.showCommentModal = false;
+				
+				
+					this.showAuthenticationModal = false;
+								this.showSidebar = false;
+				
+
+				this.showCommentModal == false;
+				
+				this.showCreateNewOpinionModal = false;
+				this.showCreateNewPollModal = false;
+				this.showReplyModal = false;
+				
+			},
+
+			setActivityCommentDetails(activity){
+				this.activityToCommentOn = activity;
+			},
+
+			setReplyActivityDetails(activity){
+				this.activityToReplyTo = activity;
+				this.showReplyModal = true;
+			},
+
+			setActivityRespondentDetails(activity){
+				this.activityToGetRespondents = activity;
+				this.showRespModal();
+			},
+
+			setOptionCommentDetails(optionId){
+				this.optionToCommentOn = optionId;
+			},
+
+			showCommModal(newData){
+				this.showCommentModal = true;
+			},
+
+			showAuthModal(newData){
+				this.showAuthenticationModal = newData;
+			},
+			
+			showRespModal(){
+				this.showRespondentsModal = true;
+			},
+
+			subscribeToCategory(categoryId){
+				var category = this.categories.filter(c=> c.categoryId==categoryId);
+				var category = category[0]; //because the above returns a list of one object;
+				var categoryIndex = this.categories.indexOf(category); //we need the index of the category so we can remove it from list of categories
+
+				this.subscriptions.push(category);
+				this.categories.splice(categoryIndex, 1);
+			},
+
+			unsubscribeFromCategory(categoryId){
+				var category = this.subscriptions.filter(c=> c.categoryId==categoryId);
+				var category = category[0]; //because the above returns a list of one object;
+				var categoryIndex = this.subscriptions.indexOf(category); //we need the index of the category so we can remove it from list of categories
+
+				this.subscriptions.splice(categoryIndex, 1);
+				this.categories.push(category);
+			},
+
+			goToCategoryPage(categoryId){
+				window.open(siteUrl + '/polls/category_id=' + categoryId);
+			},
+
+			addToActivitiesList(activityObject){
+				this.activities.unshift(activityObject);
+			},
+
+			changeActivityData(activity, key, value){
+				this.$set(activity, key, value);
+			},
+
+			changeActivityJustVoted(activityDetailsList){
+				var activityId = activityDetailsList[0];
+				var optionId = activityDetailsList[1];
+				var type = activityDetailsList[2];
+
+				vm = this;
+				var activityInstances = this.activities.filter(a=>a.id==activityId &&a.type==type);
+				activityInstances.forEach(function(activity){
+					activity.totalVotes += 1;
+					vm.$set(activity, 'userHasVoted', true);
+
+					activity.options.forEach(function(option){
+						if (option.id == optionId){
+							option.score += 1;
+						}
+					});
+				});
+                
+			},
+
+			 getDocHeight() {
+    var D = document;
+    return Math.max(
+        D.body.scrollHeight, D.documentElement.scrollHeight,
+        D.body.offsetHeight, D.documentElement.offsetHeight,
+        D.body.clientHeight, D.documentElement.clientHeight
+    );
+},
+
+		},
+		
+
+	
+
+
+		//this is what happens when you load the page.
+		//automaticall
+		created(){
+			vm = this;
+
+			axios.get(siteUrl + '/get_trending').then(response => {
+			//this will give a list of polls
+			var response_list = response.data.activities;
+			this.activities = response_list;
+			this.userName = response.data.userName;
+			this.userPic = response.data.userPic;
+			this.userLoggedIn = response.data.user_logged_in; 
+			this.loading =false;
+			
+
+			
+			});
+
+			//get categories data
+			axios.get(siteUrl + '/categories').then(response => {
+				this.categories = response.data.categories;
+			});
+
+			axios.get(siteUrl + '/show_subscriptions').then(response => {
+				this.subscriptions = response.data.subscriptions;
+			});
+	
+
+			window.onscroll = () => {
+				var loader = document.getElementById('loadingMoreContent');
+				var scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+				var winheight = window.innerHeight || (document.documentElement || document.body).clientHeight;
+				 var docHeight = this.getDocHeight();
+				 var trackLength = docHeight - winheight;
+				var pctScrolled = Math.floor(scrollTop/trackLength * 100); // gets percentage scrolled (ie: 80 or NaN if tracklength == 0)
+									this.loadingMoreContent = true;
+
+				if (pctScrolled == 98){
+					axios.get(siteUrl + '/get/latest').then(response=>{
+						response.data.activities.forEach(activity=>{
+							this.activities.push(activity);
+						});
+					});
+					console.log(pctScrolled);
+				}
+			}
+		}
+
+
+
+	});
+
+	/**
+
+
+	**/
+
+	</script>
+
+
+			<!--
+
+
+
+ -->
+
+</body>
+
+</html>

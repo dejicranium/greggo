@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login</title>
+  <style type="text/css">
+  
+    *{
+      padding:0px; 
+      margin:0px;
+    }
+
+    body{
+      background-color: #F7F7F7;
+
+    }
+  .form-container{
+    margin:auto;
+    max-width: 500px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    text-align: center;
+    background-color:white;
+    border-radius: 5px 5px 5px 5px;
+    position: relative;
+    top: 100px;
+    padding-bottom: 20px;
+    box-shadow: 2px 2px 2px 2px lightgrey;
+
+  }
+
+    #header{
+      background-color: teal;
+      color:white;
+      padding: 20px;
+      border-radius: 5px 5px 0px 0px;
+      margin-bottom: 20px;
+      border:0px;
+    }
+
+    a{
+      color:orange;
+    }
+
+ 
+    input[type='text']{
+      background-color: lightgrey;
+      color:black;
+      border: 0;
+      max-width:400px;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    input[type='password']{
+      background-color: lightgrey;
+      color:black;
+      border: 0;
+      max-width: 400px;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    #forgot-password{
+      font-size:10px;
+      position: relative;
+      left: 65px;
+      margin-bottom: 5px;
+      display:block;
+    }
+
+     input[type='submit']{
+      background-color: teal;
+      color:black;
+      border: 0;
+      padding: 10px;
+      border-radius: 5px;
+      max-width: 400px;
+      color: white;
+    }
+
+    span{
+      font-size: 10px;
+    }
+
+
+    @media screen and (max-width: 992px){
+      body{
+        padding: 20px;
+      }
+     
+
+
+    }
+  </style>
+</head>
+
+
+
+
+
+<body>
+
+  <div class="form-container">
+    <div id="header">
+      <h1>Login</h1>
+      <span> Don't have an account yet?</span><span><a href="">Sign up</a></span>
+
+    </div>
+
+
+    <form action="{{url}}" method='post'>
+      {% if error %}
+        <span id='error' style='color: red'>{{error}}</span></br>
+      {% endif %}
+
+        <input type='text' placeholder="Email address" name='email'><br>
+        <input type="password" placeholder="Password" name='password'><br>
+
+        <input type="submit" value='Login' name='form.submitted'>
+    </form>
+
+  </div>
+
+
+
+<!--
+  <div class="container">
+    <div id="form">
+      <form action="{{ url }}" method="post">
+        <input type="hidden" name="next" value="{{ next_url }}">
+        
+        <input type="text" name="email" value="{{ email }}" placeholder="Email"><br>
+      
+          <input type="password" name="password" placeholder="Password"> <br>
+
+          <input type="submit" type="submit" name="form.submitted" value="Log In" class="btn btn-default">
+    </form>
+    <div>
+  </div>
+-->
+  
+    
+
+</body>
+</html>
+
+
+
+  
+

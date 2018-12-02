@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login</title>
+  <style type="text/css">
+  
+    *{
+      padding:0px; 
+      margin:0px;
+    }
+
+    body{
+      background-color: grey;
+    }
+  .form-container{
+    border: 1px solid grey; 
+    margin:auto;
+    width: 50vw;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    text-align: center;
+  }
+
+    #header{
+      background-color: teal;
+      color:white;
+    }
+
+    a{
+      color:orange;
+    }
+
+    input[type='text']{
+      background-color: white;
+      color:darkgrey;
+    }
+
+  </style>
+</head>
+
+
+
+
+
+<body>
+
+  <div class="form-container">
+    <div id="header">
+      <h1>Login</h1>
+      <span> Don't have an account yet?</span><span><a href="">Sign up</a></span>
+
+    </div>
+
+
+    <form>
+        <input type='text' placeholder="Email address" name="email"><br>
+        <input type="password" placeholder="Password" name="password"><br>
+        <span>Forgot Password?</span>
+
+        <input type="submit" value='Login'>
+    </form>
+
+  </div>
+
+
+
+<!--
+  <div class="container">
+    <div id="form">
+      <form action="{{ url }}" method="post">
+        <input type="hidden" name="next" value="{{ next_url }}">
+        
+        <input type="text" name="email" value="{{ email }}" placeholder="Email"><br>
+      
+          <input type="password" name="password" placeholder="Password"> <br>
+
+          <input type="submit" type="submit" name="form.submitted" value="Log In" class="btn btn-default">
+    </form>
+    <div>
+  </div>
+-->
+  
+    
+
+</body>
+</html>
+
+
+
+  
+

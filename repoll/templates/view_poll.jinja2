@@ -1,0 +1,75 @@
+<html>
+<head>dxz
+	<title>{{poll.question}}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		*{
+			padding: 0px; 
+			margin: 0px;
+		}
+
+		body{
+      		background-color: #F7F7F7;
+		}
+
+		#feed-container{
+			background-color: white;
+			max-width: 500px; 
+			margin: auto; 
+			margin-top: 100px;
+			padding: 20px;
+			height: 700px;
+			border-radius: 3px;
+			border: 0.5px solid lightgrey;
+
+		}
+
+	</style>
+</head> 
+
+
+<body>
+	<div id="feed-container">
+		<div class="poll-details-container">
+			<div class="author-details">
+
+				<p>{{poll.added_by.full_name}}</p>
+			</div>
+
+			<div class='poll-detail'>
+				<h1>{{poll.question}}</h1>
+				{% if poll.info %}
+				<p>{{poll.info}}</p>
+				{%endif%}
+
+				<form action='{{request.route_url('add_comment', poll_id=poll.id)}}' method='post'>
+				<div class='poll-options'>
+					{% for option in poll.options %}
+					<input type="radio" name='option' v-model='chosen_option' value="{{option.id}}">{{option.title}}<br>
+					{%endfor %}
+				</div>
+
+				<!--no of votes -->
+				<p>{{poll.votes}}</p>
+
+			</div>
+		</div>
+
+		<div class='add-comment-box'>
+			<input type='text' name='comment' placeholder='Write comment'>
+			<input type="submit"></input>
+
+		</div>
+				</form>
+
+
+		</div>
+	</div>
+
+</body>
+
+
+</html>
+
+
+

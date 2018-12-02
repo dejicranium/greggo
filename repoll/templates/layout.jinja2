@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ page_title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(http://fonts.googleapis.com/css?family=Lato);
+
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+@import url(http://fonts.googleapis.com/css?family=Cardo);
+
+
+      *{
+  margin:0;
+  padding: 0; 
+}
+body{
+  background: #ececec;
+
+
+}
+.active{
+  background-color: orange;
+}
+.hide{
+  display:none;
+}
+
+.vote_enabled{
+  background: darkorange;
+  color:white;
+}
+.create-buttons{
+  width: 600px;
+  margin-right: auto;
+  margin-left: auto;
+  align-content: center;
+}
+
+.create-buttons button{
+  border:0;
+  background-color: purple;
+  padding:20px;
+  border-radius: 50%;
+  color:white;
+}
+.avatar{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  float:left;
+}
+
+.feed-question{
+  padding: 10px;
+  margin-left: 5px;
+}
+.container{
+  overflow: hidden; 
+
+}
+
+/* header */
+header{
+  padding: 5px 0 5px;
+  background: white;
+  box-shadow: 0 0 10px 0 gray;
+  margin-bottom: 20px;
+
+}
+
+header h1{
+  float: left;
+  margin-left: 60px;
+  color:black;
+  font-style: italic;
+  font-style: bold;
+  font-family: Raleway;
+}
+
+header nav{
+  float:right;
+}
+
+header ul{
+  margin:0;
+  padding: 0 30px 0 0;
+}
+
+header li{
+  text-decoration: none;  
+  float:left;
+  margin-top:10px;
+  list-style: none;
+  padding: 0 10px 0px 10px;
+}
+
+header a:hover{
+  color: #177076;
+}
+
+header a{
+  text-decoration: none;
+  font-weight:;
+  color:grey;
+  font-family: Lato, serif;
+
+}
+
+
+#catsidebar {
+
+
+}
+#catsidebar .container{
+  background: #ffffff;
+  width: 200px;
+  border-radius: 4px;
+  padding: 5px 2px ;
+  margin-right: 20px;
+  margin-left: 60px; 
+  height: auto;
+  box-shadow: 0px 0.2px 0.2px 0.2px;
+  float:left;
+  height: 350px;
+  overflow-y: auto;
+  border: 1px solid lightgray;
+}
+
+#catsidebar #header{ 
+  border-radius: 1px 0px 0px 0px;
+  padding: 5px 0 0 10px;
+  border-width: 50px%; 
+  padding-bottom: 10px;
+  border-bottom: solid lightgray 1px;
+
+}
+#catsidebar h3{
+  font-size: 20px;
+  font-weight: bold;
+  color: darkgray;
+
+  font-family: Lato, serif;
+  text-align: justify-all;
+}
+
+#catsidebar ul{
+  text-decoration: none;
+
+}
+#catsidebar li{
+  padding: 10px;
+  font-size: 12px;
+  font-family: Lato, sans-serif;
+  text-align: justify-all;
+  list-style: none;
+
+}
+
+#catsidebar a{
+  text-decoration: none;
+  color:grey;
+  font-size: 10px;
+
+  font-weight: bold;
+}
+
+#catsidebar li:hover{
+    background: #ececec;
+
+}
+
+
+#feed{
+  margin:right:10px;
+}
+
+#feed .container{
+  float:left;
+  height: auto;
+  width: 600px;
+  margin-right: 20px;
+  box-shadow: grey 0 0.5px 0.5px 0;
+
+}
+
+#feed .container .card{
+  height: auto;
+  padding:20px 20px 20px 20px; 
+  background: #ffffff;
+  width:auto;
+  box-shadow: 0.5px;
+}
+
+#feed .container h1{
+}
+
+
+#feed .asked-by{
+  margin-bottom: 1px;
+}
+
+#feed .asked-by p{
+  color:grey;
+  font-style: bold; 
+  font-size: 12px;
+  font-family: Raleway, sans-serif;
+
+}
+#feed .asked-by a{
+  color:teal;
+}
+
+#feed .poll-question{
+  margin-bottom: 0px;
+
+}
+
+#feed .poll-question a{
+  text-decoration: none;
+  color:teal;
+}
+#feed .poll-question h2{
+  text-align:;
+  font-family: Lato, sans-serif;
+  color:   #177076;
+}
+#feed .poll-categories{
+  margin-bottom: 5px;
+}
+
+#feed .poll-categories p{
+  color: black;
+  font-size: 10px;
+  display: inline-block;
+  font-family: Raleway, sans-serif;
+  margin-top: 0px;
+  margin-right: 10px;
+}
+
+
+#feed .poll-info{
+  margin-bottom: 10px;
+  padding: inherit;
+}
+#feed .poll-info p{
+  color: darkgrey;
+  font-family: Raleway, serif;
+  font-size: 15px;
+}
+
+#feed .poll-options{
+  border-top: 1px lightgray solid;
+  border-bottom: 1px lightgray solid;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#feed .poll-options input{
+
+}
+#feed .poll-options input + label{
+  position: relative;
+  color:black;
+
+}
+#feed .poll-options div input:checked + label{
+  font-style: bold;
+
+}
+
+#feed .poll-options input label::before {
+  border:1px solid grey;
+  content: ' ';
+  display: inline-block;
+  margin-right: 5px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  transition: border 0.15s ease-in-out;
+
+}
+
+#feed .poll-options input label::after {
+  border:0px solid orange;
+  content: ' ';
+  background: transparent;
+  display: inline-block;
+  margin-right: 5px;
+  width: 11px;
+  height: 11px;
+  position:absolute;
+  left: 4px;
+  top:3px;
+  transition: border 0.15s ease-in-out;
+
+}
+
+#feed .poll-options input:checked label::after {
+  background:darkorange;
+
+}
+
+#feed .poll-options input:checked label::before {
+  border-color: :darkorange;
+
+}
+
+
+#feed .poll-add-details p{
+  font-size: 12px;
+  margin-top: 5px;
+  font-style: italic;
+  color:#adadad;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-family: Raleway, sans-serif;
+}
+
+
+
+#feed .poll-actions button{
+  text-decoration: none;
+  background-color: lightgrey; 
+  border: 0px;
+  color:black;
+  font-size: 10px;
+  padding: 10px;
+
+}
+
+#feed .poll-actions input{
+  text-decoration: none;
+  background-color: lightgrey; 
+  border: 0px;
+  color:black;
+  font-size: 10px;
+  padding: 10px;
+
+}
+#feed .poll-actions a{
+  text-decoration: none;
+  color:black;
+  border: 0px;
+  background-color: lightgrey;
+  font-size: 10px;
+  padding: 10px;
+  border-radius: 5px 5px 5px 5px;
+
+}
+
+#feed .poll-actions #view-comments{
+  color:white;
+  background-color:purple;
+}
+
+
+#feed .comments-box{
+  height: 20px; 
+  width: inherit;
+  color:teal;
+  font-family: Roboto, sans-serif;
+  background-color: lightgrey;
+  margin-bottom: 20px;
+  padding: 20px;
+
+}
+
+#feed .comments-box .comment-header{
+  width: inherit;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  color:black;
+}
+
+
+
+
+
+#trending .container{
+  width: 300px;
+  height: auto;
+  float:left;
+  padding: 10px;
+  margin-right:20px;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid lightgray;
+  border-radius: 10px 10px 10px 10px;
+
+
+}
+  
+
+
+#trending #header{
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px lightgray solid;
+}
+#trending h1{
+  font-size: 20px; 
+  font-family: Lato, sans-serif;
+  color:darkgrey;
+  text-align: justify-all;
+
+}
+
+#trending .contents{
+  margin-bottom: 15px;
+}
+
+#trending .poll-title h3{
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: teal;
+  text-align: justify-all;
+}
+
+#trending #categories{
+
+}
+#trending .poll-details p{
+  color:darkgrey;
+  font-size: 10px;
+  margin-right: 10px;
+  display: inline-block;
+  font-family: Roboto, sans-serif;
+}
+
+
+
+
+
+#contests .container{
+  background: #ffffff;
+  padding: 10px;
+  height: auto;
+  width: 300px; 
+  border: 1px solid lightgray;
+}
+
+#contests #header{
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+}
+#contests h1{
+  font-size: 20px;
+  font-family: Lato, sans-serif;
+  color:darkgrey;
+  text-align: justify-all;
+
+}
+
+#contests .contents{
+  display: block;
+  margin-top: 5px;
+  clear: both;
+}
+
+#contests .contest-image{
+  float: left;
+  margin-bottom: 5px;
+  margin-right: 10px;
+}
+
+#contests .contest-image img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+#contests .contest-info{
+  padding: 20px;
+}
+
+#contests .contest-name{
+  margin-left: 10px;
+  color:teal;
+}
+
+#contests .contest-details p{
+  color: darkgrey;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+
+    </style>
+
+  </head>
+
+
+
+
+<body>
+
+
+  {% block content %}
+
+  {% endblock content %}
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+
+
+<script type="text/javascript">
+  new Vue({
+    el: '#feed',
+    data(){
+      return{
+        check: '',
+        activeClass:'active',
+      }
+    },
+  });
+</script>
+
+
+
+
+</html>

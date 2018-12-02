@@ -1,0 +1,1446 @@
+*{
+    margin:0px;
+    padding: 0px;
+    font-family: Helvetica, sans-serif;
+
+}
+
+#t{
+    flex-basis:50%;
+  
+    display:flex; 
+    border-right:solid 0.5px lightgrey; 
+    background-color:whitesmoke; 
+    text-align:center;
+    align-items:center; 
+    justify-content:center;
+
+ }
+
+#activityIsAlreadyLikedClass{
+    color: teal;
+}
+
+ .checkmark{
+    position:absolute;
+    top:5px;
+    left:10px;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.errorBox{
+    background-color: rgb(159, 114, 30);
+    padding: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.userJustFollowed{
+    color:blue;
+    background-color:yellow;
+}
+
+i{
+    color: darkgrey;
+    position:absolute;
+    right: 0;
+    width: 30px;
+    margin-right: 15px;
+}
+
+.button-icon{
+    position: relative;
+    left: 0;
+    margin-right: 0px;
+    margin-left:0px;
+    width: 20px;
+    color: rgb(79, 78, 78);
+}
+.divider{
+    background-color: rgba(0, 0, 0, .33);
+    height: 0.5px;
+    
+}
+.disabled{
+    display: none;
+}
+
+.sidebar-content-selected{
+    background-color:lightgray;
+    color:black;
+}
+
+.highest{
+    background-color: darkorange;
+}
+
+
+
+
+body{
+    background-color: #F7F7F7;
+}
+#navbar{
+    display:flex;
+    padding: 10px 10px 10px 10px;
+    width:100%;
+    min-height: 35px;
+    background-color: white;
+    color:white;
+    position: fixed;
+    top:0;
+    flex-direction: row;
+    box-shadow: 0px 0px 2px 0px grey;
+    margin-bottom: 10px;
+    z-index: 5;
+    box-sizing:border-box;
+
+}
+#navbar h1{
+    font-size: 10vw;
+    text-align: center;
+
+}
+
+#navbar .menu{
+    width: auto;
+    height: 15px;
+    margin-top:auto;
+    display: inline-block;
+    position: relative;
+
+    
+
+}
+
+#navbar .menu div{
+    width: 20px;
+    height: 3px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: darkgray;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.navbar-actions{
+    position: absolute;
+    display: flex;
+    right: 0;
+    flex-direction: row;
+}
+
+.nabar-actions ul{
+    text-decoration:none;
+    display:flex;
+    flex-direction: row;
+}
+
+
+.navbar-actions button{
+    display: inline-block;
+    background-color: transparent;
+    border:0;
+    color:darkgray;
+    height: 100%;
+    vertical-align: center; 
+    text-align: center;
+    font-size: 15px;
+    padding-right: 10px;
+}
+
+.navbar-icon{
+    position:relative; 
+    right: 0px;
+    margin-right: -10px;
+    width: 30px;
+    padding: 0px;
+    vertical-align:center;
+    text-align:center;
+    padding-left: 10px;
+}
+
+.sidebar{
+    position: fixed;
+    height: 100%;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .05);
+    transition: opacity .3s ease;
+}
+.sidebar .sidebar-container{
+    background-color: white;
+    height: 100%; 
+    overflow-y:auto;
+    position: fixed;
+    width: 75%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    box-sizing: border-box;
+
+
+}
+.sidebar .sidebar-container .profile-info{
+    padding:10px;
+    text-align:center;
+    background-color:teal;
+    color:white;
+}
+
+
+.sidebar .sidebar-container .profile-info p{
+    padding:5px;
+    color: white;
+    display:block;
+    border-radius: 5px;
+    flex-basis:48%;
+}
+
+.sidebar .sidebar-container .profile-info .following-details p:first-child{
+    margin-right: 4%;
+}
+.sidebar .sidebar-container .profile-info .following-details{
+    display:flex;
+    flex-direction:row;
+
+}
+.sidebar .sidebar-container span{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
+}
+.sidebar .sidebar-container img{
+    border-radius: 50%;
+    width: 50px;
+    display:inline-block;
+    height:50px;
+    margin-right: 10px;
+}
+.sidebar .sidebar-container p{
+    display: block;
+    width: 100%;
+    box-sizing:border-box;
+    font-size: 13px;
+    padding: 20px;
+}
+
+.sidebar .sidebar-container li{
+    font-size: 13px;
+    list-style: none;
+    cursor:pointer;
+    display:block;
+    position:relative;
+    padding: 10px 0 10px 50px;
+    border-bottom: lightgray 0.2px solid;
+}
+
+.sidbar .sidebar-container li::first-child{
+    border-top: lightgray 0.2px solid;
+}
+.sidebar .sidebar-container li:hover{
+    background-color: #F7F7F7;
+    color:black;
+}
+.sidebar .sidebar-container .profile-info span{
+    display:block;;
+    font-size:13px;
+}
+
+.sidebar .sidebar-container p:hover{
+    cursor:pointer;
+    background-color: #F7F7F7;
+}
+
+
+#container{
+    position: absolute;
+    top:40px;
+    width: 100%;
+
+}
+
+.body-container{
+    padding: 1px 5px 5px 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.feed-container{
+    margin-bottom: 5px;
+    box-sizing: border-box;
+
+}
+.feed-container .feed-card{
+    background-color: white;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    box-shadow: lightgrey 1px;
+    border-radius: 2px;
+    border: 0.3px solid lightgray;
+    box-sizing: border-box;
+
+    
+
+}
+
+.feed-container .feed-card:focus{
+    background-color: whitesmoke;
+    outline: none;
+}
+
+.feed-container .feed-card .avatar {
+    height: auto;
+    width: auto;
+    margin-right: 10px;
+    float: left;
+
+}
+.feed-container .feed-card .poll .avatar {
+    height: auto;
+    width: 5%;
+    margin-right: 10px;
+    float: left;
+
+}
+.feed-container .feed-card .poll .avatar img{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}      
+ .feed-container .feed-card .avatar img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+.feed-container .feed-card .beside-avatar-box{
+    display:inline-block;
+    box-sizing: border-box;
+
+    width: 80%;
+}
+
+.feed-container .feed-card .poll .beside-avatar-box{
+    display:inline-block;
+    box-sizing: border-box;
+
+    width: 90%;
+}
+.feed-container .author-details{
+    box-sizing: border-box;
+    position:relative;
+
+}
+
+.feed-container .feed-card .beside-avatar-box .author-details p{
+    display: inline;
+    font-family: Helvetica, sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align:center;
+    font-size: 12px;
+}
+
+.feed-container .feed-card .beside-avatar-box .author-details i{
+    width:5px;
+    height:10px;
+    font-size: 13px;
+    position: absolute;
+    right:0;
+    margin-right: 18px;
+
+}
+
+.feed-container .follow-btn{
+    background-color: transparent; 
+    color:black;
+    border:0;
+    border: 0.5px solid lightgray;
+    padding: 3px;
+    position: absolute;
+    top: 20;
+    margin-right: 18px;
+}
+.categories-container p{
+    display: inline;
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #a0a0a0;
+
+}
+.feed-container .feed-card .beside-avatar-box .author-details{
+    margin-bottom: 0;
+    font-family: '', sans-serif;
+}
+
+.feed-container .feed-card .time-added{
+    color: darkgray;
+}
+
+.feed-container .feed-card .beside-avatar-box .poll-question{
+    margin-top: 5px;
+    margin-bottom:3px;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: teal;
+    letter-spacing: 0.5px;
+    line-height: 2ch;
+
+}
+
+.feed-container .feed-card .beside-avatar-box a{
+    text-decoration:none;
+    color: teal;
+    letter-spacing: 0.5px;
+
+}
+
+
+.feed-container .feed-card .beside-avatar-box .poll-info{
+    font-size: 13px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-family: 'Merriweather Sans';
+
+}
+
+
+
+
+.options{
+    height: auto;
+    font-size: 13px;
+    color:black;
+    margin-top: 0;
+}
+
+
+
+.options .ans-cnt .ans{
+    position: relative;
+    margin-bottom: 10px;
+    padding: 5px 5px 5px 0px;
+}
+
+.options .ans-cnt .ans-voted{
+    padding: 2px 10px;
+}
+
+
+.percent{
+    font-weight: bold;
+    font-size: 13px;
+}
+.txt, .percent{
+    z-index: 2;
+    position: relative;
+    font-size: 13px;
+}
+
+.options .ans-cnt .ans .first-bg{
+position: absolute;
+width: 100%;
+top: 0;
+left: 0;
+bottom: 0;
+z-index: 0;
+background-color: #F7F7F7;
+border-radius: 5px;
+
+}
+
+.options .ans-cnt .bg{
+position: absolute;
+width: 0%;
+top: 0;
+left: 0;
+bottom: 0;
+z-index: 0;
+background-color:lightgray;
+color:white;
+border-radius: 5px;
+transition: width 5s;
+-webkit-transition: width 5s;
+-moz-transition: width s
+
+}
+
+
+
+.options label{
+    display:block;
+    position:relative;
+    cursor:pointer;
+    border-radius: 5px;
+    padding: 10px 10px 10px 45px;
+    font-size: 13px;
+    border: #F7F7F7 0.5px solid;
+
+    margin-bottom:5px;
+
+    user-select:none;
+    -moz-user-select:none;
+
+}
+
+.options input{
+    opacity: 0;
+    position:absolute;
+}
+
+.options .checkmark{
+    position:absolute;
+    top:12px;
+    left:10px;
+    bottom:10px;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.options label:hover{
+    background-color: #F7F7FF;
+}
+.options label input:checked ~ .checkmark{
+    background-color: teal;
+}
+
+
+.picture-options{
+    display: flex;
+    flex-direction: row;
+    box-sizing:border-box;
+    flex-wrap: wrap;
+}
+
+.picture-options label{
+    flex-basis: 45%;
+    box-sizing:border-box;
+        display:block;
+    text-align: center;
+    
+}
+
+.picture-options input{
+    display: none;
+}
+
+.picture-options label{
+    margin-right: 5%;
+    margin-bottom: 10px;
+
+}
+
+.picture-options span{
+    font-size: 13px;
+    width: 100%;
+    font-weight: normal;
+    display:block;
+}	
+
+.picture-options .checkbox{
+    width: 10px; 
+    height: 10px;
+    margin-bottom: 5px;
+    display: block;
+    border-radius: 50%;
+    background-color: lightgrey;
+    margin: auto;
+}
+
+.picture-options img{
+    width:100%;
+    min-height: 130px;
+    height:120px;
+    border-radius: 5px;
+}
+
+.picture-options input:checked ~ span{
+    background-color: teal;
+    color: black
+}
+
+.picture-options p{
+    font-size: 13px;
+}
+
+.picture-options input:checked ~ p{
+    background-color: white; 
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+.feed-card .votes{
+    font-size: 11.5px;
+    color: darkgray;
+    margin-right: 5px;
+    margin-bottom:5px;
+}
+
+.feed-card button{
+    border: 0;
+    margin-top: 5px;
+    background-color: transparent;
+    border: 0.5px solid lightgray;
+    text-align: center; 
+    vertical-align: middle; 
+    padding:3px ; 
+    border-radius: 5px;
+    font-size: 13px;
+    color: rgb(79, 78, 78);
+}
+
+.feed-comment-card{
+    margin-bottom:5px;
+    background: white;;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: darkgray;
+    font-size: 13px;
+    padding:7px;
+    text-align: center;
+    border-bottom: 0.5px solid lightgray;
+    border-right: 0.5px solid lightgray;
+    border-left: 0.5px solid lightgray;
+
+
+}
+
+
+#add-comment-modal .modal-container{
+    max-width: 95%;
+    margin: 100px  auto 0;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all .3s ease;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+}
+
+#add-comment-modal .modal-header{
+    background-color:white;
+    padding-top: 20px; 
+    padding-left: 20px;
+    border-bottom: 1px solid grey;
+    box-shadow: 0 4px 2px -2px lightgray;
+
+    color: black;
+    border: 0;
+    font-size: 10px;
+}
+#add-comment-modal .modal-header .close-mark{
+    text-decoration: none;
+    color:darkgrey;
+    float:right;
+    font-size: 20px; 
+    font-weight: bold;
+
+}
+
+#add-comment-modal h3{
+    color: teal;
+
+}
+
+
+#add-comment-modal .modal-body{
+    padding-left: 20px; 
+    padding-right: 20px; 
+    padding-bottom: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+#add-comment-modal .chosen{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#add-comment-modal .modal-body textarea{
+    overflow: hidden; 
+    resize:none;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid lightgrey;
+
+}
+
+#add-comment-modal .modal-body textarea:focus{
+    overflow: hidden; 
+    resize:none;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid lightgrey;
+    outline: none;
+
+}
+#add-comment-modal .modal-body input{
+    border: 0;
+    border-bottom: 1px darkgrey solid;
+}
+#add-comment-modal h5{
+    color: black;
+    font-size:14px;
+    font-weight:normal;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.feed-card .chosen-option{
+    margin-top:1px;
+    font-size: 14px;
+
+    margin-top: 2px;
+    color: black;
+}
+.feed-card i{
+    margin-bottom: 5px;
+}
+.feed-card .comment{
+    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 4px;
+    margin-top: px;
+    border-radius: 10px;
+    line-height: 1.1rem;
+    font-family: Helvetica, Arial, sans-serif;
+    display:block; 
+    width: 100%;
+    
+
+}
+
+.feed-card .comment-question{
+    font-size:14px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0.5px lightgray solid;
+    font-family: 'Helvetica', Helvetica, Arial, sans-serif;
+    display: block;
+    
+}
+.feed-card .comment-question:focus{
+    background-color: lightgray;
+}
+
+.feed-card .comment-question p, span{
+    font-size:12px;
+}
+
+.feed-card .comment-question .author-name{
+    font-weight: bold;
+}
+
+.feed-card .comment-opinion{
+    font-size:14px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    color: black;
+    padding: 2px 5px 2px 5px;
+    border-radius: 5px;
+    border: 0.5px darkgray solid;
+    font-family: 'Helvetica', Helvetica, Arial, sans-serif;
+    display: block;
+    
+}
+
+.feed-card .comment-question:focus{
+    background-color: lightgray;;
+}
+
+.feed-card .comment-question::selection{
+    background-color: lightgrey;
+
+}
+
+
+
+
+
+
+
+.comment-card{
+    padding: 10px 10px 0px 10px;
+    background-color: white; 
+    box-sizing: border-box;
+    position: relative;
+    font-size: 10px; 
+    text-overflow:wrap;
+    border-bottom: solid lightgrey 1px;
+}
+
+.comment-card .author-details{
+    font-size:10px;
+    font-weight:normal;
+    color:lightgray;
+}
+
+.comment-card .author-details p{
+    color:lightgray;
+}
+.comment-card .chosen-option{
+    margin-bottom: 2px;
+    font-size: 15px;
+
+}
+.comment-card .reason{
+    margin-bottom: 10px;
+    font-size:13px;
+}
+
+.comment-card .action-buttons{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    align-items: flex-end;
+    
+    justify-content: flex-end;
+    width: 100%;
+    
+}
+
+.comment-card .action-buttons button{
+    border:0;
+    background-color: lightgray;
+    color: black;
+    font-weight: bold;
+    font-size: 10px;
+    margin-right: 5px;
+    padding: 5px; 
+    padding-left:10px; 
+    padding-right: 10px;
+}
+
+.comment-card .action-buttons span{
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+.modal-mask{
+position: fixed;
+z-index: 100; 
+top: 0; 
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, .5);
+transition: opacity .3s ease;
+overflow-y:auto;
+}
+
+.modal-container {
+max-width: 90%;
+margin: 50px auto 0;
+position:relative;
+background-color: #fff;
+border-radius: 2px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+transition: all .3s ease;
+box-sizing: border-box;
+padding-bottom: 40px; 
+}
+
+.modal-container .modal-header{
+background-color:white;
+box-shadow: 0 4px 2px -2px lightgray;
+padding: 20px; 
+color: black;
+}
+
+.modal-container .modal-header h5{
+font-size: 20px;
+}
+.modal-container .modal-header p{
+font-size: 15px;
+}
+.modal-container .modal-header span{
+font-size: 14px;
+color: darkorange;
+cursor:pointer;
+
+
+}
+
+
+.modal-container .modal-body{
+padding: 20px;
+padding-bottom:10px;
+height: auto;
+width: 100%;
+		
+box-sizing: border-box;
+}
+
+
+.modal-container .modal-body .login{
+width: 100%;
+}
+
+.modal-container .modal-body .login-btn{
+background-color: teal;
+border: 0;
+padding: 10px;
+color: white;
+position: absolute;
+border-radius: 5px;
+right: 0;
+}
+.modal-container .modal-body .form-label{
+font-size: 15px; 
+font-weight:500;
+color:black;
+}
+
+.modal-container .modal-body .form-control{
+border: none;
+width: 100%;
+border-radius: 5px; 
+border: 1px lightgray solid;
+padding: 10px; 
+color:black; 
+font-size: 13px;
+margin-bottom: 10px;
+
+}
+.modal-container .modal-body .form-control:active{
+border: 1px darkorange solid;
+}
+
+.modal-container .modal-body button{
+margin-top: 10px; 
+user-select: none;
+border: none;
+color: white;
+font-size: 12px;
+background-color: teal; 
+border-radius: 10px;
+padding: 10px;
+text-align:center;
+display:inline-flex;
+}
+
+.modal-container .register{
+box-sizing: border-box; 
+}
+
+.modal-container .register .name-div{
+display: flex;
+box-sizing: border-box;
+flex-direction: row;
+}
+
+
+
+.modal-container .register .first-name-div{ 
+flex-basis: 50%;
+margin-right: 25px;
+}
+.modal-container .register .last-name-div{ 
+flex-basis: 50%;
+}
+
+.modal-container .required{
+color: red;
+font-size: 11px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.new-poll-modal {
+font-size: 12px;
+}
+.new-poll-modal-header{
+    display:flex; 
+    flex-direction:row; 
+    font-size: 20px;
+    padding:0px; 
+    height:50px;
+
+}
+
+
+#selected-tab{
+    flex-basis:50%; 
+    display:flex; 
+    border-right:solid 0.5px lightgrey; 
+    background-color:white; 
+    text-align:center;
+    align-items:center; 
+    justify-content:center;
+}
+
+.new-poll-modal .add-context{
+
+margin-bottom: 5px;
+flex-direction: column;
+}
+
+
+.new-poll-modal .add-context textarea{
+height: 100px;
+resize: none;
+flex-basis: 100%;
+overflow: auto;
+}
+
+
+
+
+
+
+.new-poll-modal div{
+display:block;
+}
+
+
+.new-poll-modal .add-context input[type="file"]{
+display:none;
+}
+
+.new-poll-modal .add-image-btn{
+font-size: 10px; 
+background-color: teal;
+padding:10px;
+width: 10%;
+color: white; 
+border-radius: 5px;
+display:inline-block;
+margin-top: 0px;
+height: 20px;
+margin-bottom: 20px;
+}
+.new-poll-modal .options-box{
+display: flex;
+width: 100%;
+}
+
+.new-poll-modal .form-control{
+
+}
+
+
+
+.new-poll-modal .add-option-image{
+display:none;
+}
+.new-poll-modal .audience{
+display: block;
+}
+
+.new-poll-modal .categories-selection{
+text-align: justify;
+width: 100%;
+}
+.new-poll-modal .categories-selection input{
+margin-right: 10px;
+opacity:0;
+position:relative;
+    
+}
+
+.new-poll-modal .categories-selection label{
+display: inline-block;
+position: relative;
+padding:5px; 
+font-size: 11px;
+border-radius: 5px;
+background-color:transparent;
+border: 0.5px solid lightgray;
+margin-right: 5px; 
+margin-bottom: 5px;
+cursor: pointer;
+
+}
+
+.new-poll-modal .categories-selection input:checked ~ .checkmark{
+background-color: teal;
+color:white;
+}
+
+
+.modal-body select{
+background-color: white;
+border: 0;
+border-color: 1px solid lightgray; 
+padding: 5px;
+font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.comment-container{
+    margin-top: 10px; 
+    background-color:white; 
+    padding:10px;
+    font-size: 10px;
+    border-top: 0.5px lightgrey solid;
+    border-right: 0.5px lightgrey solid;
+    border-left: 0.5px lightgrey solid;
+    box-sizing: border-box;
+    display:flex;
+    flex-direction:column;
+}
+
+.comment-container input{
+    display: none;
+    
+}
+
+.comment-container input:checked + label{
+    color: teal;
+    font-weight: bold;
+}
+
+isActive{
+    border-bottom: 0.5px teal solid;
+    box-sizing: border-box;
+}
+
+
+.comment-container .tabs{
+    border-bottom: 0.02px lightgray solid;
+    margin-right: 10px;
+    flex-direction: row;
+    box-sizing: border-box;
+    display:flex;
+}
+
+
+.comment-container label{
+    margin-bottom: 10px;
+    display: block; 
+    font-size: 13px;
+}
+
+
+
+.comment-card{
+    padding: 10px 10px 0px 10px;
+    background-color: white; 
+    box-sizing: border-box;
+    position: relative;
+    display:block;
+    font-size: 10px; 
+    text-overflow:wrap;
+    border-bottom: solid lightgrey 1px;
+}
+
+.comment-card .author-details{
+    font-size:10px;
+    font-weight:normal;
+    color:black;
+}
+
+.comment-card .author-details img{
+    border-radius: 50%;
+}
+
+.comment-card .author-details p{
+    color:lightgray;
+}
+.comment-card .chosen-option{
+    margin-bottom: 2px;
+    font-size: 13px;
+
+}
+.comment-card .reason{
+    margin-bottom: 10px;
+    font-size:13px;
+}
+
+.comment-card .action-buttons{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    align-items: flex-end;
+    
+    justify-content: flex-end;
+    width: 100%;
+    
+}
+
+.comment-card .action-buttons button{
+    border:0;
+    background-color: lightgray;
+    color: black;
+    font-weight: bold;
+    font-size: 10px;
+    margin-right: 5px;
+    padding: 5px; 
+    padding-left:10px; 
+    padding-right: 10px;
+}
+
+.comment-card .action-buttons span{
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+
+.modal-body textarea{
+    overflow: hidden; 
+    resize:none;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    height: 50px;
+    min-height: auto;
+    font-size: 16px;
+    border: 1px solid lightgrey;
+
+}
+
+.new-post-container{
+    background-color:white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 0.5px solid lightgray;
+    position: relative;
+    box-sizing:border-box;
+}
+
+.new-post-container .header{
+    box-shadow: 0 4px 2px -2px lightgray;
+    margin-bottom: 3px;
+}
+
+.new-post-container .tabs{
+    display: flex; 
+    flex-direction: row;
+
+}
+
+.new-post-container .tabs .tab{
+    padding:10px;
+    font-size: 13px;
+}
+
+.new-post-container .body textarea{
+    width: 100%;
+    overflow: hidden; 
+    resize:none;
+    padding:10px;
+    height: 100px;
+    box-sizing: border-box;
+    border: transparent 0px solid;
+}
+
+.new-post-container .button-container{
+    display:block; 
+    width: 100%;
+    padding: 10px;
+}
+.new-post-container button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color:teal;
+    color: white;
+
+}
+
+
+.new-post{
+    background-color:white;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 2px 4px 2px -2px lightgray;
+    padding: 10px;
+    text-align:center;
+
+}
+
+.new-post div{
+    flex-basis: 50%;
+    color: black;
+}
+
+.new-post div:first-of-type{
+    border-right: 0.5px solid darkgray;
+}
+.new-post p{
+    font-style:normal;
+    font-size:10px;
+    color: darkgray;
+}
+
+
+.registration-categories-selection{
+    text-align: justify;
+    width: 100%;
+}
+.registration-categories-selection input{
+    margin-right: 10px;
+    opacity:0;
+    position:relative;
+    
+}
+
+.registration-categories-selection label{
+    display: inline-block;
+    position: relative;
+    padding:5px; 
+    font-size: 12px;
+    border-radius: 5px;
+    background-color:transparent;
+    border: 0.5px solid lightgray;
+    margin-right: 5px; 
+    margin-bottom: 5px;
+    cursor: pointer;
+
+}
+
+.registration-categories-selection input:checked ~ .checkmark{
+    background-color: teal;
+    color:white;
+}
+
+.new-opinion-modal-body textarea:focus{
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+#snackbar {
+visibility: hidden; /* Hidden by default. Visible on click */
+width:100%; /* Set a default minimum width */
+/* Divide value of min-width by 2 */
+background-color: #333; /* Black background color */
+color: #fff; /* White text color */
+text-align:center;; /* Centered text */
+border-radius: 2px; /* Rounded borders */
+padding: 5px; /* Padding */
+position: fixed; /* Sit on top of the screen */
+z-index: 100; /* Add a z-index if needed */
+/* Center the snackbar */
+bottom: 0px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+visibility: visible; /* Show the snackbar */
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+However, delay the fade out process for 2.5 seconds */
+-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+from {bottom: 0; opacity: 0;} 
+to {bottom: 0px; opacity: 1;}
+}
+
+@keyframes fadein {
+from {bottom: 0; opacity: 0;}
+to {bottom: 0px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+from {bottom: 0px; opacity: 1;} 
+to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+from {bottom: 0px; opacity: 1;}
+to {bottom: 0; opacity: 0;}
+}

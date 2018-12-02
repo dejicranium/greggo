@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User {{user_id}}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://fonts.googleapis.com/css?family=Roboto Slab' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Marvel' rel='stylesheet'>
+
+
+	<style type="text/css">
+		*{
+			margin:0px;
+			padding: 0px;
+			font-family: 'Roboto Slab';
+
+		}
+
+		body{
+			background-color: #F7F7F7;
+		}
+		#navbar{
+
+			padding: 10px 0px 5px 10px;
+			width:100%;
+			background-color: teal;
+			color:white;
+			position: fixed;
+			top:0;
+			box-shadow: 0px 0px 2px 0px grey;
+			margin-bottom: 10px;
+			z-index: 2;
+		}
+		#navbar h1{
+			font-size: 10vw;
+			text-align: center;
+
+		}
+
+		#navbar div{
+			width: 25px;
+			height: 3px;
+			border-radius: 10%;
+			background-color: white;
+			margin-bottom: 5px;
+		}
+
+		#container{
+			position: absolute;
+			top:60px;
+		}
+		.card{
+			position: relative;
+			width: 90%;
+			height: auto;
+			margin:auto;
+			margin-bottom: 10px;
+			padding: 10px;
+			background-color: white;
+			border-radius: 5px 5px 0px 0px;
+    		box-shadow: 0 4px 2px 0 rgba(0, 0, 0, 0.2);
+    	}
+		.avatar{
+			margin-right: 5px;
+			float: left;
+			width: 10%;
+			height: inherit;%%
+		}
+
+		.avatar img{
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+		}
+
+		.beside-avatar-box{
+			display: inline-block;
+			width: 85%;
+
+		}
+		.card #author-details{
+			margin-bottom: 3px;
+		}
+		.card #author-details #name_username #name{
+			color: black;
+			font-size: 3vw;
+			font-family: 'Marvel';
+		}
+
+		.card #author-details #name_username #username{
+			color: grey;
+			font-size: 2.3vw;
+		}
+
+
+		.card #question{
+			margin-bottom: 5px;
+		}
+
+		.card #question h3{
+			color: teal;
+			font-size: 4vw;
+
+
+
+		}
+		.card #additional-info{
+			margin-bottom: 3px;
+		}
+
+		.card #additional-info p{
+			font-size: 3.5vw;
+			font-family: 'Open Sans';
+			color: ;
+		}
+
+		#num_of_votes{
+			color: grey;
+			font-size: 3.1vw;
+
+		}
+		.card #options{
+			color: teal;
+			border-top: 2px grey;
+			border-bottom: 2px grey;
+			margin-bottom: 5px;
+			display: inline;
+
+		}
+		.card #options .option{
+			font-size: 3.2vw;
+			color: black;
+			font-weight:;
+			font-family: 'Marvel';
+
+		}
+
+		button{
+			border:0;
+			padding: 5px;
+			border-radius:5%;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+<div id="container">
+
+	<div id="navbar">
+		<div></div>
+		<div></div>
+		<div></div>
+		<h1></h1>
+	</div>
+
+{% if polls %}
+
+	{%for poll in polls %}
+	<div class="card">
+		<div class="avatar">
+			<img src="https://www.w3schools.com/howto/img_avatar.png">
+		</div>
+
+		<div class="beside-avatar-box">
+
+
+			<div id="author-details">
+				<div id="name_username">
+					<p id="name">{{poll.added_by.full_name}}</p>
+					{%if poll.added_by.username%}<p id="username">{{poll.added_by.username}}</p>{%endif%}
+				</div>
+			</div>
+
+
+			<div id="question">
+				<h3>{{poll.question}}</h3>
+			</div>
+
+			<div id="additional-info">
+				<p>{{poll.info}}
+				</p>
+			</div>
+
+			<!--divider-->
+			{%if poll.info %}
+			<div class='divider' style="height:0.5px;background-color:#E0E0E0;margin-bottom:5px;"></div>
+			{%endif%}
+
+			<form action="{{request.route_url('vote', poll_id=poll.id)}}" method="post">
+			<div id="options">
+				{% for option in poll.options %}
+				<div class="option">
+					<input type="radio" name="option" value="{{option.id}}">
+					<label for='option'>{{option.option_title}}</label>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="divider" style="height:0.5px; background-color:#EOEOEO;margin-bottom:5px;"></div>
+
+			<div id="num_of_votes">{{poll.votes}} votes</div>
+			<div id=""></div>
+			<div id="action-buttons">
+				<input type='submit' id="vote" value="Vote">
+			</div>
+		</div>
+		</form>
+	</div>
+	{%endfor %}
+{% endif %}
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Profile</title>
+        
+        
+        <style>
+            *{
+                padding: 0; 
+                margin: 0;
+                font-family: Helvetica, sans-serif
+            }
+            body{
+                background-color: #F7F7F7;
+
+            }
+            .details-container{
+                margin-top: 0px;
+                display: flex; 
+                padding: 10px 10px 5px 10px;
+                text-align: center;
+                flex-direction: column;
+            }
+
+            .details-container img{
+                border-radius: 50%;
+            }
+            
+            .fullname{
+                font-weight: bold; 
+                font-size: 15px;
+            }
+
+            .username{
+                font-weight: bold;
+                color: black; 
+                font-size:12px;
+            }
+            .bio{
+                color:black;
+                font-size:12px;
+            }
+            .follow-details{
+                display: -webkit-flex;
+                display: flex;
+                flex-direction: row;
+            }
+            
+            .follow-details{
+                background-color: white;
+                margin-top: 2px;
+            }
+            .f-detail{
+                flex-basis: 49%;
+                text-align: center; 
+                vertical-align: middle;
+                padding: 10px;
+            
+            }
+
+            .f-detail:first-of-type{
+                border-right: 1px solid lightgrey;
+
+            }
+
+            
+            .f-detail p{
+                font-size: 13px;
+            }
+
+            .f-detail .figure{
+                font-size:18px;
+            }
+
+            .other-details{
+                background-color: white;
+
+                flex-wrap: wrap;
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            .other-details .tab-header{
+                display: flex;
+                flex-direction: row;
+                box-shadow: 0 4px 2px -2px lightgray;
+                flex-wrap: wrap;
+            }
+
+            .other-details .tab{
+                width: auto; 
+                padding: 10px 10px 1px 5px;
+                font-size: 12px;
+                text-align: center;
+                cursor: pointer;
+                font-weight: 500;
+                min-width: 20px;
+            }
+
+            .other-details .poll{
+
+            }
+
+
+
+            
+        </style>
+    </head>
+    <body> 
+            <div class="details-container">
+                <img width="150" height="150">
+                <p class="fullname">Deji Atoyebi</p>
+                <p class="username">Cranium</p>
+                <p class="bio">I am the founder of Pozeet. A software Engineer and a politial scientist</p> 
+            </div>
+
+            <div class="follow-details">
+                <div class="following f-detail">
+                    <p class="figure">432</p>
+                    <p>following</p>
+                </div>
+
+                <div class="followers f-detail">
+                    <p class="figure">43</p>
+                    <p>followers</p>
+                </div>
+            </div>
+
+                <div class="other-details">
+                     <div class="tab-header">
+                        <div class="tab poll" onclick="switchview(this)">
+                            <p>Polls</p>
+                        </div>
+
+                        <div class="tab" onclick="switchview(this)">
+                            <p>Opinions</p>
+                        </div>
+
+                        <div class="tab" onclick="switchview(this)">
+                            <p>Comments & Replies</p>
+                        </div>
+
+                        <div class="tab" onclick="switchview(this)">
+                            <p>Likes & Shares</p>
+                        </div>
+                    </div>
+
+
+                
+            </div>
+    
+        <script>
+        
+        function switchview(event){
+            var tab = event; 
+            var tabs = document.getElementsByClassName('tab');
+            for (var i = 0; i < tabs.length; i++){
+                tabs[i].style.borderBottom = 'none';
+                tabs[i].style.fontWeight = 'normal';
+            }
+            tab.style.borderBottom = 'solid 2px teal';
+            tab.style.fontWeight = 'bold';
+
+        }
+        </script>
+    </body>
+</html>

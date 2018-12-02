@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Bullshit</title>
+    </head>
+
+
+
+    <body>
+        <form name='form-fill'>
+            <input type="text" name="name"/>
+            <input type="password" name="password"/>
+            <input type='submit'>
+        </form>
+    </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script>
+   
+        var form = document.forms.namedItem('form-fill');
+        form.addEventListener('submit', function(event){
+            event.preventDefault();
+            var formData = new FormData(form);
+            var request = new XMLHttpRequest();
+
+            request.open("POST", "/form/data/")
+            request.send(formData);
+
+        },false)
+
+    
+</script>
+</html>

@@ -1,0 +1,76 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<h1>Register</h1>
+
+  <form action="{{request.route_url('register')}}" method="post" accept-charset='utf-8' class="form" enctype="multipart/form-data">
+
+      {% for error in form.first_name.errors %}
+          <div class="error">{{ error }}</div>
+      {% endfor %}
+
+      <div class="form-group">
+        <label for='profile-picture'>Profile Picture</label>
+        <input type="file" id='dp' value="" name="profile-picture">
+      </div>
+
+
+      <div class="form-group">
+          <label for="first_name">{{form.first_name.label}}</label>
+          {{form.first_name(class_='form-control')}}
+      </div>
+
+      {% for error in form.last_name.errors %}
+          <div class="error">{{error}}</div>
+      {% endfor %}
+
+      <div class="form-group">
+          <label for="last_name">{{form.last_name.label}}</label>
+          {{form.last_name(class_='form-control')}}
+      </div>
+
+      {% for error in form.email.errors %}
+          <div class="error">{{error}}</div>
+      {% endfor %}
+
+      <div class="form-group">
+          <label for="email">{{form.email.label}}</label>
+          {{form.email(class_='form-control')}}
+      </div>
+
+      {% for error in form.password.errors %}
+          <div class="error">{{error}}</div>
+      {% endfor %}
+
+      <div class="form-group">
+          <label for="password">{{form.password.label}}</label>
+          {{form.password(class_='form-control')}}
+      </div>
+
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" name="age">
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" name="location">
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <input type="text" name="sex">
+      </div>
+
+
+
+
+      <div class="form-group">
+          <label></label>
+          <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+
+    </form>
+
+
+{% endblock content %}

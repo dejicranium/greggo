@@ -1,0 +1,9 @@
+{% extemds 'layout.jinja2' %}
+{% block content %}
+	{% if options %}
+		{% for option in options %}
+			<h1>{{option.options}} </h1>
+		{% endfor %}
+	{% endif %}
+
+{% endblock %}

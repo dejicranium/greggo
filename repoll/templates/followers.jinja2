@@ -1,0 +1,12 @@
+{% block content %}
+	{% if followers %}
+		{% for follower in followers %}
+			<h1>{{follower.}}</h1>
+		
+
+	{% else %}
+		<h1>No followers to show</h1>
+	{% endif %}
+	
+
+{% endblock %}

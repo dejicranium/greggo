@@ -1,0 +1,4097 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - Mobile</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Libre+Franklin' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'/>
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+
+
+	<style type="text/css">
+		*{
+			margin:0px;
+			padding: 0px;
+			font-family: Helvetica, sans-serif;
+
+		}
+
+		activityIsAlreadyLikedClass{
+			color: teal;
+			background-color: pink;
+		}
+
+		 .checkmark{
+			position:absolute;
+			top:5px;
+			left:10px;
+			height: 15px;
+			width: 15px;
+			background-color: #eee;
+			border-radius: 50%;
+			margin-right: 20px;
+		}
+
+		.errorBox{
+			background-color: rgb(159, 114, 30);
+			padding: 10px;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+		.userJustFollowed{
+			color:blue;
+			background-color:yellow;
+		}
+
+		i{
+			color: darkgrey;
+			position:absolute;
+			right: 0;
+			width: 30px;
+			text-align;
+			margin-right: 15px;
+		}
+		.button-icon{
+			position: relative;
+			left: 0;
+			margin-right: 0px;
+			margin-left:0px;
+			width: 20px;
+            color: rgb(79, 78, 78);
+		}
+		.divider{
+			background-color: rgba(0, 0, 0, .33);
+			height: 0.5px;
+			
+		}
+		.disabled{
+			display: none;
+		}
+
+		.sidebar-content-selected{
+			background-color:lightgray;
+			color:black;
+		}
+
+		.highest{
+			background-color: darkorange;
+		}
+
+
+		
+
+		body{
+			background-color: #F7F7F7;
+		}
+		#navbar{
+			display:flex;
+			padding: 10px 10px 10px 10px;
+			width:100%;
+			min-height: 35px;
+			background-color: white;
+			color:white;
+			position: fixed;
+			top:0;
+			flex-direction: row;
+			box-shadow: 0px 0px 2px 0px grey;
+			margin-bottom: 10px;
+			z-index: 5;
+			box-sizing:border-box;
+
+		}
+		#navbar h1{
+			font-size: 10vw;
+			text-align: center;
+
+		}
+
+		#navbar .menu{
+			width: auto;
+			height: 15px;
+			margin-top:auto;
+			display: inline-block;
+			position: relative;
+
+			
+
+		}
+
+		#navbar .menu div{
+			width: 20px;
+			height: 3px;
+			border-bottom-left-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			background-color: darkgray;
+			display: block;
+			margin-bottom: 3px;
+		}
+
+		.navbar-actions{
+			position: absolute;
+			display: flex;
+			right: 0;
+			flex-direction: row;
+		}
+
+		.nabar-actions ul{
+			text-decoration:none;
+			display:flex;
+			flex-direction: row;
+		}
+
+
+		.navbar-actions button{
+			display: inline-block;
+			background-color: transparent;
+			border:0;
+			color:darkgray;
+			height: 100%;
+			vertical-align: center; 
+			text-align: center;
+			font-size: 15px;
+			padding-right: 10px;
+		}
+
+		.navbar-icon{
+			position:relative; 
+			right: 0px;
+			margin-right: -10px;
+			width: 30px;
+			padding: 0px;
+			vertical-align:center;
+			text-align:center;
+			padding-left: 10px;
+		}
+
+		.sidebar{
+			position: fixed;
+			height: 100%;
+			box-sizing: border-box;
+			top: 0;
+			left: 0;
+			z-index: 6;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, .05);
+    		transition: opacity .3s ease;
+		}
+		.sidebar .sidebar-container{
+			background-color: white;
+			height: 100%; 
+			overflow-y:auto;
+			position: fixed;
+			width: 75%;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+			box-sizing: border-box;
+
+
+		}
+		.sidebar .sidebar-container .profile-info{
+			padding:10px;
+			text-align:center;
+			background-color:teal;
+			color:white;
+		}
+
+
+		.sidebar .sidebar-container .profile-info p{
+			padding:5px;
+			color: white;
+			display:block;
+			border-radius: 5px;
+			flex-basis:48%;
+		}
+
+		.sidebar .sidebar-container .profile-info .following-details p:first-child{
+			margin-right: 4%;
+		}
+		.sidebar .sidebar-container .profile-info .following-details{
+			display:flex;
+			flex-direction:row;
+
+		}
+		.sidebar .sidebar-container span{
+			margin-top: 5px;
+			margin-bottom: 5px;
+			
+		}
+		.sidebar .sidebar-container img{
+			border-radius: 50%;
+			width: 50px;
+			display:inline-block;
+			height:50px;
+			margin-right: 10px;
+		}
+		.sidebar .sidebar-container p{
+			display: block;
+			width: 100%;
+			box-sizing:border-box;
+			font-size: 13px;
+			padding: 20px;
+		}
+
+		.sidebar .sidebar-container li{
+			font-size: 13px;
+			list-style: none;
+			cursor:pointer;
+			display:block;
+			position:relative;
+			padding: 10px 0 10px 50px;
+			border-bottom: lightgray 0.2px solid;
+		}
+
+		.sidbar .sidebar-container li::first-child{
+			border-top: lightgray 0.2px solid;
+		}
+		.sidebar .sidebar-container li:hover{
+			background-color: #F7F7F7;
+			color:black;
+		}
+		.sidebar .sidebar-container .profile-info span{
+			display:block;;
+			font-size:13px;
+		}
+
+		.sidebar .sidebar-container p:hover{
+			cursor:pointer;
+			background-color: #F7F7F7;
+		}
+
+
+		#container{
+			position: absolute;
+			top:40px;
+			width: 100%;
+
+		}
+
+		.body-container{
+			padding: 1px 5px 5px 5px;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		.feed-container{
+			margin-bottom: 1px;
+			box-sizing: border-box;
+
+		}
+		.feed-container .feed-card{
+            background-color: white;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            box-shadow: lightgrey 1px;
+            border-radius: 2px;
+			border: 0.3px solid lightgray;
+			box-sizing: border-box;
+
+			
+
+        }
+
+		.feed-container .feed-card:focus{
+			background-color: whitesmoke;
+			outline: none;
+		}
+
+        .feed-container .feed-card .avatar {
+            height: auto;
+            width: auto;
+            margin-right: 10px;
+            float: left;
+
+        }
+		.feed-container .feed-card .poll .avatar {
+            height: auto;
+            width: 5%;
+            margin-right: 10px;
+            float: left;
+
+        }
+        .feed-container .feed-card .poll .avatar img{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }      
+		 .feed-container .feed-card .avatar img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+
+        .feed-container .feed-card .beside-avatar-box{
+            display:inline-block;
+			box-sizing: border-box;
+
+            width: 80%;
+        }
+
+        .feed-container .feed-card .poll .beside-avatar-box{
+            display:inline-block;
+			box-sizing: border-box;
+
+            width: 90%;
+        }
+		.feed-container .author-details{
+			box-sizing: border-box;
+			position:relative;
+
+		}
+
+        .feed-container .feed-card .beside-avatar-box .author-details p{
+            display: inline;
+			font-family: Helvetica, sans-serif;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+			vertical-align:center;
+			font-size: 12px;
+        }
+
+        .feed-container .feed-card .beside-avatar-box .author-details i{
+			width:5px;
+			height:10px;
+			font-size: 13px;
+			position: absolute;
+			right:0;
+			margin-right: 18px;
+        
+		}
+
+		.feed-container .follow-btn{
+			background-color: transparent; 
+			color:black;
+			border:0;
+			border: 0.5px solid lightgray;
+			padding: 3px;
+			position: absolute;
+			top: 20;
+			margin-right: 18px;
+		}
+		.categories-container p{
+            display: inline;
+			font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #a0a0a0;
+
+        }
+        .feed-container .feed-card .beside-avatar-box .author-details{
+            margin-bottom: 0;
+			font-family: '', sans-serif;
+        }
+        
+		.feed-container .feed-card .time-added{
+			color: darkgray;
+		}
+
+        .feed-container .feed-card .beside-avatar-box .poll-question{
+            margin-top: 5px;
+			margin-bottom:3px;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: teal;
+			letter-spacing: 0.5px;
+            line-height: 2ch;
+
+        }
+
+		.feed-container .feed-card .beside-avatar-box a{
+			text-decoration:none;
+			color: teal;
+			letter-spacing: 0.5px;
+
+		}
+
+
+		.feed-container .feed-card .beside-avatar-box .poll-info{
+			font-size: 13px;
+			text-align: ;
+			border-radius: 5px;
+			margin-bottom: 10px;
+            font-family: 'Merriweather Sans';
+			white-space:;
+
+		}
+
+
+
+
+        .options{
+            height: auto;
+            font-size: 13px;
+            color:black;
+            margin-top: 0;
+        }
+
+        .options .ans-cnt{
+
+        }
+
+        .options .ans-cnt .ans{
+            position: relative;
+            margin-bottom: 10px;
+			padding: 5px 5px 5px 0px;
+        }
+
+        .options .ans-cnt .ans-voted{
+            padding: 2px 10px;
+        }
+
+
+        .percent{
+            font-weight: bold;
+			font-size: 13px;
+        }
+        .txt, .percent{
+            z-index: 2;
+            position: relative;
+			font-size: 13px;
+        }
+
+        .options .ans-cnt .ans .first-bg{
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+		background-color: #F7F7F7;
+        border-radius: 5px;
+
+        }
+
+        .options .ans-cnt .bg{
+        position: absolute;
+        width: 0%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+        background-color:lightgray;
+        color:white;
+        border-radius: 5px;
+        transition: width 5s;
+        -webkit-transition: width 5s;
+        -moz-transition: width s
+
+        }
+
+
+	
+		.options label{
+			display:block;
+			position:relative;
+			cursor:pointer;
+			border-radius: 5px;
+			padding: 10px 10px 10px 45px;
+			font-size: 13px;
+			border: #F7F7F7 0.5px solid;
+
+			margin-bottom:5px;
+
+			user-select:none;
+			-moz-user-select:none;
+		
+		}
+
+		.options input{
+			opacity: 0;
+			position:absolute;
+		}
+
+		.options .checkmark{
+			position:absolute;
+			top:12px;
+			left:10px;
+			bottom:10px;
+			height: 15px;
+			width: 15px;
+			background-color: #eee;
+			border-radius: 50%;
+			margin-right: 20px;
+		}
+
+		.options label:hover{
+			background-color:#F7F7F;
+		}
+		.options label input:checked ~ .checkmark{
+			background-color: teal;
+		}
+
+
+		.picture-options{
+			display: flex;
+			flex-direction: row;
+			box-sizing:border-box;
+			flex-wrap: wrap;
+		}
+
+		.picture-options label{
+			flex-basis: 45%;
+			box-sizing:border-box;
+			background-color:white;
+			display:block;
+			text-align: center;
+			
+		}
+
+		.picture-options input{
+			display: none;
+		}
+
+		.picture-options label{
+			margin-right: 5%;
+			margin-bottom: 10px;
+		
+		}
+
+		.picture-options span{
+			font-size: 13px;
+			width: 100%;
+			font-weight: normal;
+			display:block;
+		}	
+	
+		.picture-options .checkbox{
+			width: 10px; 
+			height: 10px;
+			margin-bottom: 5px;
+			display: block;
+			border-radius: 50%;
+			background-color: lightgrey;
+			margin: auto;
+		}
+
+		.picture-options img{
+			width:100%;
+			height: 100px;
+			border-radius: 5px;
+		}
+
+		.picture-options input:checked ~ span{
+			background-color: teal;
+			color: black
+		}
+
+		.picture-options p{
+			font-size: 13px;
+		}
+		
+		.picture-options input:checked ~ p{
+			background-color: white; 
+			font-weight: bold;
+		}
+
+
+		
+
+
+
+
+        .feed-card .votes{
+            font-size: 11.5px;
+			color: darkgray;
+			margin-right: 5px;
+			margin-bottom:5px;
+        }
+
+        .feed-card button{
+            border: 0;
+			margin-top: 5px;
+            background-color: transparent;
+			border: 0.5px solid lightgray;
+			text-align: center; 
+			vertical-align: middle; 
+			padding:4px ; 
+			padding-right: ;
+			border-radius: 5px;
+			font-size: 13px;
+            color: rgb(79, 78, 78);
+        }
+
+		.feed-comment-card{
+			margin-bottom:5px;
+			background: white;;
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+			color: darkgray;
+			font-size: 13px;
+			padding:7px;
+			text-align: center;
+			border-bottom: 0.5px solid lightgray;
+			border-right: 0.5px solid lightgray;
+			border-left: 0.5px solid lightgray;
+
+
+		}
+
+		#add-comment-modal{
+			
+		}
+
+		#add-comment-modal .modal-container{
+			max-width: 95%;
+    		margin: 100px  auto 0;
+    		background-color: #fff;
+    		border-radius: 2px;
+    		transition: all .3s ease;
+			box-sizing: border-box;
+			padding-bottom: 10px;
+		}
+
+		#add-comment-modal .modal-header{
+			background-color:white;
+			padding-top: 20px; 
+			padding-left: 20px;
+			border-bottom: 1px solid grey;
+			box-shadow: 0 4px 2px -2px lightgray;
+
+			color: black;
+			border: 0;
+			font-size: 10px;
+		}
+		#add-comment-modal .modal-header .close-mark{
+			text-decoration: none;
+			color:darkgrey;
+			float:right;
+			font-size: 20px; 
+			font-weight: bold;
+
+		}
+
+		#add-comment-modal h3{
+			color: teal;
+		
+		}
+
+
+		#add-comment-modal .modal-body{
+			padding-left: 20px; 
+			padding-right: 20px; 
+			padding-bottom: 10px;
+			box-sizing: border-box;
+			overflow-y: auto;
+		}
+		#add-comment-modal .chosen{
+			font-size: 15px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+		#add-comment-modal .modal-body textarea{
+			overflow: hidden; 
+			resize:none;
+			box-sizing: border-box;
+			width: 100%;
+			font-size: 16px;
+			border: 1px solid lightgrey;
+
+		}
+
+		#add-comment-modal .modal-body textarea:focus{
+			overflow: hidden; 
+			resize:none;
+			box-sizing: border-box;
+			width: 100%;
+			font-size: 16px;
+			border: 1px solid lightgrey;
+			outline: none;
+
+		}
+		#add-comment-modal .modal-body input{
+			border: 0;
+			border-bottom: 1px darkgrey solid;
+		}
+		#add-comment-modal h5{
+			color: black;
+			font-size:14px;
+			font-weight:normal;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		.feed-card .chosen-option{
+			margin-top:1px;
+			font-size: 14px;
+
+			margin-top: 2px;
+			color: black;
+		}
+		.feed-card i{
+			margin-bottom: 5px;
+		}
+		.feed-card .comment{
+			font-weight: 400;
+			font-size: 13px;
+			margin-bottom: 4px;
+			margin-top: px;
+			border-radius: 10px;
+			line-height: 1.1rem;
+			font-family: Helvetica, Arial, sans-serif;
+			display:block; 
+			width: 100%;
+			
+
+		}
+
+		.feed-card .comment-question{
+			font-size:14px;
+			margin-top: 0px;
+			margin-bottom: 5px;
+			color: black;
+			white-space: ;
+			padding: 10px;
+			border-radius: 5px;
+			border: 0.5px lightgray solid;
+			font-family: 'Helvetica', Helvetica, Arial, sans-serif;
+			display: block;
+			
+		}
+		.feed-card .comment-question:focus{
+			background-color: lightgray;
+		}
+
+		.feed-card .comment-question p, span{
+			font-size:12px;
+		}
+
+		.feed-card .comment-question .author-name{
+			font-weight: bold;
+		}
+
+		.feed-card .comment-opinion{
+			font-size:14px;
+			margin-top: 0px;
+			margin-bottom: 5px;
+			color: black;
+			padding: 2px 5px 2px 5px;
+			border-radius: 5px;
+			border: 0.5px darkgray solid;
+			font-family: 'Helvetica', Helvetica, Arial, sans-serif;
+			display: block;
+			
+		}
+
+		.feed-card .comment-question:focus{
+			background-color: lightgray;;
+		}
+
+		.feed-card .comment-question::selection{
+			background-color: lightgrey;
+
+		}
+
+
+
+
+
+	
+		
+		.comment-card{
+			padding: 10px 10px 0px 10px;
+			background-color: white; 
+			box-sizing: border-box;
+			position: relative;
+			font-size: 10px; 
+			text-overflow:wrap;
+			border-bottom: solid lightgrey 1px;
+		}
+
+		.comment-card .author-details{
+			font-size:10px;
+			font-weight:normal;
+			color:lightgray;
+		}
+
+		.comment-card .author-details p{
+			color:lightgray;
+		}
+		.comment-card .chosen-option{
+			margin-bottom: 2px;
+			font-size: 15px;
+
+		}
+		.comment-card .reason{
+			margin-bottom: 10px;
+			font-size:13px;
+		}
+
+		.comment-card .action-buttons{
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: flex-end;
+			
+			justify-content: flex-end;
+			width: 100%;
+			
+		}
+
+		.comment-card .action-buttons button{
+			border:0;
+			background-color: lightgray;
+			color: black;
+			font-weight: bold;
+			font-size: 10px;
+			margin-right: 5px;
+			padding: 5px; 
+			padding-left:10px; 
+			padding-right: 10px;
+		}
+
+		.comment-card .action-buttons span{
+			font-weight: normal;
+			margin-left: 5px;
+		}
+
+
+
+
+
+
+
+
+
+	.modal-mask{
+		position: fixed;
+		z-index: 100; 
+		top: 0; 
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, .5);
+    	transition: opacity .3s ease;
+		overflow-y:auto;
+	}
+
+	.modal-container {
+    max-width: 90%;
+    margin: 50px auto 0;
+	position:relative;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+	box-sizing: border-box;
+	padding-bottom: 40px; 
+	}
+
+	.modal-container .modal-header{
+		background-color:white;
+		box-shadow: 0 4px 2px -2px lightgray;
+		padding: 20px; 
+		color: black;
+	}
+
+	.modal-container .modal-header . h5{
+		font-size: 20px;
+	}
+	.modal-container .modal-header p{
+		font-size: 15px;
+	}
+	.modal-container .modal-header span{
+		font-size: 14px;
+		color: darkorange;
+		cursor:pointer;
+		
+	
+	}
+
+
+	.modal-container .modal-body{
+		padding: 20px;
+		padding-bottom:10px;
+		height: auto;
+		width: 95%;
+		position:relative;		
+		box-sizing: border-box;
+	}
+	.modal-container .modal-body .login{
+		width: 100%;
+	}
+
+	.modal-container .modal-body .login-btn{
+		background-color: teal;
+		border: 0;
+		padding: 10px;
+		color: white;
+		position: absolute;
+		border-radius: 5px;
+		right: 0;
+	}
+	.modal-container .modal-body .form-label{
+		font-size: 15px; 
+		font-weight:500;
+		color:black;
+	}
+
+	.modal-container .modal-body .form-control{
+		border: none;
+		width: 100%;
+		border-radius: 5px; 
+		border: 1px lightgray solid;
+		padding: 10px; 
+		color:black; 
+		font-size: 13px;
+		margin-bottom: 10px;
+
+	}
+	.modal-container .modal-body .form-control:active{
+		border: 1px darkorange solid;
+	}
+
+	.modal-container .modal-body button{
+		margin-top: 10px; 
+		user-select: none;
+		border: none;
+		color: white;
+		font-size: 12px;
+		background-color: teal; 
+		border-radius: 10px;
+		padding: 10px;
+		text-align:center;
+		display:inline-flex;
+	}
+	
+	.modal-container .register{
+		box-sizing: border-box; 
+	}
+
+	.modal-container .register .name-div{
+		display: flex;
+		box-sizing: border-box;
+		flex-direction: row;
+	}
+
+	.modal-container .register .name-div{ 
+	}
+
+	.modal-container .register .first-name-div{ 
+		flex-basis: 50%;
+		margin-right: 25px;
+	}
+	.modal-container .register .last-name-div{ 
+		flex-basis: 50%;
+	}
+
+	.modal-container .required{
+		color: red;
+		font-size: 11px;
+	}
+
+
+
+
+
+
+
+
+
+
+	
+	.new-poll-modal {
+		font-size: 12px;
+	}
+
+
+	.new-poll-modal .add-context{
+		display:flex;
+		width: 100%;
+		margin-bottom: 5px;
+		flex-direction: column;
+	}
+
+
+	.new-poll-modal .add-context textarea{
+		height: 100px;
+		resize: none;
+		overflow: auto;
+	}
+
+	.new-poll-modal .choosePollType .modal-container{
+		padding: 30px;
+		margin-top:35%;
+		width: 50%;
+		text-align: center;
+		height:auto;
+		display:flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.new-poll-modal .choosePollType .modal-container label{
+		border: teal solid 1px;
+		color: teal;
+		border-radius: 10px;
+		display: inline-block; 
+		vertical-align: middle; 
+		height: 50px;
+	
+	}
+
+	.new-poll-modal .choosePollType .modal-container input{
+		margin-right: 5px;
+		display:none;
+	}
+	
+	
+	.new-poll-modal .add-context textarea{
+		flex: 1;
+		margin-right:;
+		flex-basis: 100%;
+	}
+
+	.new-poll-modal div{
+		display:block;
+	}
+	
+
+	.new-poll-modal .add-context input[type="file"]{
+		display:none;
+	}
+
+	.new-poll-modal .add-image-btn{
+		font-size: 10px; 
+		background-color: teal;
+		padding:10px;
+		width: 10%;
+		color: white; 
+		border-radius: 5px;
+		display:inline-block;
+		float:right;
+		margin-top: 0px;
+		height: 20px;
+		margin-bottom: 20px;
+	}
+	.new-poll-modal .options-box{
+		display: flex;
+		width: 100%;
+	}
+
+	.new-poll-modal .form-control{
+		flex: 1;
+		flex-basis: 100%;
+		height: 20px;
+		font-size:14px;
+		margin-right:;
+	}
+
+	.new-poll-modal .option-form-control{
+		flex: 1;
+		flex-basis: 100%;
+		height: 15px;
+		font-size:14px;
+		margin-right:;
+	}
+
+	.new-poll-modal .add-option-image{
+		display:none;
+	}
+	.new-poll-modal .audience{
+		display: block;
+	}
+
+	.new-poll-modal .categories-selection{
+		text-align: justify;
+		width: 100%;
+	}
+	.new-poll-modal .categories-selection input{
+		margin-right: 10px;
+		opacity:0;
+		position:relative;
+			
+	}
+
+	.new-poll-modal .categories-selection label{
+		display: inline-block;
+		position: relative;
+		padding:5px; 
+		font-size: 11px;
+		border-radius: 5px;
+		background-color:transparent;
+		border: 0.5px solid lightgray;
+		margin-right: 5px; 
+		margin-bottom: 5px;
+		cursor: pointer;
+
+	}
+
+	.new-poll-modal .categories-selection input:checked ~ .checkmark{
+		background-color: teal;
+		color:white;
+	}
+	.form-control{
+		width: 100%; 
+	}
+
+	.modal-body select{
+		background-color: white;
+		border: 0;
+		border-color: 1px solid lightgray; 
+		padding: 5px;
+		font-size: 12px;
+	}
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+		.comment-container{
+			margin-top: 10px; 
+			background-color:white; 
+			padding:10px;
+			font-size: 10px;
+			border-top: 0.5px lightgrey solid;
+			border-right: 0.5px lightgrey solid;
+			border-left: 0.5px lightgrey solid;
+			box-sizing: border-box;
+			display:flex;
+			flex-direction:column;
+		}
+
+		.comment-container input{
+			display: none;
+			
+		}
+
+		.comment-container input:checked + label{
+			color: teal;
+			font-weight: bold;
+		}
+
+		isActive{
+			border-bottom: 0.5px teal solid;
+			box-sizing: border-box;
+		}
+
+
+		.comment-container .tabs{
+			border-bottom: 0.02px lightgray solid;
+			margin-right: 10px;
+			flex-direction: row;
+			box-sizing: border-box;
+			display:flex;
+		}
+		
+
+		.comment-container label{
+			margin-bottom: 10px;
+			display: block; 
+			font-size: 13px;
+		}
+
+
+
+		.comment-card{
+			padding: 10px 10px 0px 10px;
+			background-color: white; 
+			box-sizing: border-box;
+			position: relative;
+			display:block;
+			font-size: 10px; 
+			text-overflow:wrap;
+			border-bottom: solid lightgrey 1px;
+		}
+
+		.comment-card .author-details{
+			font-size:10px;
+			font-weight:normal;
+			color:black;
+		}
+
+		.comment-card .author-details img{
+			border-radius: 50%;
+		}
+
+		.comment-card .author-details p{
+			color:lightgray;
+		}
+		.comment-card .chosen-option{
+			margin-bottom: 2px;
+			font-size: 13px;
+
+		}
+		.comment-card .reason{
+			margin-bottom: 10px;
+			font-size:13px;
+		}
+
+		.comment-card .action-buttons{
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: flex-end;
+			
+			justify-content: flex-end;
+			width: 100%;
+			
+		}
+
+		.comment-card .action-buttons button{
+			border:0;
+			background-color: lightgray;
+			color: black;
+			font-weight: bold;
+			font-size: 10px;
+			margin-right: 5px;
+			padding: 5px; 
+			padding-left:10px; 
+			padding-right: 10px;
+		}
+
+		.comment-card .action-buttons span{
+			font-weight: normal;
+			margin-left: 5px;
+		}
+
+
+		.modal-body textarea{
+			overflow: hidden; 
+			resize:none;
+			box-sizing: border-box;
+			width: 100%;
+			height: auto;
+			min-height: auto;
+			font-size: 16px;
+			border: 1px solid lightgrey;
+
+		}
+
+		.new-post-container{
+			background-color:white;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			border: 0.5px solid lightgray;
+			position: relative;
+			box-sizing:border-box;
+		}
+
+		.new-post-container .header{
+			box-shadow: 0 4px 2px -2px lightgray;
+			margin-bottom: 3px;
+		}
+
+		.new-post-container .tabs{
+			display: flex; 
+			flex-direction: row;
+
+		}
+
+		.new-post-container .tabs .tab{
+			padding:10px;
+			font-size: 13px;
+		}
+
+		.new-post-container .body textarea{
+			width: 100%;
+			overflow: hidden; 
+			resize:none;
+			padding:10px;
+			height: 100px;
+			box-sizing: border-box;
+			border: transparent 0px solid;
+		}
+
+		.new-post-container .button-container{
+			display:block; 
+			background-color:;
+			width: 100%;
+			padding: 10px;
+		}
+		.new-post-container button{
+			padding: 5px 10px;
+			border-radius: 5px;
+			border: none;
+			background-color:teal;
+			color: white;
+
+		}
+
+
+		.new-post{
+			background-color:white;
+			display: flex;
+			flex-direction: row;
+			box-shadow: 2px 4px 2px -2px lightgray;
+			padding: 10px;
+			text-align:center;
+
+		}
+
+		.new-post div{
+			flex-basis: 50%;
+			color: black;
+		}
+
+		.new-post div:first-of-type{
+			border-right: 0.5px solid darkgray;
+		}
+		.new-post p{
+			font-style:normal;
+			font-size:10px;
+			color: darkgray;
+		}
+
+
+		.registration-categories-selection{
+			text-align: justify;
+			width: 100%;
+		}
+		.registration-categories-selection input{
+			margin-right: 10px;
+			opacity:0;
+			position:relative;
+			
+		}
+
+		.registration-categories-selection label{
+			display: inline-block;
+			position: relative;
+			padding:5px; 
+			font-size: 12px;
+			border-radius: 5px;
+			background-color:transparent;
+			border: 0.5px solid lightgray;
+			margin-right: 5px; 
+			margin-bottom: 5px;
+			cursor: pointer;
+
+		}
+
+		.registration-categories-selection input:checked ~ .checkmark{
+			background-color: teal;
+			color:white;
+		}
+
+		.new-opinion-modal-body textarea:focus{
+			outline: none;
+		}
+
+
+
+
+
+
+
+
+
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    width:100%; /* Set a default minimum width */
+    /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align:center;; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 5px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 100; /* Add a z-index if needed */
+     /* Center the snackbar */
+    bottom: 0px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+   However, delay the fade out process for 2.5 seconds */
+   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 0px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 0px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 0px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 0px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+	</style>
+
+</head>
+
+<body>
+
+<div id="container">
+
+
+
+<!--BEGINNING OF THE ACTUAL BODY -->
+
+
+
+	<div id="navbar">
+		{% if user %}
+		<div class="menu" v-on:click='showSidebar = true' v-show='userLoggedIn'>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		{% else %}
+			<div class="menu" v-on:click='showSidebar = true' v-show='userLoggedIn'>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		{% endif %}
+
+		
+
+		<div class="navbar-actions">
+			<ul>
+			{% if  not user %}
+			<p  @click='toggleAuthModal' style='color:teal;'>Login</p>
+			<p >Register</p>
+			{% endif %}
+			</ul>
+		</div>
+
+	</div>
+
+
+	<template id='sidebar-template' >
+		<div class="sidebar" v-if='showSidebar' @click='closeModal'>
+			<div class="sidebar-container" @click.stop>
+				
+				<div class='profile-info'>
+					<img v-if='userPic' 
+						:src='userPic' 
+						class='avatar'
+						@click='window.open("http://localhost:6543/profile/{{user.id}}/{{user.slug}}")'/>
+					
+					
+					<span @click="openProfile">View Profile</span>
+					
+					<div class='following-details'>
+						{%if user %}
+						<p>{{user.num_of_followers}} followers</p> 
+						<p>{{user.num_of_followed}} followed</p> 
+						{% endif %}
+
+					</div>
+				</div>
+
+
+				<div class="sidebar-content">
+					<p onclick='window.open("http://localhost:6543/trending")'>Trending</p>
+					<p>Polls Voted In </p>
+					<p @click='showSubscriptions = !showSubscriptions' :class="[showSubscriptions? sidebarContentSelectedClass : '']">My Subscriptions </p>
+						<li v-if='showSubscriptions' v-for='subscription in sortedSubscriptionsList'>((subscription.categoryName)) <i class="fas fa-minus" @click='unsubscribeFromCategory(subscription.categoryId)'></i></li>
+					<p @click='showCategories = !showCategories' :class="[showCategories? sidebarContentSelectedClass : '']">Other Categories</p>
+						<li v-if='showCategories' v-for='category in sortedCategoriesList' @click='goToCategoryPage(category.categoryId)'>((category.categoryName))</i></li>
+
+				</div>
+			</div>
+		</div>
+	</template>
+
+
+
+
+	<div class='body-container'>
+		<div class='new-post'>
+			<div @click='showNewOpinionModal'>
+				<p>What's on your mind?</p>
+				<h4>New Opinion</h4>
+			</div>
+
+			<div @click='showNewPollModal'>
+				<p>What's your question?</p>
+				<h4 >New Poll</h4>
+			</div>
+		</div>
+		</div>
+<!--
+		<div class='new-post-container'>
+			<div class='header'>
+				<div class='tabs'>
+					<div class='tab opinion'>
+						<p>Opinion</p>
+					</div>
+
+					<div class='tab poll'>
+						<p>Poll</p>
+					</div>
+				</div>
+
+			
+			</div>
+
+			<div class='body'>
+				<textarea placeholder='Your opinion'></textarea>
+			</div>
+			
+			<div class='button-container'>
+				<button>Add Photo</button>
+				<button>Share</button>
+			</div>
+
+		</div>
+-->
+
+	<!--
+		<div class='comment-card'>
+			<div class='author-details'>
+				<h3 class='name'>Deji Atoyebi</h3>
+			</div> 
+
+			<div class='chosen-option'>
+				<h4 class='option'>Buhari</h4>
+			</div>
+
+			<div class='reason'>
+				<p>Buhari is such a fine man. Probably the best president Nigeria has</p>
+			</div>
+
+			<div class='action-buttons'> 
+				<button>Agree <span>245k</span></button> 
+				<button>Share</button>
+			</div>
+		</div>
+
+-->
+
+
+
+		<div class='feed-container'>
+			<div class="feed-card">
+				<div class='poll'>
+				<div class="avatar">
+					<img src="https://www.w3schools.com/howto/img_avatar.png"/>
+					
+			   </div>
+
+
+			   <div class="beside-avatar-box">
+				   <div class="author-details">
+					   <p class="name" onclick='showSnackbar("say")'>Basit Damian</p>
+					   <p class="username"></p>
+					   <p class="action"></p>
+				   </div>
+
+				   <div class="categories-container">
+
+				   </div>
+
+				   <h6 class="poll-question">Ladies, who would you choose?</h6>
+				   <div class="poll-info" >
+				   </div>
+
+				   <div class='picture-options'>
+						<label>
+							<input type='radio' name='checkbox'/>
+							<img src='data:image/jpeg;base64,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'/>
+							
+								<span class='checkbox'></span>
+
+								<p>Wizkid</p>
+						 </label>
+
+						<label>
+							<input type='radio' name='checkbox'/>
+							<img src='data:image/jpeg;base64,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'/>
+							<span class='checkbox'></span>
+							
+							<p class='imageLabel'>Davido</p>
+						
+						 </label>
+
+						<label>
+							<input type='radio' name='checkbox'/>
+							<img src='data:image/jpeg;base64,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'/>
+							<span class='checkbox'></span>
+
+							<p>Kiss Daniel</p>
+							<span></span>
+						
+						 </label>
+						<label>
+							<input type='radio' name='checkbox'/>
+							<img src='data:image/jpeg;base64,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'>
+							<span class='checkbox'></span>
+
+							<p>Olamide</p>
+							<span></span>
+						
+						 </label>
+
+						<label>
+							<input type='radio' name='checkbox'/>
+							<img src='data:image/jpeg;base64,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'/>
+							<span class='checkbox'></span>
+
+							<p>Tekno</p>
+							<span></span>
+						
+						 </label>
+
+
+				   </div>
+				  
+				   
+					<button> <i class="far fa-check-circle button-icon"></i>Vote </button>
+					<button > Comment </button>
+					<button > Results </button>
+				</div>
+			</div>
+			</div>
+		
+		</div>
+		<img src='/static/icons/45.svg'/>
+		<sidebar :categories='categories' 
+		:subscriptions='subscriptions' 
+		:toggle_show_categories='toggleShowCategories' 
+		:close_modal='closeModal'>
+		</sidebar>
+		<reply :activity="activityToReplyTo" 
+				:show_reply_modal='showReplyModal'
+				></reply>
+
+		<feed-item v-for="activity in activities" 
+			:activity='activity'
+			ref='something' 
+			:user_logged_in='userLoggedIn'
+			:show_comment_modal='showCommentModal'
+			@act_close_comment_modal='closeModal'
+			@act_show_comment_modal='showCommModal'
+			@set_activity_comment_details='setActivityCommentDetails'
+			@set_option_comment_details='setOptionCommentDetails'
+			@show_auth_modal="showAuthModal"
+			@act_show_view_comments_modal='showViewComments'
+			:key="'index' + activities.indexOf(activity) + '-' + activity.id"
+			@set_activity_respondent_details='setActivityRespondentDetails'
+			@set_reply_activity_details='setReplyActivityDetails'>	
+		</feed-item>
+		
+		<respondents-modal :show_respondents_modal='showRespondentsModal' 
+							:activity='activityToGetRespondents'
+							>
+
+		</respondents-modal>
+
+
+		<new-opinion-modal 
+			:show_opinion_modal='showCreateNewOpinionModal'
+			@act_add_to_activities='addToActivitiesList'
+			@close_new_opinion_modal='closeModal'>
+		</new-opinion-modal>
+
+		<add-new-comment-modal 
+		:show_comment_modal='showCommentModal' 
+		:activity='activityToCommentOn'
+		@close_add_comment_modal='closeAddCommentModal'
+		:option='optionToCommentOn'
+		@activity_voted='changeActivityJustVoted'>
+		</add-new-comment-modal>
+	
+	
+
+		<authentication-modal :categories="sortedCategoriesList" :show_authentication_modal="showAuthenticationModal" @close_auth_modal="closeModal"></authentication-modal>	
+		<show-new-poll-modal 
+			:show_new_poll_modal='showCreateNewPollModal' 
+			:categories='sortedCategoriesList'
+			@close_new_poll_modal='closeModal'></show-new-poll-modal>
+		<comments :show_view_comments_modal='showViewCommentsModal'></comments>
+
+	
+	</div>
+
+<div id='snackbar'></div>
+<div class='show-more-div' style='background-color:lightgrey;'> <button style='width:70%; background-color:whitesmoke;'>Show More</button></div>
+</div>
+
+
+
+<template id='new-opinion-template' type='x/template'>
+	<transition name='modal'>
+		<div class='modal-mask' v-show='show_opinion_modal' @click='closeModal'>
+			<div class='modal-container' @click.stop >
+				<div class='modal-header' style='color:black'>
+					<h3>New opinion</h3>
+				</div>
+
+				<div class='modal-body new-opinion-modal-body' style="width:100%; box-sizing:border-box; position:relative; padding:0px">
+					<textarea style='width: 100%; height: 100px; border-radius:0px; font-size:13px; margin-bottom:5px;; ' v-model='opinion' id='comment-input' @click='autoResize' class='form-control' name='comment' form='comment-form' placeholder='Have your say'></textarea>
+					
+          		<label @click='addOpinionImage' id='opinion-image-label'style='background-color:lightgrey; display:inline-block; padding:5px; border-radius:5px; margin-left:10px;'>
+				  <input type="file" style='display:none'
+               		id="opinion-image" name="opinion-image"
+					
+               		accept="image/png, image/jpeg" />
+					<span><i class="far fa-image button-icon" ></i>Add image</span>
+					<img id='opinion-image-display'></img>					
+
+				</label><br>
+
+					<button id='createOpinionButton'style='margin-bottom: 10px; border-radius:10px; margin-left:10px;margin-right:10px;' @click='createOpinion'>Share</button>
+				</div> 
+
+
+
+			
+
+
+			</div> 
+
+		</div>
+	</transition>
+</template>
+
+
+</template>
+<template type='x/template' id="show-new-poll-modal-template">
+	<transition name="modal">
+		<div class="modal-mask" v-show='show_new_poll_modal'>
+
+
+			<div class="new-poll-modal" v-if='toChoosePollType'>
+				
+				<div class="choosePollType">
+					<div class='modal-container'>
+						<label><input type="radio" name='pollType' value='normal' v-model='pollType' @click='nextNewPollStep'>Normal Poll</label><br>
+						<label><input type="radio" name='pollType' value='picture' v-model='pollType' @click='nextNewPollStep'>Picture Poll</label><br>
+					</div>
+				</div>
+			</div>
+			<div class="modal-container new-poll-modal" v-else  >
+
+				<!--there should be an if condition here
+					to decide what to show to the user in the header.
+					Basically, we'll need to check the leadingIntent-->
+			
+			
+				<div class="modal-header">
+					<h3>New Poll</h3>
+				</div>
+					
+					<div style='display:flex; background-color:whitesmoke; flex-direction: row; width:100%; margin-top:; padding:10px 0;'>
+						<div style='text-align:center;flex-basis:50%;'><i class="fas fa-asterisk" style='position: relative; margin-right:0;' @click="changePollType('normal')"></i>Normal Poll</div>
+						<div style='text-align:center; flex-basis:50%;' @click="changePollType('picture')><i class="far fa-image"style='position: relative; margin-right:0;'></i>Picture Poll</div>
+					</div>
+
+				<div class="modal-body" style='padding:0px;'>
+
+					<div class='normal-poll-div' v-if='pollType == "normal"'>
+						<form method="post" accept-charset="utf-8" enctype="multipart/form-data" id='new-poll-form'>
+							
+						<div style='padding: 10px 16px'>
+							<input type='text' class='form-control' name='question' id='poll-question' placeholder='Question'/>
+					
+							<div class='add-context'>
+								<textarea style='margin-bottom:5px;' @click='autoResize' placeholder= "Context (info, explanation, link, picture, video, gif)"  name='info' class='form-control'></textarea>
+								<label for="context-image" id='add-context-image' style='margin-bottom:;color:teal;height:20px;' @click='addContextImage'> Add Context Image </label>
+								<img id='contextImageDisplay'></img>
+								<input type="file"
+								 id="context-image" 
+								 name="context-image"
+								 value="Add Image">
+							
+							</div>
+						
+
+						<div style='margin-bottom: 10px;'>
+							<div v-for='option in options' :option='option' class='options-box'>							
+								<input type='text' class='form-control option-form-control' :placeholder='option.placeholder' v-model='option.text'/>								
+							</div>
+
+							<p type='' @click='addNewOption' style='position:relative; left: 0; color:teal; text-decoration:; height:30px;font-weight:bold;' > + Add Option</p>
+						</div>
+						</div>						
+						
+						<div style='width:100%; box-sizing:border-box;'>
+							<div style='background-color:;width:100%;padding-left:16px;'>
+								<div style='margin-bottom:'>
+								<label for='duration' class='form-label' style='font-weight:;font-size:12px;'> Duration: <span class='required'>*</span> </label>
+									<select id="duration" name='timeDue' style='background-color:;'>
+										<option value="1"> 24 hours</option>
+										<option value="2"> 2 days</option>
+										<option value="3"> 3 days</option>
+										<option value="4"> 4 days</option>
+										<option value="5"> 5 days</option>
+										<option value="6"> 6 days</option>
+										<option value="7"> 1 week</option>
+									</select>
+								</div>
+							</div>
+
+							<div style='padding:5px 16px; background-color:;'>	
+								<label for='category' class='form-label' style='font-weight:;font-size:12px;'> Publish to: <span class='required'>*</span> </label>
+
+								<div class='categories-selection'>
+								<label v-for='category in categories' :category='category' @click='chooseCategory(category.categoryId)'>
+									<input type='checkbox' value='category.categoryId'/> ((category.categoryName))
+									<span class='checkmark'></span>
+
+								</label>
+							</div>
+								
+							
+							<button type='button' @click='createPoll'>Ask</button>
+
+						</div>
+						
+						</div>
+
+						</form>
+
+
+					</div
+
+
+					<div v-if='pollType == "picture"'>
+						<form method="post" accept-charset="utf-8" enctype="multipart/form-data" id='new-poll-form'>
+							
+							<div style='padding: 10px 16px'>
+								<input type='text' class='form-control' name='question' id='poll-question' placeholder='Question'/>
+						
+								<div class='add-context'>
+									<textarea style='margin-bottom:5px;' @click='autoResize' placeholder= "Context (info, explanation, link, picture, video, gif)"  name='info' class='form-control'></textarea>
+									<label for="context-image" id='add-context-image' style='margin-bottom:;color:teal;height:20px;' @click='addContextImage'> Add Context Image </label>
+									<img id='contextImageDisplay'></img>
+									<input type="file"
+									 id="context-image" 
+									 name="context-image"
+									 value="Add Image">
+								
+								</div>
+							
+								<div style='margin-bottom: 10px;'>
+									<div v-for='option in options' :option='option' class='options-box'>							
+										<input type='text' class='form-control option-form-control' :placeholder='option.placeholder' v-model='option.text'/>
+										<input type='file'
+										id = 'option-image'
+										name='option-image'/>								
+									</div>
+		
+									<p type='' @click='addNewOption' style='position:relative; left: 0; color:teal; text-decoration:; height:30px;font-weight:bold;' > + Add Option</p>
+								</div>
+							
+							</div>
+
+				</div>
+
+					
+
+				
+				</div>
+			</div>
+
+
+
+		</div>
+		</div>
+	</transition>
+</template>
+
+
+
+
+
+
+
+<script type='x/template' id="modal-template">
+	<transition name="modal">
+		<div class="modal-mask" v-show='show_authentication_modal' v-on:click='closeModal'>
+			<div class="modal-container" v-on:click.stop>
+
+				<!--there should be an if condition here
+					to decide what to show to the user in the header.
+					Basically, we'll need to check the leadingIntent-->
+			
+			
+				<div class="modal-header">
+					<!--if user's intent is to login-->
+					<div class=
+					'login' v-if="intent=='login'">
+						<h4>You must be logged in.</h4>
+						<p>Don't have an account? <span @click='changeIntent'>Sign up</span></p>
+					</div>
+
+					<div class='register-header' v-else>
+						<h4>Register</h4>
+						<p>Already have an account? <span @click='changeIntent' style='text-decoration:none; color:teal'>Login</span></p>
+
+					</div>
+	
+				</div>
+					
+
+
+				<div class="modal-body">
+					
+					<div class='login' v-if="intent=='login'">
+						<p class='error' style='color:red; font-size:12px; margin-bottom: 10px;'>((loginError))</p>
+						<form name='login-form' id='login-form'>
+						<label class="form-label">
+							Email or Username <br>
+							<input class="form-control" v-model='email' name='email'>
+						</label><br>
+
+						<label class="form-label">
+								Password<br>
+							<input class="form-control" type='password' v-model='password' name='password'>
+						</label><br>
+
+						<input class='login-btn' type='submit' value="Login" @click='completeLogin'/>
+					</form>
+					</div>
+
+
+					<div class='register' v-else>
+							<p class='required' v-show='registrationError'>((registrationErrorText))</p>
+						
+						
+						<form id='register-form' name='register-form' enctype="multipart/form-data">
+							<div class='first-stage' v-if='registerStage == "first"'>
+								<div class='name-div'>
+									<div class='first-name-div' >
+										<label for="first-name" class='form-label'>First Name <span class='required'>*</span></label><br>
+										<input v-model='firstName' id='first-name' class='form-control' name='firsName' type="text" requiredd/>
+									</div>
+							
+									<div class='last-name-div'>
+										<label for='last-name' class='form-label'>Last Name <span class='required'>*</span></label><br> 	
+										<input v-model='lastName' id='last-name' class='form-control' type="text" name='latName' required/>
+									</div>
+
+								</div>
+
+								<label for="username" class="form-label">Username <span class='required'>*</span></label> 
+								<input v-model='userName' id='username' class='form-control' type='text' name='uername' required/>
+
+								<label for="password" class="form-label">Password <span class='required'>*</span></label> 
+								<span style='font-size:10px; color:teal'> 8 or more characters</span>
+								<input v-model='password' id='password' class='form-control' type='password' name='assword' required/>
+						
+
+								<label for="email" class='form-label'>Email Address <span class='required'>*</span></label> 
+								<input v-model='email' id='email' class='form-control' type='text' name='eail' required/>
+
+								<label for="phone" class="form-label">Phone Number <span class='required'>*</span></label> 
+								<input v-model='phone' id='phone' class='form-control' type='text' name='pone' required/>
+								
+								<button @click='nextRegistrationStage' type='button'>Proceed</button>
+
+						</div>
+
+						<div class='second-stage' v-else-if="registerStage =='second'">
+						
+							<div style='margin-bottom:10px'>
+								<span class='' style='text-align: justify; font-size:12px; color:teal'>Please Note: We'll never, EVER, show any of these information in your profile except at your request</span>
+								<span class='' style='font-size:12px; text-align:justify; color:teal'>These details are needed for analysis</span>
+							</div>
+							<div>
+								
+								<label for='sex' class='form-label'>Sex <span class='required'>*</span></label>
+								<select id='sex' name='sx' v-model='sex' class='form-control'>
+									<option value='Female'>Female</option>
+									<option value="Male">Male</option>
+								</select>
+							</div>
+							<div style='display:flex; flex-direction: column; width: 100%'>
+								<label for="" class="form-label">Date of Birth <span class='required'>*</span></label> 
+								<div style='display:flex; flex-direction: row;'>
+									<select class='form-control' style='width:40%; margin-right:2px;' name='birhMonth' v-model='birthMonth'>
+										<option>January</option>
+										<option>February</option>
+										<option>March</option>
+										<option>April</option>
+										<option>May</option>
+										<option>June</option>
+										<option>July</option>
+										<option>August</option>
+										<option>September</option>
+										<option>October</option>
+										<option>November</option>
+										<option>December</option>
+									</select>
+									
+									<input v-model='birthDate' style="width:15%; margin-right:2px;" id='day' name='birthDate' class='form-control' type='number' placeholder='day'/>
+									<input v-model='birthYear' style="width: 20%;" id='year' name='birthYearr' class='form-control' type='number' placeholder='year' />
+
+								</div>
+							</div>
+
+							<button @click='nextRegistrationStage' type='button'>Proceed</button>
+
+						</div>
+					
+						<div class='second-stage' v-if="registerStage =='third'">
+							<label class='form-label' style='font-weight:bold;margin-bottom:10px;'>Subscribe to (at least 10): </label>
+							<div class='registration-categories-selection' style='margin-top:10px;'>
+								<label v-for='category in categories' :category='category' @click='toggleChooseCategory(category.categoryId)'>
+									<input type='checkbox' value='category.categoryId'/> ((category.categoryName))
+									<span class='checkmark'></span>
+
+							</label>
+
+						</div>
+						<button type='button' @click='nextRegistrationStage'>Proceed</button>
+
+					</div>
+
+
+					<div class='second-stage' v-if="registerStage =='fourth'" style='display:flex; flex-direction: column; text-align:center'>
+						<span style='color: teal; font-size: 14px; margin-bottom:5px;'>Choose Profile Picture</span>
+						
+						<div style='text-align:center;'>
+						<img id="profilePicDisplay" width='200' height='200' style='border-radius: 50%'/>
+          				<input type="file"
+               				id="profilePicInput" @click='changeProfilePic' name="profilePic"
+               				accept="image/png, image/jpeg" />
+
+						</div>
+						<button type='button' @click='completeRegistration'>Register</button>
+
+					</div>
+					</form>
+				</div>
+
+				
+		</div>
+			</div>
+
+
+
+			
+		</div>
+	</transition>
+</script>
+	
+
+
+
+
+
+
+
+
+
+
+<script type='x/template' id='add-comment-template'>
+	<transition name='modal'>
+	<div class="modal-mask" id='add-comment-modal' v-show='show_comment_modal' >
+		<div class="modal-container" >
+			<div class='modal-header'>
+				<span class='close-mark'> x </span>
+				<h3>Commenting on:</h3>
+				<h5 v-if='activity.question'>((activity.question))</h5>
+				<h5 v-else>((activity.opinion))</h5>
+			</div>
+			<div class='modal-body'>
+				<form id='comment-form'>
+					<p class='chosen' v-if='chosenOptionTitle'>((chosenOptionTitle))</p>
+					<textarea id='comment-input' @click='autoResize' class='form-control' name='comment' form='comment-form' placeholder='Reason'></textarea>
+				<button @click='comment' id='addCommentButton'>Comment</button>
+				<button v-if='activity.opinion' style='margin-right:10px;' @click='comment'>Skip</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	</transition>
+
+</script>
+
+<script type='x/template' id='comments-template'>
+	<transition name='modal'>
+	<div class="modal-mask" id='view-comments-modal' v-if='show_view_comments_modal' >
+		<div class="modal-container">
+			<div class='comment-container'> 
+				<div class='tabs'>
+					<div class='tabs' >
+						<input type='radio' 
+						name='input-tab' 
+						id='all-comments' 
+						/>
+						<label for='all-comments'>All</label>
+					</div>
+
+				<div class='tabs'>
+					<input type='radio' name='input-tab'/>
+					<label></label>
+				</div>
+			</div>
+		<div>
+			<comment></comment>
+		</div>
+
+		</div>
+	
+	
+	</div>
+ </div>
+
+
+		</div>
+	</div>
+	</transition>
+
+
+</script>
+
+<template id='comment-template'>
+		<div class='comment-card'>
+			<div class='author-details'>
+				<h3 class='name'></h3>
+			</div> 
+
+			<div class='chosen-option'>
+				<h4 class='option'></h4>
+			</div>
+
+			<div class='reason'>
+				<p></p>
+			</div>
+
+			<div class='action-buttons'> 
+				<button>Agree <span>245k</span></button> 
+			</div>
+		</div>
+
+</template>
+
+<template id='feed-item'>
+        <div class="feed-container">
+				<!--you will have to re-write the styles. This modal imports from authentication modal-->
+		
+
+
+			<!--This div will be shown for poll activities --> 
+            <div class="feed-card" v-if="activity.type=='poll'" tabindex='0'>
+                
+				<div class='poll'>
+
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:25px;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+
+				<div class="avatar">
+                     <img v-if='activity.userPic == null' src="https://www.w3schools.com/howto/img_avatar.png"/> 
+					 <img v-if='activity.userPic != null' :src='activity.userPic'>
+                </div>
+
+
+                <div class="beside-avatar-box">
+                    <div class="author-details">
+                        <p class="name" >((activity.userName))</p>
+                        <p class="username"></p>
+						<p class='time-added'>((activity.timeAdded))</p>
+
+						<!--<i v-if='!userJustFollowed' class="fas fa-user-plus"></i>-->
+						<p @click='followOrUnfollowUser' style='position:absolute; right: 0; margin-right:18px; color: teal;' v-if='!userIsFollowing'>Follow</p>
+                    </div>
+
+                    <div class="categories-container">
+
+                    </div>
+
+                    <h6 class="poll-question"><a :href="'localhost:6543/poll/' + activity.id + '/'">((activity.question))</a></h6>
+                    
+					
+					<div class="poll-info">
+						<div v-if='infoHasLink' class='link-info' style='display:flex; padding: 5px;; flex-direction:row; border:0.5px solid lightgrey; border-radius:10px;'>
+							<img :src='infoLinkThumb' width='150' height='100' style='margin-right:5px;'/>
+							<div style='display:flex; flex-direction:column'>
+								<h4>((infoLinkTitle))</h4>
+								<p>((infoLinkDescription))<h4>
+							</div>
+						</div>
+						<div v-if='activity.info' style='margin-bottom:3px; white-space:;'>
+							((activity.info))
+						</div>
+
+						<div v-if='activity.imageInfo'>
+							<img :src='activity.imageInfo' style=' max-width: 100%; max-height:300px; border-radius:10px'>
+						</div>
+					</div>
+					
+
+
+					<!--if the poll has ended, just show the results already! --> 
+					<template v-if='!pollHasEnded'>						
+						<!-- this is the default. Shows when the user has not voted -->
+							<template v-if='!userHasVoted && !seenPollResults  && !isPicturePoll'>
+								<div class='options' v-for='option in activity.options' :option='option'>
+										<label>
+											<input type="radio" @click='optionChosen(option.id)' name='option' :value='option.id'>
+											<span class='checkmark'></span>
+											((option.option))
+										</label>
+
+								</div>
+							</template>
+						<!-- once the user has voted, this template will come up! --> 
+						<!--<template v-else-if='userHasVoted && !isPicturePoll'>
+						--> 
+							<template v-else-if='(userHasVoted || seenPollResults) && !isPicturePoll'>
+								<div class='options'>
+	 								<div class="ans-cnt" v-for="option in calculatedScores" :option='option'>
+										<div class="ans">
+                                			<div class="ans-voted">
+                                    			<span class="percent">((option.percent))</span>
+                                    			<span class="txt">((option.option))</span>
+                                			</div>
+                                			<span class="first-bg"></span>
+                                			<span :class="{bg:true}" :style='{width: option.percent}'></span>
+                            			</div>
+									</div>
+                    			</div>
+							</template>
+
+
+						<template v-else-if='!userHasVoted && isPicturePoll'>
+				   			<div class='picture-options'>
+								<label>
+									<input type='radio' name='checkbox'/>
+									<img src='data:image/jpeg;base64,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'/>
+							
+									<span class='checkbox'></span>
+
+									<span>Wizkid</span>
+						 		</label>
+
+				   			</div>
+						</template>
+
+					<!--	<template>
+							<div class='img-opt-container'>
+								<label v-for='option in calculatedScores' :option='option'>
+									<input type='radio'/>
+									<img :src='option.imageLink'/>
+									<div class=''>
+										<span>((option.option))</span>
+										<span checkmark></span>
+									</div>
+								</label>
+							</div>
+					</template> -->
+
+					</template>
+
+                    <!--options-->
+
+					<div style='display:flex; flex-direction="row"'>
+                    	<p class="votes" @click='seeRespondents'>((totalVotes)) votes </p>
+                    <p class="votes" style="color:darkgrey;cursor:pointer;"> ((activity.timeRemaining))</p>
+					
+					</div>
+					
+					<button v-on:click='vote' v-show='!userHasVoted && !seenPollResults' id='vote-btn'><i class="far fa-check-circle button-icon"></i>Vote</button>
+                    <button v-on:click='addComment' v-show='!userHasVoted && !seenPollResults' id='comment-btn'><i class="far fa-comment button-icon"></i>Comment</button>
+                    <button v-on:click='seeResults' v-show='!userHasVoted && !seenPollResults'><i class="far fa-chart-bar button-icon"></i>Results</button>
+					<button v-on:click='like' :class="[activityIsAlreadyLiked ? activityIsAlreadyLikedClass : '']" v-if='userHasVoted || seenPollResults'><i class="far fa-thumbs-up button-icon"></i>Like <span>((activity.numOfLikes))</button>
+					<button  @click='openBreakDownWindow'v-show='userHasVoted'><i class="fas fa-chart-pie button-icon"></i>View Breakdown</button>
+				</div>
+
+				<div @click='show_view_comments_modal'>
+				<!--	<h5>View Comments </h5> -->
+				</div>
+			</div>
+			<div style='margin-top:5px; padding:5px; text-align:center;vertical-align:middle; border-top:whitesmoke 0.6px solid;'>
+
+				<span style='color:darkgrey'>View Comments</span>
+
+			</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!---This is the comment div --> 
+			<div class="feed-card" v-else-if='activity.type=="comment"' tabindex='0'>
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div> 
+
+					<div class="avatar">
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+                    <div class="beside-avatar-box">
+                        <div class="author-details">
+                            <p class="name" style='font-weight:bold;'>((activity.commenter))</p>
+                            <p class="username"></p>
+                            <p class="action"></p>
+                        </div>
+
+
+                        <h2 class="chosen-option">((activity.option_chosen))</h2>
+                        <p class="comment" style='white-space:;'>((activity.comment))</p>
+
+
+                        <div>
+                            <div class="comment-question" v-if='activity.poll' tab-index="0">
+                                <p class='author-name' style='font-weight:normal; color:teal;'>Poll</p>
+                                <p class='author-name' style='font-size:bold;'>((activity.poll.userName)) <span style="color:lightgray; font-weight:normal;">((activity.poll.timeAdded))</span></p>
+								<p class='question'>((activity.poll.question))</p>
+
+
+                            </div>
+                            
+							
+							<div class="comment-question" v-else-if='activity.opinion' tab-index="0">
+                                <p class='author-name' style='font-weight:normal; color:teal;'>Opinion</p>
+                                <p class='author-name' style='font-size:bold;'>((activity.opinion.userName)) <span style="color:lightgray; font-weight:normal;">((activity.opinion.timeAdded))</span></p>
+								<p class='question'>((activity.opinion.opinion))</p>
+
+
+                            </div>
+
+                        </div>
+
+						<button @click='reply'> <i class="fas fa-reply button-icon"></i>Reply </button>
+						<button @click='like'><i class="far fa-thumbs-up button-icon"></i>Like</button>
+						<!--<button @click="share"><i class="far fa-share-square button-icon"></i>Share</button> -->
+
+					</div>
+
+            </div>
+
+
+
+			<div class="feed-card" v-else-if='activity.type=="opinion"' tabindex="0">
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+					<div class="avatar" v-if='activity.trigger'>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png" style='margin-top:12px;'/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+					<div class="avatar" v-else>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+				
+                    <div class="beside-avatar-box">
+						<div v-if='activity.trigger' style='margin-bottom:0px;'>
+							<p style='color:darkgrey; font-size:11px'>((activity.triggerActor)) ((activity.trigger))</p>
+						</div>
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.userName))</p>
+                            <p class="username"></p>
+							<p class='time-added'>((activity.timeAdded))<p>
+                        </div>
+
+                        <p class="comment" style='white-space:'>((activity.opinion))</p>
+						<p class='votes'>((activity.numOfComments)) reactions</p>
+
+
+
+						<button @click='addComment("Agree")' v-if='!activity.userHasVoted'><i class="fa fa-check button-icon" aria-hidden="true"></i>Agree</button>
+						<button @click='addComment("Disagree")' v-if='!activity.userHasVoted'><i class="far fa-thumbs-down button-icon"></i>Disagree</button>
+					
+					</div>
+
+            </div>
+
+
+			<div class="feed-card" v-else-if='activity.type=="reply"' tabindex="0">
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div>
+					<div class="avatar" v-if='activity.trigger'>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png" style='margin-top:12px;'/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+					<div class="avatar" v-else>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+				
+                    <div class="beside-avatar-box">
+						<div v-if='activity.trigger' style='margin-bottom:0px;'>
+							<p style='color:darkgrey; font-size:11px'>((activity.triggerActor)) ((activity.trigger))</p>
+						</div>
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.userName)) <span style='color:teal'>=> ((activity.userRepliedTo))</span></p>
+                            <p class="username"></p>
+							<p class='time-added'><p>
+                        </div>
+
+                        <p class="comment" style='white-space:'>((activity.reply))</p>
+						<button><i class="far fa-thumbs-up button-icon" @click='like'></i>Like</button>
+						<button @click='reply'><i class="fas fa-reply button-icon"></i> Reply </button>
+
+						
+						<p style='text-decoration:; color:teal; margin-top:5px; font-size:10px;'>View conversation</p>
+					</div>
+
+            </div>
+
+
+	<!--if poll is a picture poll" --> 
+	
+
+	</div>
+
+</template>
+
+
+	<template id='respondents-template'>
+		<transition name='modal'>
+			<div class="modal-mask" v-show='show_respondents_modal'>
+				<div class="modal-container">
+					<div class="modal-header">
+
+
+					</div>
+					<div class="modal-body">
+						<div class="card" v-for='respondent in respondents'>
+							<img v-if='respondent.userPic' :src='userPic'/>
+								<p>((respondent.userFullName))</p>
+								<p>((respondent.userName))</p>
+							<button> Follow</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</transition>
+	</template>
+
+
+	<template id='reply-template'>
+		<transition name='modal'>
+			<div class="modal-mask" v-show='show_reply_modal'>
+				<div class="modal-container">
+					<div class="modal-header">
+						<p v-if="activity.type=='comment'">Reply <span> =>((activity.commenter))</p>
+
+
+
+						
+
+
+					</div>
+					<div class="modal-body">
+						<textarea v-model='replyText'>
+
+
+						</textarea>	
+						<button @click='reply'>Reply</button>
+					</div>
+				</div>
+			</div>
+		
+		</transition>
+	</template>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script type="text/javascript">
+
+
+	var showSnackbar = function(text){
+		var snackbar = document.getElementById('snackbar');
+		snackbar.innerHTML = text;
+
+    	snackbar.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    	setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 4000);
+
+	}
+	var siteUrl = 'http://localhost:6543';
+	
+
+	Vue.component('reply', {
+		template: '#reply-template', 
+		delimiters: ['((', '))'],
+		props: ['activity',  'show_reply_modal'],
+
+		data(){
+			return{
+				replyText: '',
+
+			}
+		},
+
+		methods:{
+			reply(event){
+				
+				var replyButton = event.target;
+				replyButton.disabled = true;
+				axios.post(siteUrl + '/reply-comment', {
+					comment_id: this.activity.id, 
+					reply: this.replyText,
+				});
+			/**	vm =this;
+				if(vm.activity.type=='comment'){
+					axios.post(siteUrl +  '/reply-comment',{
+						comment_id: vm.activity.id,
+					}).then()
+				}
+
+				else if (this.activity.type=='reply'){
+					axios.post(siteUrl + '/reply-reply', {
+
+					}).then()
+				}
+
+				else if (this.activity.type=='opinion'){
+					axios.post(siteUrl + '/reply-opinion', {
+
+					}).then()
+				}**/
+			},
+
+		}
+	});
+
+	Vue.component('respondents-modal',{
+		template: '#respondents-template',
+		delimiters: ["((", "))"],
+		props: ['show_respondents_modal', 'activity'],
+
+		data(){
+			return{	
+				respondents: [],
+			}
+		},
+		watch:{
+			show_respondents_modal: function(val){
+				if (val == true){
+					axios.get(siteUrl + '/voters/' + this.activity.id, {
+
+					}).then(response=>{
+					this.respondents = response.data;
+					});
+				}
+			},
+		},
+
+		
+
+	});
+
+
+	Vue.component('new-opinion-modal',{ 
+	template: '#new-opinion-template',
+	delimiters: ['((', '))'],
+	props: ['show_opinion_modal'],
+
+	data(){
+		return{
+			opinion: '',
+			newOpinionObject: {},
+ 		}
+	},
+
+	mounted(){
+		
+	},
+
+	methods:{
+
+		addOpinionImage(){
+			var opinionImageInput = document.getElementById('opinion-image');
+			var opinionImageDisplay = document.getElementById('opinion-image-display');
+			var opinionImageInputLabel = document.getElementById('opinion-image-label');
+			var opinionImageInputHeight = opinionImageInputLabel.clientHeight;
+
+			opinionImageInput.addEventListener('input', function(){
+				var imageFiles = opinionImageInput.files;
+				var neededFile = imageFiles[0];
+				opinionImageDisplay.style.height = '20px';
+				opinionImageDisplay.style.width = '20px';
+				opinionImageDisplay.src = window.URL.createObjectURL(neededFile);
+			});
+		},
+
+
+		createOpinion(){
+			vm = this;
+			newOpinionObject = {};
+			var target = event.target;
+			event.target.innerHTML = '...';
+			target.disabled = true;
+			axios.post(siteUrl + '/new/opinion',{
+				opinion: vm.opinion,
+			}).then(function(response){
+				
+				target.innerHTML = 'Share';
+				target.disabled = false;
+	
+				var newActivity = {};
+				
+				vm.alterObject('id', response.data.opinion.id);
+				vm.alterObject('type', 'opinion');
+				{% if user %}
+					vm.alterObject('userName', "{{user.full_name}}");
+				{%endif %}
+				vm.alterObject('userPic', 'https://www.w3schools.com/howto/img_avatar.png');
+				vm.alterObject('opinion', vm.opinion);
+				vm.alterObject('options', response.data.opinion.options);
+				vm.alterObject('numOfVotes', 0);
+				vm.alterObject('numOfComments', 0);
+				vm.alterObject('numOfShares', 0);
+				vm.alterObject('numOfLikes', 0);
+
+				vm.addToActivities();
+				vm.$emit('close_new_opinion_modal', true);
+				showSnackbar('Opinion shared!');
+
+				
+			}).catch(function(error){
+				showSnackbar("An error occured while sharing your opinion");
+				target.innerHTML = 'Share';
+				target.disabled = false;
+
+			
+			});
+		},
+	
+		closeModal(){
+			vm.$emit('close_new_opinion_modal', true);
+
+		},
+
+		alterObject(key, value){
+			this.$set(this.newOpinionObject, key, value);
+		},
+
+		autoResize(event){
+			event.preventDefault();
+			var textarea = event.target;
+			textarea.addEventListener('input', function(){
+				var currentHeight = textarea.offsetHeight;
+				var scrollHeight = textarea.scrollHeight;
+				if (scrollHeight > currentHeight){
+					textarea.style.height = scrollHeight + 'px';
+				}
+			});
+		},
+
+		addToActivities(){
+			this.$emit('act_add_to_activities', this.newOpinionObject);
+		},
+
+
+	},
+
+	});
+
+	Vue.component('comments', {
+		template: '#comments-template', 
+		delimiters: ['((', '))'],
+		props: ['show_view_comments_modal',],
+		
+		data(){
+			return {
+
+			}
+		}
+
+	});
+
+	Vue.component('comment', {
+		template: '#comment-template',
+		delimiters: ['((', '))'],
+		props: ['comment',],
+
+		data(){
+			return {
+
+			}
+		}
+	});
+
+
+	Vue.component('sidebar',{
+		template: '#sidebar-template',
+		props: ['subscriptions', 'close_modal', 'categories'],
+		delimiters: ["((", "))"],
+
+		data(){
+			return{
+				
+			}
+		},
+
+		methods: {
+			showSubscriptions(){
+				this.$emit('act_show_subscriptions', true);
+			
+			}
+
+		},
+
+
+	});
+	
+	
+	
+	Vue.component('add-new-comment-modal',{
+		template: '#add-comment-template',
+		props: ['show_comment_modal', 'activity', 'option'],
+		delimiters:['((','))'],
+
+		data(){
+			return {
+				
+			}
+		},
+
+		computed:{
+			chosenOptionTitle(){
+				if (this.activity){
+					for (i = 0; i < this.activity.options.length; i++){
+						if (this.activity.options[i].id == this.option){
+							return this.activity.options[i].option;
+						}
+					}
+
+				}
+			},
+
+			agreeOrDisagree(){
+				return this.option;
+			},
+		},
+
+		methods: {
+			comment(event){
+				vm = this;
+				var form = document.getElementById('comment-form');
+				event.preventDefault();
+				document.getElementById('addCommentButton').disabled = true;
+				var formData = new FormData(form);
+				
+				if (this.activity.type=='poll'){
+					vm = this;
+
+					formData.append('poll_id', this.activity.id);
+					formData.append('option_id', this.option);
+					var request = new XMLHttpRequest();
+					request.open("POST", siteUrl + '/comment/');
+					request.onreadystatechange = function(){
+						if (request.readyState = XMLHttpRequest.DONE){
+							if (request.status == 200){
+								vm.$emit('activity_voted', [vm.activity.id, vm.option, vm.activity.type]);
+								vm.$emit('close_add_comment_modal', false);
+								showSnackbar("Comment added!");
+								document.getElementById('addCommentButton').disabled = false;
+
+							}
+
+
+							else{
+
+								showSnackbar("An error occured while adding your comment");
+								document.getElementById('addCommentButton').disabled = false;
+
+							}
+						}
+					}
+					request.send(formData);
+				}
+				else {
+					formData.append('opinion_id', vm.activity.id);
+					formData.append('option_id', vm.option);
+					var request = new XMLHttpRequest();
+					request.open("POST", siteUrl + '/comment/');
+					request.onreadystatechange = function(){
+						if (request.readyState = XMLHttpRequest.DONE){
+							if (request.status == 200){
+								vm.$emit('close_add_comment_modal', false);
+								vm.$emit('activity_voted', vm.activity.id, vm.option);
+								document.getElementById('addCommentButton').disabled = false;
+
+								//window.location.reload();
+							}
+
+
+							else{
+							document.getElementById('addCommentButton').disabled = false;
+
+							}
+						}
+					}
+					request.send(formData);					
+				}
+			},
+
+			autoResize(event){
+				event.preventDefault();
+				var textarea = event.target;
+				textarea.addEventListener('input', function(){
+					var currentHeight = textarea.offsetHeight;
+					var scrollHeight = textarea.scrollHeight;
+	
+					if (scrollHeight > currentHeight){
+						textarea.style.height = scrollHeight + 'px';
+					}
+				});
+			},
+
+			created(){
+			}
+
+	
+		},
+	});
+
+	Vue.component('show-new-poll-modal', {
+		template: '#show-new-poll-modal-template',
+		props: ['show_new_poll_modal', 'categories'],
+		delimiters: ['((', '))'],
+		
+		data(){
+			return{
+
+				options: [{
+					text: '',
+					placeholder: 'Option 1',
+				},
+				{
+					text: '',
+					placeholder: 'Option 2',
+				},
+
+				
+				],
+				imageInputButtons: ['imageInput1', 'imageInput2'],
+				imageOptions: [],
+				toChoosePollType: false,
+				pollType: 'normal',
+				finalChosenCategories: '',
+				finalChosenOptions: '',
+				chosenCategories: [],
+				totalNumOfOptionsChosen: false, 
+
+			}
+		},
+
+		computed:{
+			allowedCategories(){
+				if (this.totalNumOfOptionsChosen == true){
+					var allowed = []
+					for (let i = 0; i < this.chosenCategories.length; i++){
+						var category = this.chosenCategories[i];
+						var cate = this.categories.filter(c=>c.categoryId==category);
+						allowed.push(cate[0]);
+					}
+
+					return allowed;
+				}
+
+				return this.categories;
+			}
+		},
+
+		methods: {
+
+			addContextImage(){
+				var inputButton = document.getElementById('context-image');
+				var inputDisplay = document.getElementById('contextImageDisplay');
+				inputButton.addEventListener('input', function(){
+					var imageFiles = inputButton.files;
+					inputDisplay.style.width = "30px";
+					inputDisplay.style.height = '30px';
+					inputDisplay.src = window.URL.createObjectURL(imageFiles[0]);
+				});
+			},
+
+
+			createPoll(){
+				var categories = this.flattenCategories();
+				var options = this.flattenOptions();
+				var form = document.getElementById('new-poll-form');
+				
+				var formData = new FormData(form);
+				formData.append('categories', categories);
+				formData.append('options', options);
+
+				var request = new XMLHttpRequest();
+				vm = this;
+				
+				request.open("POST", siteUrl + '/ask');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+							vm.$emit('close_new_poll_modal', true);
+							showSnackbar('Poll published!');
+						}
+						else {
+							showSnackbar('There was an error creating the poll. Please Retry');
+						
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+			},
+
+		autoResize(event){
+			event.preventDefault();
+			var textarea = event.target;
+			textarea.addEventListener('input', function(){
+				var currentHeight = textarea.offsetHeight;
+				var scrollHeight = textarea.scrollHeight;
+				if (scrollHeight > currentHeight){
+					textarea.style.height = scrollHeight + 'px';
+				}
+			});
+		},
+			addNewOption(){
+				if (this.options.length < 10){
+					options_length = this.options.length + 1;
+					new_option = {text: '', placeholder: 'Option '+ options_length};
+					this.options.push(new_option);
+			
+				}
+
+			},
+
+			nextNewPollStep(){
+				if(this.pollType != ''){
+					this.toChoosePollType = false;
+
+				}
+			},
+
+			flatten(array){
+				var flattened = array.join(",");
+				return flattened;
+			},
+
+			flattenCategories(){
+				this.finalChosenCategories = this.flatten(this.chosenCategories);
+				return this.finalChosenCategories;
+			},
+
+			flattenOptions(){
+				this.finalChosenOptions = this.flatten(this.options.map(option=>option.text));
+				return this.finalChosenOptions;
+			},
+
+
+			chooseCategory(categoryId){
+				if (this.chosenCategories.length < 2){
+					this.chosenCategories.push(categoryId);
+					var unique = new Set(this.chosenCategories);
+					this.chosenCategories = Array.from(unique);
+				}
+				if (this.chosenCategories.length == 2){
+					//get the category that was inserted
+					this.totalNumOfOptionsChosen = true;
+				}
+			},
+
+			addFileNameToElement(){
+
+			},
+
+			changePollType(pollType){
+				this.pollType = pollType;
+			}
+		},
+
+		mounted(){
+			var addContextImage = document.getElementById('add-context-image');
+			
+
+
+
+
+
+			
+
+			
+				
+		
+		},
+	});
+
+
+	
+	Vue.component('authentication-modal', {
+		template: '#modal-template',
+		props: ['show_authentication_modal', 'categories'],
+		delimiters: ['((', '))'],
+		data(){
+			return{
+				leadingIntent: '', //know what action user wanted to take before wanting to authenticate
+				intent: 'login', //to know whether user wants to login or register
+				loginProgressing: false, 
+				loginError: '',
+				registerStage: 'first',
+				email: '',
+				password: '',
+				firstName: '',
+				lastName: '',
+				userName:'',
+				password: '',
+				phone: '',
+				birthMonth: '',
+				sex: '',
+				birthDate: '',
+				birthYear: '',
+				registrationError: false, 
+				registrationErrorText: '',
+				registrationCategories: '',
+				chosenCategories: [],
+
+			}
+
+
+		},
+
+
+		methods:{
+
+			toggleChooseCategory(id){
+				this.chosenCategories.push(id);
+			},
+
+			flattenCategories(){
+				var categories = new Set(this.chosenCategories);
+				var newCategories = Array.from(categories);
+
+				this.registrationCategories = newCategories.join(",");
+
+			},
+
+			verifyFirstRegistrationStage(){
+				var allFieldsFilled = this.email != '' && this.password != '' && this.firstName != '' && this.lastName != '' && this.userName != '' && this.password != '' && this.phone != '';
+				return allFieldsFilled;
+			},
+
+
+			passwordIsEligible(){
+				return this.password.length > 7;
+			},
+
+			userNameIsEligible(){
+				return this.userName.length > 2;
+			},
+
+			nextRegistrationStage(event){
+				event.preventDefault();
+				var stage = this.registerStage;
+				var canMoveToNextStage = true;
+				vm = this;
+				if (stage == 'first' ){
+					var allFieldsFilled = this.verifyFirstRegistrationStage();
+					var passwordIsAcceptable = this.passwordIsEligible();
+					var userNameIsAcceptable = this.userNameIsEligible();
+
+					if (!allFieldsFilled){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText ='Please complete all fields';
+
+					}
+
+					else if (!userNameIsAcceptable){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = "Username must be more than 2 characters"
+					}
+
+
+					else if (!passwordIsAcceptable){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = "Password must be at least 8 characters";
+					}
+					
+
+					if (canMoveToNextStage){
+						this.registrationError = false;
+						this.registrationErrorText ='';
+
+						axios.post(siteUrl + '/verify_first_register', {
+							stage: '1',
+							email: vm.email,
+							phone: vm.phone,
+							username: vm.userName,
+
+						}).then(response=>{
+							vm.registerStage = 'second';
+						}).catch(function(response){
+							vm.registrationError = true;
+							vm.registrationErrorText = response.data.status;
+						});
+					}
+
+					
+					
+				}
+				else if (stage == 'second'){
+					canMoveToNextStage = true; 
+
+					if (this.sex == '' || this.birthDate == '' || this.birthMonth == '' || this.birthYear == ""){
+						canMoveToNextStage = false;
+						this.registrationError = true;
+						this.registrationErrorText = "Please fill all fields";
+					}
+
+					else if(this.birthDate.length > 2){
+						canMoveToNextStage = false;
+						this.registrationError = true; 
+						this.registrationErrorText = "Your birthday looks incorrect";
+					}
+
+					//else if(this.birthYear.length < 4 || this.birthYear > 4){
+					//	canMoveToNextStage = false;
+					//	this.registrationError = true;
+					//	this.registrationErrorText = "Your birth year looks incorrect"
+					//}
+
+					if (canMoveToNextStage){
+						this.registerStage = 'third';
+						this.registrationError = false;
+						this.registrationErrorText = "";
+					}
+				}
+
+				else if (stage == 'third'){
+					canMoveToNextStage = true; 
+
+					if (this.chosenCategories < 10){
+						canMoveToNextStage = false;
+						this.registrationError = true; 
+						this.registrationErrorText = 'Please choose 10 or more categories';
+					}
+
+					if (canMoveToNextStage){
+						this.registerStage = "fourth";
+						this.registrationError = false;
+						this.registrationErrorText = "";
+					}
+				}
+			},
+			closeModal(){
+				this.$emit('close_auth_modal', false);
+			},
+
+			changeIntent(){
+				intent = this.intent;
+				if (intent=='login'){
+
+					//make sure we empty the email and password if user already inserted them
+					this.email = '';
+					this.password = '';
+					this.intent = 'register';
+				}
+				else{
+					this.intent = 'login';
+				}
+			},
+			
+			changeProfilePic(){
+				var profilePicInput = document.getElementById('profilePicInput');
+				var profilePicDisplay = document.getElementById('profilePicDisplay');
+
+				profilePicInput.addEventListener('input', function(){
+					var images = profilePicInput.files;
+					profilePicDisplay.src = window.URL.createObjectURL(images[0]);
+				});
+			},
+
+			completeLogin: function(event){
+				vm = this;
+				event.preventDefault();
+				var target = event.target;
+
+				target.innerHTML = '...';
+				
+				if (this.email == '' || this.password  == ''){
+					this.loginError='Please fill complete details';
+					return 0;
+				}
+
+				var form = document.getElementById('login-form');
+				var formData = new FormData(form);
+				
+				var request = new XMLHttpRequest();
+				request.open("POST", siteUrl + '/xhr_login');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+								vm.$emit('close_auth_modal', false);
+								window.location.reload();
+								target.innerHTML = 'Sign in';
+						}
+						else {
+							vm.loginError = 'Email or password is incorrect';
+							target.innerHTML = 'Sign in';
+
+						
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+				
+				//axios.post('http://localhost:6543/login', {
+				//	xhr_login_email: this.email, 
+				//	xhr_login_password: this.password,
+				//}).then(function(response){
+				//	vm.$emit('close_auth_modal', false);
+				//	window.location.reload();
+				//}).catch(function(error){
+				//	alert(error);
+				//});
+			},
+			completeRegistration: function(event){
+				vm = this;
+				this.flattenCategories();
+				event.preventDefault();
+				var form = document.getElementById('register-form');
+				var formData = new FormData(form);
+
+				formData.append('firstName', this.firstName);
+				formData.append('lastName', this.lastName);
+				formData.append('email', this.email);
+				formData.append('password', this.password);
+				formData.append('phone', this.phone);
+				formData.append('username', this.userName);
+				formData.append('sex', this.sex);
+				formData.append('birthDate', this.birthDate);
+				formData.append('birthMonth', this.birthMonth);
+				formData.append('birthYear', this.birthYear);
+				
+
+				formData.append('categories', this.registrationCategories);
+				var request = new XMLHttpRequest();
+				request.open("POST", siteUrl + '/xhr_register');
+				request.onreadystatechange = function(){
+					if (request.readyState == XMLHttpRequest.DONE){
+						if(request.status == 200){
+								vm.$emit('close_auth_modal', false);
+								window.location.reload();
+						}
+						else {
+						}
+					
+					}
+				}
+				
+				request.send(formData);
+						
+		
+		
+			/**
+				axios.post(siteUrl + '/xhr_register', {
+					firstName: vm.firstName.trim(),
+					lastName: vm.lastName.trim(), 
+					userName: vm.userName.trim(), 
+					password: vm.password.trim(), 
+					email: vm.email.trim(), 
+					phone: vm.phone.trim(), 
+					sex: vm.sex, 
+					birthDate: vm.birthDate, 
+					birthMonth: vm.birthMonth, 
+					birthYear: vm.birthYear,
+					categories: vm.registrationCategories,
+				}).then(response=>{
+					vm.$emit('close_auth_modal', false);
+					window.location.reload();
+				})
+
+				**/
+				//});
+			},
+
+
+			 
+
+		},
+
+		mounted(){
+		//	vm = this;
+		//	var form = document.getElementById('login-form');
+		//	form.addEventListener('submit', function(event){
+		//		event.preventDefault();
+		//		var form = document.getElementById('login-form');
+		//		var formData = new FormData(form);
+		//		var request = new XMLHttpRequest();
+		//		request.open("POST", 'http://localhost:6543/login');
+		//		request.onload = function(event){
+		//			if (request.status == 200){
+		//				vm.$emit('close_auth_modal', false);
+		//				alert("WELDONE");
+		//			}
+		//			else{
+		//				alert(request.status);
+		//			}
+		//		}
+		//		request.send(formData);
+
+
+		//	});
+		}
+	});
+
+
+	/**
+	comment box
+
+	**/
+
+/*
+	#feed-item
+
+*/
+
+const FeedItem = Vue.component('feed-item', {
+		template: '#feed-item',
+		props: ['activity', 'option', 'user_logged_in', 'show_comment_modal', 'show_view_comments_modal'],
+		delimiters: ['((', '))'],
+		data(){
+			return{
+
+				//these are for the polls.
+				pollHasEnded: this.activity.hasEnded,
+				isPicturePoll: this.activity.isPicturePoll,
+				justVotedScore: 0,
+				poll_votes: this.activity.totalVotes,
+				chosenOption: 0,
+				chosenOptionName: this.getChosenOptionName(),
+				infoHasLink: this.activity.hasUrlInInfo,
+				infoLinkThumb: this.activity.infoPageThumb,
+				infoLinkTitle: this.activity.infoPageTitle,
+				infoLinkDescription: this.activity.infoPageDescription,
+				seenPollResults: this.activity.userHasSeenResults,
+				userIsFollowing: this.activity.userIsFollowing,
+
+
+				activityIsAlreadyLiked: this.activity.userHasLiked,
+				activityUnliked: false,
+				activityIsAlreadyLikedClass: 'activityIsAlreadyLikedClass',
+				userNotLoggedIn: Boolean({{user_not_logged_in}})		
+			}
+			
+
+			
+		},
+		mounted(){
+
+		
+		},
+
+		methods:{
+			
+			seeRespondents(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				this.$emit('set_activity_respondent_details', this.activity);
+				
+			},
+
+			reply(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				this.$emit('set_reply_activity_details', this.activity);
+			},
+
+			followUser(){
+
+				vm = this;
+				axios.post(siteUrl + '/follow/' + this.activity.userId, {
+				}).then(response =>{
+					this.userJustFollowed = true;
+					this.userIsFollowing = true;
+				});
+
+			},
+
+			unfollowUser(){
+				axios.post(siteUrl + "/unfollow/" + this.activity.userId,{
+				}).then(response=>{
+					this.userJustFollowed = false;
+					this.userIsFollowing = false;
+				});
+
+			},
+	
+			followOrUnfollowUser(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if(!this.userJustFollowed){
+					this.followUser();
+				}
+				else{
+					this.unfollowUser()
+				}
+
+
+			},
+
+			
+			openReply(){
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details',{});
+			},
+
+			//reply(){
+			//	vm = this;
+			//	if(this.activity.type == 'commment'){
+			//		axios.post(siteUrl + '/reply-comment',{
+			//			comment_id = vm.activity.id,
+			//		});
+			//	}
+			//},
+
+			share(){
+
+			},
+
+			changeActivityData(id, value){
+				this.$set(this.activity. id, value);
+			},
+
+			openBreakDownWindow(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+	
+				window.open(siteUrl + '/poll/demographic-metrics/' + this.activity.id);
+			
+			
+			},
+
+			
+			showViewCommentsModal(){
+				this.$emit('act_show_view_comments_modal', true);
+			
+			},
+
+			closeModal(){
+				this.$emit('act_close_comment_modal', false)
+			},
+			
+			like(){
+				vm = this;
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if (!this.activityIsAlreadyLiked){
+					if(this.activity.type == 'opinion'){
+						vm.activity.numOfLikes += 1;
+
+						axios.post(siteUrl + '/like/', {
+							
+							opinion_id: vm.activity.id,
+						}).then(function(response){
+							vm.activityIsAlreadyLiked = true;
+						}).catch(function(error){
+						});
+					}
+
+					else if(this.activity.type == 'poll'){
+						vm.activity.numOfLikes += 1;
+	
+						axios.post(siteUrl + '/like/', {
+							poll_id: vm.activity.id,
+						}).then(function(response){
+							vm.activityIsAlreadyLiked = true;
+
+						}).catch(function(error){
+						});
+					}
+					else if (this.activity.type == 'comment'){
+						vm.activity.numOfLikes += 1;
+
+						axios.post(siteUrl + '/like/', {
+
+						}).then(function(response){
+
+							vm.activityIsAlreadyLiked = true;
+						}).catch(function(response){
+						});
+					}
+				}
+
+				else {
+					this.unlike(this.activity, this.activity.type, this.activity.id);
+
+				}
+			},
+
+			unlike(activity, activityType, activityId){
+				vm = this; 
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if (activityType=='poll' && this.activityIsAlreadyLiked){
+					
+					
+					axios.post(siteUrl + '/unlike/', {
+						poll_id: activityId,
+					}).then(response=>{
+						vm.activityIsAlreadyLiked = false;
+						vm.activityUnliked = true;
+					}).catch(function(response){
+						vm.activityIsAlreadyLiked = true;
+						vm.activity.numOfLikes += 1;
+					});
+
+				}
+
+				else if(activityType='opinion' && this.activityIsAlreadyLiked){
+					
+					
+					axios.post(siteUrl+ '/unlike/', {
+						opinion_id: activityId, 
+					}).then(response=>{
+
+						vm.activityUnliked = true;
+
+						vm.activityIsAlreadyLiked = false;
+						vm.activity.numOfLikes -= 1;
+
+					}).catch(response=>{
+						vm.activityIsAlreadyLiked = true;
+						vm.activity.numOfLikes += 1;
+					});
+
+				}
+
+				else if(activityType=='comment' && this.activityIsAlreadyLiked){
+
+					axios.post(siteUrl + '/unlike/' + {
+						comment_id: activityId, 
+					}).then(response=>{
+
+						vm.activityUnliked = true;
+
+						vm.activityIsAlreadyLiked = false;
+					}).catch(function(response){
+						vm.activityIsAlreadyLiked = true;
+						vm.activity.numOfLikes += 1;
+
+					});
+				}
+			},
+			
+			addComment(option){
+				
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					//check if the activity is an opinion
+					if (this.activity.type = 'opinion'){
+							activities = this.activity.options.filter(i=> i.option == option);
+							this.chosenOption = activities[0].id;
+						
+					}
+					else{
+						alert('Select an option');
+						return 0;
+					}
+				}
+				var val = true; 
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details', this.chosenOption);
+
+			},
+
+			optionChosen(optionId){
+				this.chosenOption = optionId;
+
+			},
+
+			getChosenOptionName(){
+				var chosenOptionId = this.chosenOption;
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id == chosenOptionId){
+						return this.activity.options.option;
+					}
+				}
+			},
+
+			
+			vote: function(){
+				vm = this;
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					alert('Select an option');
+					return 0;
+				}
+
+				this.activity.totalVotes += 1;
+				this.activity.userHasVoted = true;
+
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id  == this.chosenOption){
+						this.activity.options[i].score += 1;
+						break;
+					}
+				}
+                
+				this.activity.userHasVoted = true;
+				var pollID = this.activity.id;
+				axios.post(siteUrl + '/vote/',{
+					poll_id: pollID, 
+					option_id: vm.chosenOption,
+				}).then(function(response){
+				
+				}).catch(function(error){
+					this.userHasVoted = false;
+				})
+
+
+			},
+			comment: function(){
+				if (this.user_logged_in == false){
+					alert ("You need to be logged in first");
+					return 0;
+				}
+			},
+
+			seeResults: function(){
+
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if (this.seenPollResults == false){
+					axios.post(siteUrl + '/viewresults',{
+						poll_id: this.activity.id,
+					}).then(function(response){
+						this.seenPollResults = true;
+					}).catch(function(error){
+						this.seenPollResults = false;
+
+				});
+
+				}
+				
+			},
+
+		},
+
+		computed:{
+
+			userHasVoted(){
+				return this.activity.userHasVoted;
+			},
+
+			totalVotes(){
+				return this.activity.totalVotes;
+			},
+
+
+			calculatedScores(){
+				if(this.activity.totalVotes ==0){
+					return this.activity.options.map(a=>{
+						a.percent = '0%'
+						return a
+					})
+			}
+				return this.activity.options.filter(a=>{
+                    if (!isNaN(a.score) && a.score > 0){
+                        a.percent = ( Math.round( (parseInt(a.score)/this.activity.totalVotes ) * 100) ) + '%'
+					}
+					else{
+                        a.percent =  '0%'
+					}
+                    return a
+                })
+		},
+
+
+
+	
+	}
+
+	});
+
+
+ window.app = new Vue({
+
+		el: '#container',
+		delimiters: ['((','))'],
+		components: {FeedItem, },
+		data(){
+			return{
+				loading: true,
+
+				sidebarContentSelectedClass: 'sidebar-content-selected',
+
+				activities: [],
+				categories: [],
+				subscriptions: [],
+
+				userLoggedIn: false,
+				userName: '',
+				userPic: '',
+
+				optionToCommentOn: 0,
+				activityToReplyTo: {},
+				activityToCommentOn: {},
+
+				showRespondentsModal: false,
+				showNewSelectionModal: false,
+				showAuthenticationModal: false,
+				showReplyModal: false,
+				showCommentModal: false,
+				showSidebar: false,
+				showCategories: false,
+				showViewCommentsModal: false,
+				showCreateNewPollModal: false,
+				showSubscriptions:false,
+				showCreateNewOpinionModal: false,
+				activityToGetRespondents: {},
+				activityToVoteOn: {},
+				
+
+			}
+		},
+
+		computed:{
+			sortedSubscriptionsList(){
+				var sortedSubscriptions = this._sortCategoryList(this.subscriptions);
+				return sortedSubscriptions;
+			},
+
+			sortedCategoriesList(){
+				var sortedCategories = this._sortCategoryList(this.categories);
+				return sortedCategories;
+			},
+		},
+
+		methods:{
+
+			openProfile: function(){
+				window.open(siteUrl + '/profile/{{user.id}}/{{user.slug}}');
+			},
+			_sortCategoryList(list){
+				list.sort(function(a, b){
+					if (a.categoryName < b.categoryName) return -1;
+					if (a.categoryName > b.categoryName) return 1;
+				})
+				return list;
+			},
+
+			mShowNewSelectionModal(){
+				this.showNewSelectionModal = true; 
+			},
+
+		
+
+			showNewPollModal(){
+				this.showCreateNewPollModal = true;
+			},
+			showNewOpinionModal(){
+				this.showCreateNewOpinionModal = true;
+			},
+			showViewComments(value){
+				this.showViewCommentsModal = true;
+			},
+			
+			toggleSubscriptions(){
+			},
+
+			toggleShowCategories(){
+				this.showCategories = !this.showCategories;
+			},
+			toggleAuthModal(){
+				this.showAuthenticationModal = !this.show_auth_modal;
+			},
+
+			closeAddCommentModal(newData){
+				this.showCommentModal = newData;
+			},
+
+
+			closeModal(newData){
+				if(this.showCommentModal == true){
+					this.showCommentModal = false;
+				}
+				if(this.showAuthenticationModal == true){
+					this.showAuthenticationModal = false;
+				}
+				if(this.showSidebar == true){
+					this.showSidebar = false;
+				}
+
+				if(this.showCommentModal == true){
+					this.showCommentModal == false;
+				}
+				this.showCreateNewOpinionModal = false;
+				this.showCreateNewPollModal = false;
+				
+			},
+
+			setActivityCommentDetails(activity){
+				this.activityToCommentOn = activity;
+			},
+
+			setReplyActivityDetails(activity){
+				this.activityToReplyTo = activity;
+				this.showReplyModal = true;
+			},
+
+			setActivityRespondentDetails(activity){
+				this.activityToGetRespondents = activity;
+				this.showRespModal();
+			},
+
+			setOptionCommentDetails(optionId){
+				this.optionToCommentOn = optionId;
+			},
+
+			showCommModal(newData){
+				this.showCommentModal = true;
+			},
+
+			showAuthModal(newData){
+				this.showAuthenticationModal = newData;
+			},
+			
+			showRespModal(){
+				this.showRespondentsModal = true;
+			},
+
+			subscribeToCategory(categoryId){
+				var category = this.categories.filter(c=> c.categoryId==categoryId);
+				var category = category[0]; //because the above returns a list of one object;
+				var categoryIndex = this.categories.indexOf(category); //we need the index of the category so we can remove it from list of categories
+
+				this.subscriptions.push(category);
+				this.categories.splice(categoryIndex, 1);
+			},
+
+			unsubscribeFromCategory(categoryId){
+				var category = this.subscriptions.filter(c=> c.categoryId==categoryId);
+				var category = category[0]; //because the above returns a list of one object;
+				var categoryIndex = this.subscriptions.indexOf(category); //we need the index of the category so we can remove it from list of categories
+
+				this.subscriptions.splice(categoryIndex, 1);
+				this.categories.push(category);
+			},
+
+			goToCategoryPage(categoryId){
+				window.open(siteUrl + '/polls/category_id=' + categoryId);
+			},
+
+			addToActivitiesList(activityObject){
+				this.activities.unshift(activityObject);
+			},
+
+			changeActivityData(activity, key, value){
+				this.$set(activity, key, value);
+			},
+
+			changeActivityJustVoted(activityDetailsList){
+				var activityId = activityDetailsList[0];
+				var optionId = activityDetailsList[1];
+				var type = activityDetailsList[2];
+
+				vm = this;
+				var activityInstances = this.activities.filter(a=>a.id==activityId &&a.type==type);
+				activityInstances.forEach(function(activity){
+					activity.totalVotes += 1;
+					vm.$set(activity, 'userHasVoted', true);
+
+					activity.options.forEach(function(option){
+						if (option.id == optionId){
+							option.score += 1;
+						}
+					});
+				});
+                
+			},
+
+		},
+
+
+		//this is what happens when you load the page.
+		//automaticall
+		created(){
+			vm = this;
+
+			axios.get(siteUrl + '/get/latest').then(response => {
+			//this will give a list of polls
+			var response_list = response.data.activities;
+			this.activities = response_list;
+			this.userName = response.data.userName;
+			this.userPic = response.data.userPic;
+			this.userLoggedIn = response.data.user_logged_in; 
+			
+
+			
+			});
+
+			//get categories data
+			axios.get(siteUrl + '/categories').then(response => {
+				this.categories = response.data.categories;
+			});
+
+			axios.get(siteUrl + '/show_subscriptions').then(response => {
+				this.subscriptions = response.data.subscriptions;
+			})
+
+
+		},
+
+
+
+	});
+
+	/**
+
+
+	**/
+	</script>
+
+
+			<!--
+
+
+
+ -->
+
+
+</body>
+
+</html>

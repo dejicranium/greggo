@@ -1,0 +1,29 @@
+<div id="navbar">
+    {% if not user %}
+    <div class="menu" v-on:click='showSidebar = true' v-show='userLoggedIn'>
+        {%block content %}
+        <div></div>
+        <div></div>
+        <div></div>
+        {% endblock %}
+    </div>
+    {% else %}
+        <div class="menu" v-on:click='showSidebar = true' v-show='userLoggedIn'>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    {% endif %}
+
+    
+
+    <div class="navbar-actions">
+        <ul>
+        {% if not user %}
+        <p  @click='toggleAuthModal'>Login</p>
+        <p >Register</p>
+        {% endif %}
+        </ul>
+    </div>
+
+</div>

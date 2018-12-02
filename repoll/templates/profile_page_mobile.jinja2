@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet'/>
+
+        
+        
+       <style>
+            *{
+                padding: 0; 
+                margin: 0;
+                font-family: 'Merriweather Sans', sans-serif
+            }
+            body{
+                background-color: #F7F7F7;
+
+            }
+
+					#navbar{
+			display:flex;
+			padding: 10px 10px 10px 10px;
+			width:100%;
+			min-height: 35px;
+			background-color: white;
+			color:white;
+			position: fixed;
+			top:0;
+			flex-direction: row;
+			box-shadow: 0px 0px 2px 0px grey;
+			margin-bottom: 10px;
+			z-index: 5;
+			box-sizing:border-box;
+
+		}
+		#navbar h1{
+			font-size: 10vw;
+			text-align: center;
+
+		}
+
+		#navbar .menu{
+			width: auto;
+			height: 15px;
+			margin-top:auto;
+			display: inline-block;
+			position: relative;
+
+			
+
+		}
+
+		#navbar .menu div{
+			width: 20px;
+			height: 3px;
+			border-bottom-left-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			background-color: darkgray;
+			display: block;
+			margin-bottom: 3px;
+		}
+
+		.navbar-actions{
+			position: absolute;
+			display: flex;
+			right: 0;
+			flex-direction: row;
+		}
+
+		.nabar-actions ul{
+			text-decoration:none;
+			display:flex;
+			flex-direction: row;
+		}
+
+
+		.navbar-actions button{
+			display: inline-block;
+			background-color: transparent;
+			border:0;
+			color:darkgray;
+			height: 100%;
+			vertical-align: center; 
+			text-align: center;
+			font-size: 15px;
+			padding-right: 10px;
+		}
+
+		.navbar-icon{
+			position:relative; 
+			right: 0px;
+			margin-right: -10px;
+			width: 30px;
+			padding: 0px;
+			vertical-align:center;
+			text-align:center;
+			padding-left: 10px;
+		}
+
+            .details-container{
+                margin-top: 0px;
+                display: flex; 
+                padding: 10px 10px 5px 10px;
+                text-align: center;
+                flex-direction: column;
+            	font-family: 'Merriweather Sans';
+            }
+
+            .details-container img{
+                border-radius: 50%;
+                text-align:center;
+                margin:auto;
+                border: white solid 5px;
+                position: relative;
+                
+            }
+
+
+            
+            .fullname{
+                font-weight: bold; 
+                font-size: 15px;
+            }
+
+            .username{
+                font-weight: bold;
+                color: darkgray; 
+                font-size:12px;
+            }
+            .bio{
+                color:black;
+                font-size:12px;
+            }
+
+			.follow-btn{
+				background-color: teal;
+				color: white;
+				border: solid 2px white;
+				width: 100px;
+				margin: auto;
+				margin-top: 5px;
+				padding: 7px;
+				border-radius: 20px;
+			}
+            .follow-details{
+                display: -webkit-flex;
+                display: flex;
+                flex-direction: row;
+            }
+            
+            .follow-details{
+                background-color: white;
+                margin-top: 2px;
+            }
+            .f-detail{
+                flex-basis: 49%;
+                text-align: center; 
+                vertical-align: middle;
+                padding: 10px;
+            
+            }
+
+            .f-detail:first-of-type{
+                border-right: 1px solid lightgrey;
+
+            }
+
+            
+            .f-detail p{
+                font-size: 13px;
+            }
+
+            .f-detail .figure{
+                font-size:18px;
+            }
+
+            .other-details{
+                background-color: white;
+
+                flex-wrap: wrap;
+                margin-top: 10px;
+                padding-top: 10px;
+                padding: 10px 16px 0px 16px;
+            }
+
+            .other-details .tab-header{
+                display: flex;
+                flex-direction: row;
+                box-shadow: 0 4px 2px -2px lightgray;
+                flex-wrap: wrap;
+            }
+
+            .other-details .tab{
+                width: auto; 
+                padding: 10px 10px 10px 5px;
+                font-size: 12px;
+                text-align: center;
+                cursor: pointer;
+                font-weight: 500;
+                min-width: 20px;
+            }
+
+            .other-details .tab-content{
+                background-color:white;
+                margin-top: 5px;
+            }
+
+
+            #poll{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+
+
+
+
+
+
+
+
+
+
+		.feed-container{
+			box-sizing: border-box;
+
+		}
+		.feed-container .feed-card{
+            background-color: white;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            box-shadow: lightgrey 1px;
+            border-radius: 2px;
+			box-sizing: border-box;
+
+			
+
+        }
+
+        .feed-container .feed-card .avatar {
+            height: auto;
+            width: auto;
+            margin-right: 10px;
+            float: left;
+
+        }
+		.feed-container .feed-card .poll .avatar {
+            height: auto;
+            width: 5%;
+            margin-right: 10px;
+            float: left;
+
+        }
+        .feed-container .feed-card .poll .avatar img{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }      
+		 .feed-container .feed-card .avatar img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+
+        .feed-container .feed-card .beside-avatar-box{
+            display:inline-block;
+			box-sizing: border-box;
+
+            width: 80%;
+        }
+
+        .feed-container .feed-card .poll .beside-avatar-box{
+            display:inline-block;
+			box-sizing: border-box;
+
+            width: 90%;
+        }
+		.feed-container .author-details{
+			box-sizing: border-box;
+			position:relative;
+		}
+
+        .feed-container .feed-card .beside-avatar-box .author-details p{
+            display: inline;
+			font-family: Helvetica, sans-serif;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+			vertical-align:center;
+            color: black;
+			font-size: 12px;
+        }
+
+        .feed-container .feed-card .beside-avatar-box .author-details i{
+			width:5px;
+			height:10px;
+			font-size: 13px;
+			position: absolute;
+			right:0;
+			margin-right: 18px;
+        
+		}
+		.categories-container p{
+            display: inline;
+			font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #a0a0a0;
+
+        }
+        .feed-container .feed-card .beside-avatar-box .author-details{
+            margin-bottom: 0;
+			color:black;
+			font-family: '', sans-serif;
+        }
+        
+
+        .feed-container .feed-card .beside-avatar-box .poll-question{
+            margin-top: 5px;
+			margin-bottom:5px;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: teal;
+			letter-spacing: 0.5px;
+            line-height: 2ch;
+
+        }
+
+		.feed-container .feed-card .beside-avatar-box a{
+			text-decoration:none;
+			color: teal;
+			letter-spacing: 0.5px;
+
+		}
+		.feed-container .feed-card .beside-avatar-box .poll-info{
+			font-size: 13px;
+			text-align: justify;
+			border-radius: 5px;
+			margin-bottom: 5px;
+            font-family: 'Merriweather Sans';
+
+		}
+
+
+
+
+        .options{
+            height: auto;
+            font-size: 13px;
+            color:black;
+            margin-top: 0;
+        }
+
+        .options .ans-cnt{
+
+        }
+
+        .options .ans-cnt .ans{
+            position: relative;
+            margin-bottom: 10px;
+			padding: 5px 5px 5px 0px;
+        }
+
+        .options .ans-cnt .ans-voted{
+            padding: 2px 10px;
+        }
+
+
+        .percent{
+            font-weight: bold;
+			font-size: 13px;
+        }
+        .txt, .percent{
+            z-index: 2;
+            position: relative;
+			font-size: 13px;
+        }
+
+        .options .ans-cnt .ans .first-bg{
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+		background-color: #F7F7F7;
+        border-radius: 5px;
+
+        }
+
+        .options .ans-cnt .bg{
+        position: absolute;
+        width: 0%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+        background-color:lightgray;
+        color:white;
+        border-radius: 5px;
+        transition: width 5s;
+        -webkit-transition: width 5s;
+        -moz-transition: width s
+
+        }
+
+
+	
+		.options label{
+			display:block;
+			position:relative;
+			cursor:pointer;
+			border-radius: 5px;
+			padding: 10px 10px 10px 45px;
+			font-size: 13px;
+			border: #F7F7F7 0.5px solid;
+
+			margin-bottom:5px;
+
+			user-select:none;
+			-moz-user-select:none;
+		
+		}
+
+		.options input{
+			opacity: 0;
+			position:absolute;
+		}
+
+		.options .checkmark{
+			position:absolute;
+			top:12px;
+			left:10px;
+			bottom:10px;
+			height: 15px;
+			width: 15px;
+			background-color: #eee;
+			border-radius: 50%;
+			margin-right: 20px;
+		}
+
+		.options label:hover{
+			background-color:#F7F7F;
+		}
+		.options label input:checked ~ .checkmark{
+			background-color: teal;
+		}
+
+
+		.picture-options{
+			display: flex;
+			flex-direction: row;
+			box-sizing:border-box;
+			flex-wrap: wrap;
+		}
+
+		.picture-options label{
+			flex-basis: 45%;
+			box-sizing:border-box;
+			background-color:white;
+			display:block;
+			text-align: center;
+			
+		}
+
+		.picture-options input{
+			display: none;
+		}
+
+		.picture-options label{
+			margin-right: 5%;
+			margin-bottom: 10px;
+		
+		}
+
+		.picture-options span{
+			font-size: 13px;
+			width: 100%;
+			font-weight: normal;
+			display:block;
+		}	
+	
+		.picture-options .checkbox{
+			width: 10px; 
+			height: 10px;
+			margin-bottom: 5px;
+			display: block;
+			border-radius: 50%;
+			background-color: lightgrey;
+			margin: auto;
+		}
+
+		.picture-options img{
+			width:100%;
+			height: 100px;
+			border-radius: 5px;
+		}
+
+		.picture-options input:checked ~ span{
+			background-color: teal;
+			color: black
+		}
+
+		.picture-options p{
+			font-size: 13px;
+		}
+		
+		.picture-options input:checked ~ p{
+			background-color: white; 
+			font-weight: bold;
+		}
+
+
+		
+
+
+
+
+        .feed-card .votes{
+            font-size: 11px;
+			color: darkgray;
+			margin-bottom:5px;
+        }
+
+        .feed-card button{
+            border: 0;
+			margin-top: 5px;
+            background-color: transparent;
+            padding: 5px ;
+			border: 0.5px solid lightgray;
+
+			padding-left:5px ; 
+			padding-right: ;
+			border-radius: 5px;
+			font-size: 13px;
+            color: rgb(79, 78, 78);
+        }
+       
+	    .feed-card button i{
+			margin-right: 5px;
+
+		}
+
+		.feed-card .chosen-option{
+			margin-top:1px;
+			font-size: 14px;
+
+			margin-top: 2px;
+			color: black;
+		}
+
+		.feed-card .comment{
+			font-weight: 400;
+			font-size: 13px;
+			margin-bottom: 4px;
+			margin-top: 1px;
+			border-radius: 10px;
+			line-height: 1.1rem;
+			font-family: Helvetica, Arial, sans-serif;
+
+		}
+
+		.feed-card .comment-question{
+			font-size:14px;
+			margin-top: 0px;
+			margin-bottom: 5px;
+			color: black;
+			padding: 10px;
+			border-radius: 5px;
+			border: 0.5px lightgray solid;
+			font-family: 'Helvetica', Helvetica, Arial, sans-serif;
+			display: block;
+			
+		}
+		.feed-card .comment-opinion{
+			font-size:14px;
+			margin-top: 0px;
+			margin-bottom: 5px;
+			color: black;
+			padding: 2px 5px 2px 5px;
+			border-radius: 5px;
+			border: 0.5px darkgray solid;
+			font-family: 'Helvetica', Helvetica, Arial, sans-serif;
+			display: block;
+			
+		}
+
+		.feed-card .comment-question:focus{
+			background-color: lightgray;;
+		}
+
+		.feed-card .comment-question::selection{
+			background-color: lightgrey;
+
+		}
+
+	
+		.comment-card{
+			padding: 10px 10px 0px 10px;
+			background-color: white; 
+			box-sizing: border-box;
+			position: relative;
+			font-size: 10px; 
+			text-overflow:wrap;
+			border-bottom: solid lightgrey 1px;
+		}
+
+		.comment-card .author-details{
+			font-size:10px;
+			font-weight:normal;
+			color:lightgray;
+		}
+
+		.comment-card .author-details p{
+			color:lightgray;
+		}
+		.comment-card .chosen-option{
+			margin-bottom: 3px;
+			font-size: 15px;
+
+		}
+		.comment-card .reason{
+			margin-bottom: 10px;
+			font-size:13px;
+		}
+
+		.comment-card .action-buttons{
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: flex-end;
+			
+			justify-content: flex-end;
+			width: 100%;
+			
+		}
+
+		.comment-card .action-buttons button{
+			border:0;
+			background-color: lightgray;
+			color: black;
+			font-weight: bold;
+			font-size: 10px;
+			margin-right: 5px;
+			padding: 5px; 
+			padding-left:10px; 
+			padding-right: 10px;
+		}
+
+		.comment-card .action-buttons span{
+			font-weight: normal;
+			margin-left: 5px;
+		}
+
+
+
+
+
+
+
+
+
+	.modal-mask{
+		position: fixed;
+		z-index: 100; 
+		top: 0; 
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, .5);
+    	transition: opacity .3s ease;
+		overflow-y:auto;
+	}
+
+	.modal-container {
+    max-width: 90%;
+    margin: 50px auto 0;
+	position:relative;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+	box-sizing: border-box;
+	padding-bottom: 40px; 
+	}
+
+	.modal-container .modal-header{
+		background-color:white;
+		box-shadow: 0 4px 2px -2px lightgray;
+		padding: 20px; 
+		color: white;
+	}
+
+	.modal-container .modal-header . h5{
+		font-size: 20px;
+	}
+	.modal-container .modal-header p{
+		font-size: 15px;
+	}
+	.modal-container .modal-header span{
+		font-size: 14px;
+		color: darkorange;
+		text-decoration: underline; 
+		cursor:pointer;
+		
+	
+	}
+
+
+	.modal-container .modal-body{
+		padding: 20px;
+		height: auto;
+		width: 95%;
+		position:relative;		
+		box-sizing: border-box;
+	}
+	.modal-container .modal-body .login{
+		width: 100%;
+	}
+
+	.modal-container .modal-body .login-btn{
+		background-color: teal;
+		border: 0;
+		padding: 10px;
+		color: white;
+		position: absolute;
+		border-radius: 5px;
+		right: 0;
+	}
+	.modal-container .modal-body .form-label{
+		font-size: 15px; 
+		font-weight:500;
+		color:black;
+	}
+
+	.modal-container .modal-body .form-control{
+		border: none;
+		width: 100%;
+		border-radius: 5px; 
+		border: 1px lightgray solid;
+		padding: 10px; 
+		color:black; 
+		font-size: 15px;
+		margin-bottom: 10px;
+
+	}
+	.modal-container .modal-body .form-control:active{
+		border: 1px darkorange solid;
+	}
+
+	.modal-container .modal-body button{
+		margin-top: 10px; 
+		float: right;
+		border: none;
+		color: white; 
+		font-size: 12px;
+		background-color: teal; 
+		border-radius: 5px;
+		padding: 10px; 
+	}
+	
+	.modal-container .register{
+		box-sizing: border-box; 
+	}
+
+	.modal-container .register .name-div{
+		display: flex;
+		box-sizing: border-box;
+		flex-direction: row;
+	}
+
+	.modal-container .register .name-div{ 
+	}
+
+	.modal-container .register .first-name-div{ 
+		flex-basis: 50%;
+		margin-right: 25px;
+	}
+	.modal-container .register .last-name-div{ 
+		flex-basis: 50%;
+	}
+
+	.modal-container .required{
+		color: red;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	.new-poll-modal .add-context{
+		display:flex;
+		width: 100%;
+	}
+
+	.new-poll-modal .choosePollType .modal-container{
+		padding: 30px;
+		margin-top:35%;
+		width: 50%;
+		text-align: center;
+		height:auto;
+		display:flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.new-poll-modal .choosePollType .modal-container label{
+		border: teal solid 1px;
+		color: teal;
+		border-radius: 10px;
+		display: inline-block; 
+		vertical-align: middle; 
+		height: 50px;
+		text-lign
+	
+	}
+
+	.new-poll-modal .choosePollType .modal-container input{
+		margin-right: 5px;
+		display:none;
+	}
+	}
+	
+	.new-poll-modal .add-context textarea{
+		flex: 1;
+		margin-right: 10px;
+		flex-basis: 100%;
+	}
+
+	.new-poll-modal div{
+		display:block;
+	}
+	
+
+	.new-poll-modal .add-context input[type="file"]{
+		display:none;
+	}
+
+	.new-poll-modal .add-image-btn{
+		font-size: 10px; 
+		background-color: teal;
+		padding:10px;
+		width: 10%;
+		color: white; 
+		border-radius: 5px;
+		display:inline-block;
+		float:right;
+		margin-top: 0px;
+		height: 20px;
+		margin-bottom: 20px;
+	}
+	.new-poll-modal .options-box{
+		display: flex;
+		width: 100%;
+	}
+
+	.new-poll-modal .form-control{
+		flex: 1;
+		flex-basis: 100%;
+		height: 20px;
+		margin-right: 10px;
+	}
+
+	.new-poll-modal .add-option-image{
+		display:none;
+	}
+	.new-poll-modal .audience{
+		display: block;
+	}
+	.form-control{
+		width: 70%; 
+	}
+
+	.modal-body select{
+		background-color: white;
+		border: 0;
+		border-color: 1px solid lightgray; 
+		padding: 5px;
+		font-size: 10px;
+	}
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+		.comment-container{
+			margin-top: 10px; 
+			background-color:white; 
+			padding:10px;
+			font-size: 10px;
+			border-top: 0.5px lightgrey solid;
+			border-right: 0.5px lightgrey solid;
+			border-left: 0.5px lightgrey solid;
+			box-sizing: border-box;
+			display:flex;
+			flex-direction:column;
+		}
+
+		.comment-container input{
+			display: none;
+			
+		}
+
+		.comment-container input:checked + label{
+			color: teal;
+			font-weight: bold;
+		}
+
+		isActive{
+			border-bottom: 0.5px teal solid;
+			box-sizing: border-box;
+		}
+
+
+		.comment-container .tabs{
+			border-bottom: 0.02px lightgray solid;
+			margin-right: 10px;
+			flex-direction: row;
+			box-sizing: border-box;
+			display:flex;
+
+
+		}
+		
+
+		.comment-container label{
+			margin-bottom: 10px;
+			display: block; 
+			font-size: 13px;
+		}
+
+
+
+		.comment-card{
+			padding: 10px 10px 0px 10px;
+			background-color: white; 
+			box-sizing: border-box;
+			position: relative;
+			display:block;
+			font-size: 10px; 
+			text-overflow:wrap;
+			border-bottom: solid lightgrey 1px;
+		}
+
+		.comment-card .author-details{
+			font-size:10px;
+			font-weight:normal;
+			color:black;
+		}
+
+		.comment-card .author-details img{
+			border-radius: 50%;
+		}
+
+		.comment-card .author-details p{
+			color:lightgray;
+		}
+		.comment-card .chosen-option{
+			margin-bottom: 3px;
+			font-size: 13px;
+
+		}
+		.comment-card .reason{
+			margin-bottom: 10px;
+			font-size:13px;
+		}
+
+		.comment-card .action-buttons{
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: flex-end;
+			
+			justify-content: flex-end;
+			width: 100%;
+			
+		}
+
+		.comment-card .action-buttons button{
+			border:0;
+			background-color: lightgray;
+			color: black;
+			font-weight: bold;
+			font-size: 10px;
+			margin-right: 5px;
+			padding: 5px; 
+			padding-left:10px; 
+			padding-right: 10px;
+		}
+
+		.comment-card .action-buttons span{
+			font-weight: normal;
+			margin-left: 5px;
+		}
+
+
+		.modal-body textarea{
+			overflow: hidden; 
+			resize:none;
+			box-sizing: border-box;
+			width: 100%;
+			height: auto;
+			min-height: auto;
+			font-size: 16px;
+			border: 1px solid lightgrey;
+
+		}
+
+		.new-post-container{
+			background-color:white;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			border: 0.5px solid lightgray;
+			position: relative;
+			box-sizing:border-box;
+		}
+
+		.new-post-container .header{
+			box-shadow: 0 4px 2px -2px lightgray;
+			margin-bottom: 3px;
+		}
+
+		.new-post-container .tabs{
+			display: flex; 
+			flex-direction: row;
+
+		}
+
+		.new-post-container .tabs .tab{
+			padding:10px;
+			font-size: 13px;
+		}
+
+		.new-post-container .body textarea{
+			width: 100%;
+			overflow: hidden; 
+			resize:none;
+			padding:10px;
+			height: 100px;
+			box-sizing: border-box;
+			border: transparent 0px solid;
+		}
+
+		.new-post-container .button-container{
+			display:block; 
+			background-color:;
+			width: 100%;
+			padding: 10px;
+		}
+		.new-post-container button{
+			padding: 5px 10px;
+			border-radius: 5px;
+			border: none;
+			background-color:teal;
+			color: white;
+
+		}
+
+
+		.new-post{
+			background-color:white;
+			display: flex;
+			flex-direction: row;
+			box-shadow: 2px 4px 2px -2px lightgray;
+			padding: 10px;
+			text-align:center;
+
+		}
+
+		.new-post div{
+			flex-basis: 50%;
+			color: black;
+		}
+
+		.new-post div:first-of-type{
+			border-right: 0.5px solid darkgray;
+		}
+		.new-post p{
+			font-style:normal;
+			font-size:10px;
+			color: darkgray;
+		}
+        </style>
+    </head>
+    <body> 
+				{%include 'not_home_navbar_template.jinja2' %}
+
+            {% if user %}
+        <p style='display:none' id='userId'>{{user.id}}</p>
+
+
+
+        <div id="container" style='margin-top:40px;' v-if='!loading'>
+
+
+			<add-new-comment-modal 
+			:show_comment_modal='showCommentModal' 
+			:activity='activityToCommentOn'
+			@close_add_comment_modal='closeModal'
+			:option='optionToCommentOn'
+			@activity_voted=''>
+			</add-new-comment-modal>
+			
+			<reply :activity="activityToReplyTo" :show_reply_modal='showReplyModal'></reply>
+
+            <div class="details-container">
+                <img width="150" height="150" src='{{user.profile_picture}}'>
+                <p class="fullname">{{user.full_name}}</p>
+                <p class="username">{{user.username}}</p>
+				{% if user.bio %}
+                	<p class="bio">{{user.bio}}</p>
+				{% else %}
+					<p class='bio' style='color:darkgrey;font-style:italic;'>User has no bio.</p>
+				{% endif %}
+                
+				{% if not user_is_self %} <button class='follow-btn' @click='followOrUnfollow'>((followAction))</button>
+				 {% endif %}
+				{% endif %}
+            </div>
+
+            <div class="follow-details">
+                <div class="following f-detail">
+                    <p class="figure" v-if=''>{{user.num_of_followed}}</p>
+
+                    <p>following</p>
+                </div>
+
+                <div class="followers f-detail">
+                    <p class="figure" v-text='((num_of_followers))'></p>
+                    <p>followers</p>
+                </div>
+            </div>
+
+                <div class="other-details">
+                     <div class="tab-header">
+                        <div class="tab poll" onclick="showTabContent(this, 'polls')">
+                            <p>Polls</p>
+                        </div>
+
+                        <div class="tab" onclick="showTabContent(this, 'opinions')" @click='getPosts'>
+                            <p>Opinions</p>
+                        </div>
+
+                        <div class="tab" onclick="showTabContent(this, 'c_and_s')" @click='getCommentsAndReplies'>
+                            <p>Comments & Replies</p>
+                        </div>
+
+                        <div class="tab" onclick="showTabContent(this, 'l_and_s')">
+                            <p>Likes & Shares</p>
+                        </div>
+                    </div>
+
+                    <div class='tab-content'>
+                        <div id="poll" class='t-content'>
+                            <feed-item 
+								v-for='activity in activities.polls' 
+								:activity='activity'
+								:user_logged_in='userLoggedIn'
+								:show_comment_modal='showCommentModal'
+								@act_close_comment_modal='closeModal'
+								@act_show_comment_modal='showCommModal'
+								@set_activity_comment_details='setActivityCommentDetails'
+								@set_option_comment_details='setOptionCommentDetails'
+								@show_auth_modal="showAuthModal"
+								@act_show_view_comments_modal='showViewComments'
+								:key="'index' + activities.indexOf(activity) + '-' + activity.id"
+								@set_activity_respondent_details='setActivityRespondentDetails'>
+							</feed-item>
+                        </div>
+
+                        <div id='opinions' class='t-content'>
+                            <feed-item 
+								v-for='activity in activities.opinions' 
+								:activity='activity'
+								:user_logged_in='userLoggedIn'
+								:show_comment_modal='showCommentModal'
+								@act_close_comment_modal='closeModal'
+								@act_show_comment_modal='showCommModal'
+								@set_activity_comment_details='setActivityCommentDetails'
+								@set_option_comment_details='setOptionCommentDetails'
+								@show_auth_modal="showAuthModal"
+								@act_show_view_comments_modal='showViewComments'
+								:key="'index' + activities.indexOf(activity) + '-' + activity.id"
+								@set_activity_respondent_details='setActivityRespondentDetails'></feed-item>
+                        </div>
+
+
+                        <div id='c_and_s' class='t-content'>
+                            <feed-item 
+							v-for='activity in activities.c_and_s' 
+							:activity='activity'
+							:user_logged_in='userLoggedIn'
+								:show_comment_modal='showCommentModal'
+								@act_close_comment_modal='closeModal'
+								@act_show_comment_modal='showCommModal'
+								@set_activity_comment_details='setActivityCommentDetails'
+								@set_option_comment_details='setOptionCommentDetails'
+								@show_auth_modal="showAuthModal"
+								@act_show_view_comments_modal='showViewComments'
+								:key="'index' + activities.indexOf(activity) + '-' + activity.id"
+								@set_activity_respondent_details='setActivityRespondentDetails'></feed-item>
+                        </div>
+
+                        <div id='l_and_s' class='t-content'>
+                            <feed-item v-for='activity in activities.l_an_s' :activitiy='activity'></feed-item>
+                        </div>
+
+                    </div>
+
+
+                </div>
+        </div>
+<template id='new-opinion-template' type='x/template'>
+	<transition name='modal'>
+		<div class='modal-mask' v-show='show_opinion_modal'>
+			<div class='modal-container' style='width:90%'>
+				<div class='modal-header' style='color:black'>
+					<h3>New opinion</h3>
+				</div>
+
+				<div class='modal-body'>
+
+
+					<textarea v-model='opinion' id='comment-input' @click='autoResize' class='form-control' name='comment' form='comment-form' placeholder='Reason'></textarea>
+					<button @click='createOpinion'>Share</button>
+				<div> 
+
+
+			</div> 
+
+		</div>
+	</transition>
+</template>
+
+
+<script type='x/template' id='add-comment-template'>
+	<transition name='modal'>
+	<div class="modal-mask" id='add-comment-modal' v-show='show_comment_modal' >
+		<div class="modal-container">
+			<div class='modal-header'>
+				<span class='close-mark'> x </span>
+				<h3>Commenting on:</h3>
+				<h5 v-if='activity.question'>((activity.question))</h5>
+				<h5 v-else>((activity.opinion))</h5>
+			</div>
+			<div class='modal-body'>
+				<form id='comment-form'>
+					<p class='chosen' v-if='chosenOptionTitle'>((chosenOptionTitle))</p>
+					<textarea id='comment-input' @click='autoResize' class='form-control' name='comment' form='comment-form' placeholder='Reason'></textarea>
+				<button @click='comment'>Comment</button>
+				<button v-if='activity.opinion' style='margin-right:10px;'>Skip</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	</transition>
+
+</script>
+
+	<template id='reply-template'>
+		<transition name='modal'>
+			<div class="modal-mask" v-show='show_reply_modal'>
+				<div class="modal-container">
+					<div class="modal-header">
+						<p v-if="activity.type=='comment'">Reply <span> =>((activity.commenter))</p>
+
+
+
+						
+
+
+					</div>
+					<div class="modal-body">
+						<textarea v-model='replyText'>
+
+
+						</textarea>	
+						<button @click='reply'>Reply</button>
+					</div>
+				</div>
+			</div>
+		
+		</transition>
+	</template>
+
+
+
+	<template id='feed-item'>
+        <div class="feed-container">
+				<!--you will have to re-write the styles. This modal imports from authentication modal-->
+		
+
+
+			<!--This div will be shown for poll activities --> 
+            <div class="feed-card" v-if="activity.type=='poll'">
+                
+				<div class='poll'>
+
+				<div class="avatar">
+                     <img v-if='activity.userPic == null' src="https://www.w3schools.com/howto/img_avatar.png"/> 
+					 <img v-if='activity.userPic != null' :src='activity.userPic'>
+                </div>
+
+
+                <div class="beside-avatar-box">
+                    <div class="author-details">
+                        <p class="name" >((activity.userName))</p>
+                        <p class="username"></p>
+                        <p class="action">asked</p>
+                    </div>
+
+                    <div class="categories-container">
+
+                    </div>
+
+                    <h6 class="poll-question"><a :href="'localhost:6543/poll/' + activity.id + '/'">((activity.question))</a></h6>
+                    <div class="poll-info" v-if='activity.info'>
+						<div v-if='infoHasLink' class='link-info' style='display:flex; padding: 5px; flex-direction:row; border:0.5px solid lightgrey; border-radius:10px;'>
+							<img :src='infoLinkThumb' width='150' height='100' style='margin-right:5px;'/>
+							<div style='display:flex; flex-direction:column'>
+								<h4>((infoLinkTitle))</h4>
+								<p>((infoLinkDescription))<h4>
+							</div>
+						</div>
+						<div v-else>
+							((activity.info))
+						</div>
+					</div>
+					
+
+
+					<!--if the poll has ended, just show the results already! --> 
+					<template v-if='pollHasEnded == false && !isPicturePoll'>						
+						<!-- this is the default. Shows when the user has not voted -->
+						<template v-if='!userHasVoted'>
+							<div class='options' v-for='option in activity.options' :option='option'>
+									<label>
+										<input type="radio" @click='optionChosen(option.id)' name='option' :value='option.id'>
+										<span class='checkmark'></span>
+										((option.option))
+									</label>
+
+							</div>
+						</template>
+						<!-- once the user has voted, this template will come up! --> 
+						<template v-else-if='userHasVoted && !isPicturePoll'>
+							<div class='options'>
+	 							<div class="ans-cnt" v-for="option in calculatedScores" :option='option'>
+									<div class="ans">
+                                		<div class="ans-voted">
+                                    		<span class="percent">((option.percent))</span>
+                                    		<span class="txt">((option.option))</span>
+                                		</div>
+                                		<span class="first-bg"></span>
+                                		<span :class="{bg:true}" :style='{width: option.percent}'></span>
+                            		</div>
+								</div>
+                    		</div>
+						</template>
+
+
+						<template v-else-if='!userHasVoted && isPicturePoll'>
+				   			<div class='picture-options'>
+								<label>
+									<input type='radio' name='checkbox'/>
+									<img src='data:image/jpeg;base64,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'/>
+							
+									<span class='checkbox'></span>
+
+									<span>Wizkid</span>
+						 		</label>
+
+				   			</div>
+						</template>
+
+					<!--	<template>
+							<div class='img-opt-container'>
+								<label v-for='option in calculatedScores' :option='option'>
+									<input type='radio'/>
+									<img :src='option.imageLink'/>
+									<div class=''>
+										<span>((option.option))</span>
+										<span checkmark></span>
+									</div>
+								</label>
+							</div>
+					</template> -->
+
+					</template>
+
+                    <!--options-->
+                    <p class="votes">((totalVotes)) votes</p>
+
+                    <button v-on:click='vote' v-show='!userHasVoted' id='vote-btn'><i class="far fa-check-circle button-icon"></i>Vote</button>
+                    <button v-on:click='addComment' v-show='!userHasVoted' id='comment-btn'><i class="far fa-comment button-icon"></i>Comment</button>
+                    <button v-show='!userHasVoted'><i class="far fa-chart-bar button-icon"></i>Results</button>
+					<button  v-show='userHasVoted'><i class="fas fa-chart-pie button-icon"></i>View Breakdown</button>
+				</div>
+
+				<div @click='show_view_comments_modal'>
+				<!--	<h5>View Comments </h5> -->
+				</div>
+			</div>
+			</div>
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!---This is the comment div --> 
+			<div class="feed-card" v-else-if='activity.type=="comment"'>
+				<div class='trigger' v-if='activity.trigger' style='margin-bottom: 5px; padding:10px; padding-left:20px; border-bottom: solid 0.3px lightgrey;'>
+					<p style='color:darkgrey; font-size:11px;'>((activity.triggerActor))  ((activity.trigger))</p>
+
+				</div> 
+
+					<div class="avatar">
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+                    <div class="beside-avatar-box">
+                        <div class="author-details">
+                            <p class="name" style='font-weight:bold;'>((activity.commenter))</p>
+                            <p class="username"></p>
+                            <p class="action"></p>
+                        </div>
+
+
+                        <h2 class="chosen-option">((activity.option_chosen))</h2>
+                        <p class="comment" style='white-space:;'>((activity.comment))</p>
+
+
+                        <div>
+                            <div class="comment-question" v-if='activity.poll'>
+                                <p class='author-name' style='font-weight:bold;'>((activity.poll.userName))</p>
+								<p class='question'>((activity.poll.question))</p>
+
+
+                            </div>
+
+							<p class='comment-opinion' style='color:black;' v-else-if='activity.opinion'>((activity.opinion.opinion))</p>
+                        </div>
+
+						<button @click='reply'> Reply </button>
+						<button><i class="far fa-thumbs-up button-icon" @click='like'></i>Like</button>
+						<button @click="share"><i class="far fa-share-square button-icon"></i>Share</button>
+
+					</div>
+
+            </div>
+
+
+
+			<div class="feed-card" v-else-if='activity.type=="opinion"'>
+
+					<div class="avatar" v-if='activity.trigger'>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png" style='margin-top:12px;'/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+
+					<div class="avatar" v-else>
+                         <img v-if='!activity.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='activity.userPic'>
+                    </div>
+				
+                    <div class="beside-avatar-box">
+						<div v-if='activity.trigger' style='margin-bottom:0px;'>
+							<p style='color:darkgrey; font-size:11px'>((activity.triggerActor)) ((activity.trigger))</p>
+						</div>
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((activity.userId)) (deji)</p>
+                            <p class="username"></p>
+                        </div>
+
+                        <p class="comment">((activity.opinion))</p>
+						<p class='votes'>((activity.numOfComments)) comments</p>
+						
+						<button @click='addComment("Agree")'><i class="fa fa-check button-icon" aria-hidden="true"></i>Agree</button>
+						<button @click='addComment("Disagree")'><i class="far fa-thumbs-down button-icon"></i>Disagree</button>
+						<button @click='like'>Like</button>
+					</div>
+
+            </div>
+
+
+	<!--if poll is a picture poll" --> 
+
+
+	
+
+	</div>
+
+
+
+</template>
+
+
+
+
+
+
+
+
+
+
+<script>
+
+	//show polls at the beginning
+	var pollTabContent = document.getElementById('poll');
+	pollTabContent.style.display = 'block';
+	pollTabContent.style.visibility = 'visible';
+	pollTabContent.style.opacity = 1;
+
+    var tabs = document.getElementsByClassName('tab');
+    tabs[0].style.borderBottom = 'solid 2px teal';
+    tabs[0].style.fontWeight = 'bold';
+        
+
+    function showTabContent(tb, name){
+        var tab = tb; 
+        var tabs = document.getElementsByClassName('tab');
+        for (var i = 0; i < tabs.length; i++){
+            tabs[i].style.borderBottom = 'none';
+            tabs[i].style.fontWeight = 'normal';
+        }
+        tab.style.borderBottom = 'solid 2px teal';
+        tab.style.fontWeight = 'bold';
+        
+        var tabContents = document.getElementsByClassName('t-content');
+        for (var i = 0; i < tabs.length; i++){
+            tabContents[i].style.display = 'none';
+            tabContents[i].style.visibility = 'hidden';
+            tabContents[i].style.opacity = 0;
+        }
+
+        var tabContent = null;
+
+        if (name=='polls'){
+            tabContent = document.getElementById('poll');
+        }
+        else if(name=='opinions'){
+            tabContent = document.getElementById('opinions');
+        }
+        else if (name=='c_and_s'){
+            tabContent = document.getElementById('c_and_s');
+        }
+        else if (name=="l_amd_s"){
+            tabContent = document.getElementById('l_and_s');
+        }
+
+
+        tabContent.style.display = 'block';
+
+        tabContent.style.visibility = 'visible';
+            
+        tabContent.style.opacity = 1;
+    }
+    </script>
+    </body>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var userId = document.getElementById('userId').innerHTML;
+
+Vue.component('add-new-comment-modal',{
+		template: '#add-comment-template',
+		props: ['show_comment_modal', 'activity', 'option'],
+		delimiters:['((','))'],
+
+		data(){
+			return {
+				
+			}
+		},
+
+		computed:{
+			chosenOptionTitle(){
+				if (this.activity){
+					for (i = 0; i < this.activity.options.length; i++){
+						if (this.activity.options[i].id == this.option){
+							return this.activity.options[i].option;
+						}
+					}
+
+				}
+			},
+
+			agreeOrDisagree(){
+				return this.option;
+			},
+		},
+
+		methods: {
+			comment(event){
+				vm = this;
+				var form = document.getElementById('comment-form');
+				event.preventDefault();
+				var formData = new FormData(form);
+				
+				if (this.activity.type=='poll'){
+					vm = this;
+
+					formData.append('poll_id', this.activity.id);
+					formData.append('option_id', this.option);
+					var request = new XMLHttpRequest();
+					request.open("POST", siteUrl + '/comment/');
+					request.onreadystatechange = function(){
+						if (request.readyState = XMLHttpRequest.DONE){
+							if (request.status == 200){
+								vm.$emit('activity_voted', vm.activity.id, vm.option);
+								vm.$emit('close_add_comment_modal', true);
+							}
+
+
+							else{
+							}
+						}
+					}
+					request.send(formData);
+				}
+				else {
+					alert(vm.activity.id);
+					formData.append('opinion_id', vm.activity.id);
+					formData.append('option_id', vm.option);
+					var request = new XMLHttpRequest();
+					request.open("POST", siteUrl + '/comment/');
+					request.onreadystatechange = function(){
+						if (request.readyState = XMLHttpRequest.DONE){
+							if (request.status == 200){
+								vm.$emit('close_add_comment_modal', true);
+				
+								//window.location.reload();
+							}
+
+
+							else{
+							}
+						}
+					}
+					request.send(formData);					
+				}
+			},
+
+			autoResize(event){
+				event.preventDefault();
+				var textarea = event.target;
+				textarea.addEventListener('input', function(){
+					var currentHeight = textarea.offsetHeight;
+					var scrollHeight = textarea.scrollHeight;
+	
+					if (scrollHeight > currentHeight){
+						textarea.style.height = scrollHeight + 'px';
+					}
+				});
+			},
+
+			created(){
+			}
+
+	
+		},
+	});
+
+	Vue.component('feed-item', {
+		template: '#feed-item',
+		props: ['activity', 'option', 'user_logged_in', 'show_comment_modal', 'show_view_comments_modal'],
+		delimiters: ['((', '))'],
+		data(){
+			return{
+
+				//these are for the polls.
+				userHasVoted: this.activity.userHasVoted,
+				pollHasEnded: this.activity.hasEnded,
+				isPicturePoll: this.activity.isPicturePoll,
+				justVotedScore: 0,
+				poll_votes: this.activity.totalVotes,
+				chosenOption: 0,
+				chosenOptionName: this.getChosenOptionName(),
+				infoHasLink: this.activity.hasUrlInInfo,
+				infoLinkThumb: this.activity.infoPageThumb,
+				infoLinkTitle: this.activity.infoPageTitle,
+				infoLinkDescription: this.activity.infoPageDescription,
+				seenPollResults: this.activity.userHasSeenResults,
+				userJustFollowed: false, 
+				userJustFollowedClass: 'userJustFollowed',
+						
+			}
+			
+
+			
+		},
+		mounted(){
+
+		
+		},
+
+		methods:{
+			
+			seeRespondents(){
+				this.$emit('set_activity_respondent_details', this.activity);
+				
+			},
+				
+			followUser(){
+				vm = this;
+				axios.post(siteUrl + '/follow/' + this.activity.userId, {
+				}).then(response =>{
+					this.userJustFollowed = true;
+				});
+
+			},
+
+			unfollowUser(){
+				axios.post(siteUrl + "/unfollow/" + this.activity.userId,{
+				}).then(response=>{
+					this.userJustFollowed = false;
+					this.isFollowing = false;
+				});
+
+			},
+	
+			followOrUnfollowUser(){
+
+				if(!this.userJustFollowed){
+					this.followUser();
+				}
+				else{
+					this.unfollowUser()
+				}
+
+
+			},
+
+			
+			openReply(){
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details',{});
+			},
+
+			//reply(){
+			//	vm = this;
+			//	if(this.activity.type == 'commment'){
+			//		axios.post(siteUrl + '/reply-comment',{
+			//			comment_id = vm.activity.id,
+			//		});
+			//	}
+			//},
+
+			share(){
+				vm = this;
+				if(this.activity.type =='comment'){
+					axios.post(siteUrl + '/share/', {
+						comment_id: vm.activity.id,
+					});
+				}
+			
+			},
+
+			changeActivityData(id, value){
+				this.$set(this.activity. id, value);
+			},
+
+			openBreakDownWindow(){
+				window.open(siteUrl + '/poll/demographic-metrics/' + this.activity.id);
+			},
+
+			
+			showViewCommentsModal(){
+				this.$emit('act_show_view_comments_modal', true);
+			},
+
+			closeModal(){
+				this.$emit('act_close_comment_modal', false)
+			},
+			
+			like(){
+				vm = this;
+				if(this.activity.type == 'opinion'){
+					axios.post(siteUrl + '/like/', {
+						opinion_id: vm.activity.id,
+					}).then(function(response){
+
+					});
+				}
+				else if (this.activity.type == 'comment'){
+					axios.post(siteUrl + '/like/', {
+
+					}).then(function(response){
+
+					});
+				}
+			},
+			addComment(option){
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					//check if the activity is an opinion
+					if (this.activity.type = 'opinion'){
+							activities = this.activity.options.filter(i=> i.option == option);
+							this.chosenOption = activities[0].id;
+						
+					}
+					else{
+						alert('Select an option');
+						return 0;
+					}
+				}
+				var val = true; 
+				this.$emit('act_show_comment_modal', true);
+				this.$emit('set_activity_comment_details', this.activity);
+
+				//this will pass the id of the option that was chosen before 
+				//the comment button was clicked
+				this.$emit('set_option_comment_details', this.chosenOption);
+
+			},
+
+			optionChosen(optionId){
+				this.chosenOption = optionId;
+
+			},
+
+			getChosenOptionName(){
+				var chosenOptionId = this.chosenOption;
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id == chosenOptionId){
+						return this.activity.options.option;
+					}
+				}
+			},
+
+			
+			vote: function(){
+				vm = this;
+				if (this.user_logged_in == false){
+					var result = true;
+					this.$emit('show_auth_modal', result);
+					return 0;
+
+				}
+
+				if (this.chosenOption  == 0) { //if no option has been chosen
+					alert('Select an option');
+					return 0;
+				}
+
+				this.activity.totalVotes += 1;
+				this.userHasVoted = true;
+
+				for (var i = 0; i < this.activity.options.length; i++){
+					if (this.activity.options[i].id  == this.chosenOption){
+						this.activity.options[i].score += 1;
+						break;
+					}
+				}
+                
+				this.userHasVoted = true;
+				var pollID = this.activity.id;
+				axios.post(siteUrl + '/vote/',{
+					poll_id: pollID, 
+					option_id: vm.chosenOption,
+				}).then(function(response){
+				
+				}).catch(function(error){
+					this.userHasVoted = false;
+				})
+
+
+			},
+			comment: function(){
+				if (this.user_logged_in == false){
+					alert ("You need to be logged in first");
+					return 0;
+				}
+			},
+
+			seeResults: function(){
+				if (this.user_logged_in == false){
+					this.$emit('show_auth_modal', result);
+					return 0;
+				}
+
+				if (this.seenPollResults == false){
+					axios.post(siteUrl + '/viewresults',{
+						poll_id: this.activity.id,
+					}).then(function(response){
+						this.seenPollResults = true;
+					}).catch(function(error){
+						this.seenPollResults = false;
+
+				});
+
+				}
+				
+			},
+
+		},
+
+		computed:{
+
+			
+			totalVotes(){
+				return this.activity.totalVotes;
+			},
+
+
+			calculatedScores(){
+				if(this.activity.totalVotes ==0){
+					return this.activity.options.map(a=>{
+						a.percent = '0%'
+						return a
+					})
+			}
+				return this.activity.options.filter(a=>{
+                    if (!isNaN(a.score) && a.score > 0){
+                        a.percent = ( Math.round( (parseInt(a.score)/this.activity.totalVotes ) * 100) ) + '%'
+					}
+					else{
+                        a.percent =  '0%'
+					}
+                    return a
+                })
+		},
+
+
+
+	
+	}
+
+	});
+
+	
+    window.app =  new Vue({
+            el:'#container',
+            delimiters: ['((', '))'],
+            data(){
+                return {
+					loading: true,
+                    activities: [],
+                    likesAndShares: [],
+                    commentsAndReplies: [],
+					num_of_followers: {{user.num_of_followers}},
+					isFollowing: Boolean({{is_following}}),
+					
+				userLoggedIn: false,
+				userName: '',
+				userPic: '',
+
+				optionToCommentOn: 0,
+				activityToCommentOn: {},
+
+				showRespondentsModal: false,
+				showNewSelectionModal: false,
+				showAuthenticationModal: false,
+				showCommentModal: false,
+				showSidebar: false,
+				showCategories: false,
+				showViewCommentsModal: false,
+				showCreateNewPollModal: false,
+				showSubscriptions:false,
+				showCreateNewOpinionModal: false,
+				activityToGetRespondents: {},					
+
+                }
+
+                
+            },
+
+			computed:{
+				followAction(){
+					if (this.isFollowing){
+						return "Unfollow";
+					}
+					else{
+						return "Follow";
+					}
+				}
+			},
+			
+            methods:{
+				
+
+                changePollData(id, value){
+                	this.$set(this.activities, id, value);
+            	
+				},
+
+			closeModal(newData){
+				if(this.showCommentModal == true){
+					this.showCommentModal = false;
+				}
+				if(this.showAuthenticationModal == true){
+					this.showAuthenticationModal = false;
+				}
+				if(this.showSidebar == true){
+					this.showSidebar = false;
+				}
+
+				if(this.showCommentModal == true){
+					this.showCommentModal == false;
+				}
+				this.showCreateNewOpinionModal = false
+
+			},
+
+			setActivityCommentDetails(activity){
+				this.activityToCommentOn = activity;
+			},
+
+			setActivityRespondentDetails(activity){
+				this.activityToGetRespondents = activity;
+				this.showRespModal();
+			},
+
+			setOptionCommentDetails(optionId){
+				this.optionToCommentOn = optionId;
+			},
+
+			showCommModal(newData){
+				this.showCommentModal = true;
+			},
+
+			showAuthModal(newData){
+				this.showAuthenticationModal = newData;
+			},
+			
+			showRespModal(){
+				this.showRespondentsModal = true;
+			},				
+				
+				followUser(){
+					vm = this;
+					axios.post("http://localhost:6543/follow/" + userId, {
+					}).then(response =>{
+						this.num_of_followers = this.num_of_followers  + 1;
+						this.isFollowing = true;
+					});
+
+				},
+
+				unfollowUser(){
+					axios.post("http://localhost:6543/unfollow/" + userId,{
+
+					}).then(response=>{
+						this.isFollowing = false;
+						this.num_of_followers = this.num_of_followers - 1;
+					});
+
+				},
+
+				followOrUnfollow(){
+					if (this.isFollowing){
+						this.unfollowUser();
+					}
+					else{
+						this.followUser();
+					}
+				},
+				
+                getCommentsAndReplies(){
+					if (this.activities.c_and_s == null){
+                    	axios.get('http://localhost:6543/comments_and_replies/user_id=' + userId).then(response=> {
+						this.changePollData('c_and_s', response.data.c_and_s);
+                    	});
+					}
+                },
+
+                getLikesAndShares(){
+                    axios.get('http://localhost:6543/likes_and_shares/user_id=' + userId).then(response => {
+                        this.likesAndShares = response.data.likesAndShares; 
+                    });
+                },
+                getPosts(){
+                    //if there are no opinions already
+                    if (this.activities.opinions == null){
+                        axios.get('http://localhost:6543/posts/user_id=' + userId).then(response => {
+                            this.changePollData('opinions', response.data.opinions);
+							//this.activities.opinions = [],
+                            //this.activities.opinions = response.data.opinions;
+                        });
+                    }
+                },
+            },
+
+            created(){
+                vm = this;
+                axios.get('http://localhost:6543/polls/user_id=' + userId).then(response =>{
+                    this.activities = response.data.activities;
+                
+				});
+				vm.loading = false;
+            },
+        });
+
+    </script>
+</html>

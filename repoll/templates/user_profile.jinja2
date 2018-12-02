@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+</head>
+<body>
+	{% block content %}
+		{% if user %}
+			<h1>Name {{user.first_name user.last_name}}<h1>
+			<h1>Email {{user.email}}</h1>	
+		{% endif %}
+
+	{% endblock content%}
+</body>
+</html>

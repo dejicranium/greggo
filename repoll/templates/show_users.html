@@ -1,0 +1,15 @@
+{% block content %}
+	
+	{% if users %}
+		{% for user in users %}
+			<form action="{{request.route_url('follow', user_id=user.id)}}" method="post">
+				<h3>{{user.first_name + user.last_name}}</h3> 
+				<input type='hidden' name='follow' value={{user.id}}>
+				<input type='submit' value="follow">Follow
+			</form>
+		{% endfor %}
+	
+	{% endif %}
+
+
+{% endblock %}

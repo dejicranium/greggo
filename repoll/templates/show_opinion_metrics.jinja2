@@ -1,0 +1,690 @@
+<html>
+    <head>
+
+
+
+       <!-- <script src="https://cdnjs.cloudflare.com/ajax/libsstatic/js/2.3.0/Chart.static/js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0static/js"></script>
+-->
+	    <link href='https://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet'/>
+	    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Show Metrics</title>
+        <style> 
+            *{
+                padding: 0; 
+                margin: 0;
+                font-family: 'Merriweather Sans';
+            }
+
+            #app{
+                margin-top: 25px;
+            }
+
+            select{
+                background-color:white;
+                border: 1px solid darkgrey;
+                border-radius: 5px;
+            }
+            #hidden-id-signifier{
+                display: none;
+            }
+            #hidden-question-signifier{
+                display: none;
+            }
+
+
+		#navbar{
+			display:flex;
+			padding: 10px 10px 10px 10px;
+			width:100%;
+			min-height: 35px;
+			background-color: white;
+			position: fixed;
+			top:0;
+			flex-direction: row;
+			box-shadow: 0px 0px 2px 0px grey;
+			margin-bottom: 10px;
+			z-index: 5;
+			box-sizing:border-box;
+
+		}
+		#navbar h1{
+			font-size: 10vw;
+			text-align: center;
+
+		}
+
+
+		.navbar-actions{
+			position: absolute;
+			display: flex;
+			right: 0;
+			flex-direction: row;
+		}
+
+		.nabar-actions ul{
+			text-decoration:none;
+			display:flex;
+			flex-direction: row;
+		}
+
+
+		.navbar-actions button{
+			display: inline-block;
+			background-color: transparent;
+			border:0;
+			color:darkgray;
+			height: 100%;
+			vertical-align: center; 
+			text-align: center;
+			font-size: 15px;
+			padding-right: 10px;
+		}
+
+		.navbar-icon{
+			position:relative; 
+			right: 0px;
+			margin-right: -10px;
+			width: 30px;
+			padding: 0px;
+			vertical-align:center;
+			text-align:center;
+			padding-left: 10px;
+		}
+
+
+            .chartTitle{
+                font-size: 13px;
+                font-weight: normal;
+                background-color: white; 
+                padding: 10px;
+                border: 0.5px lightgrey solid;
+                margin-bottom: 2px;
+                height: 30px;
+                overflow: hidden; text-overflow: ellipsis;
+            }
+            .chart-container{
+                width: 100%;
+                text-align: center;
+                padding-top: 10px;
+            }
+            #metricsChart{
+                 margin:auto; 
+
+
+            }
+            body{
+                background-color: #F7F7F7;
+
+            }
+            #container{
+                width: 100%;
+                background-color: white;
+                margin:auto;
+            }
+
+            #choice-of-metrics-div{
+                background-color:white;
+                border: .5px solid lightgrey;
+                padding: 10px;
+                margin: auto;
+                position: relative;
+                box-sizing:border-box;
+            }
+            #main-focus-choice-div{
+                display:flex;
+                flex-direction: row;
+                box-sizing: border-box;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+                border-bottom: .4px solid lightgrey;
+   
+            }
+
+            #main-focus-choice-div select{
+                font-size:12px;
+                margin-right: 5px;
+                box-sizing: border-box;
+            }
+            .new-metrics-text{
+                display:block;
+                width: 50%; 
+                margin: auto;
+                text-align: center;
+                font-size: 12px;
+            
+            }
+
+            .criterion-text{
+                font-size: 12px;
+                margin-right: 5px;
+            }
+
+            #sub-focus-choice-div{
+                font-size: 12px; 
+                margin-right: 5px;
+                display: flex;
+                flex-direction: row;
+            }
+            .sub-focus-selection-text{
+                font-size: 12px;
+                margin-right: 5px;
+            }
+             #main-focus-choice-div select{
+                font-size:10px;
+                margin-right: 5px;
+            }
+            #sub-focus-choice-div select{
+                font-size: 10px; 
+                margin-right: 5px;
+                max-height: 20px;
+
+            }            
+            .mainFocusAgeSelection{
+                width: 50px;
+                font-size: 10px;
+            }
+            .mainFocusAgeRangeSelection input{
+                width: 50px;
+            }
+
+            .subFocusAgeSelection{
+                width: 50px;
+                font-size: 10px;
+            }
+            
+            .subFocusAgeRangeSelection input{
+                width: 50px;
+                font-size: 10px;
+                
+            }
+
+            .goBtn{ 
+                background-color: teal;
+                border-radius:  50%;
+                color:white;
+                padding: 5px 10px 5px 10px;
+                float: right;
+                display: block;
+                border:0;
+            }
+        </style>
+
+
+    </head>
+
+
+
+    <body>
+        		{%include 'not_home_navbar_template.jinja2' %}
+
+        <div id='app' v-show='!loading'>
+            <p id='hidden-id-signifier' v-cloak>{{opinion.id}}</p>
+            <p id='hidden-question-signifier' v-cloak>{{opinion.question}}</p>
+            <div class='chart-container' v-for='metrics in metricsData' >
+                <p class='chartTitle' v-cloak>((metrics.title))</p>
+                
+                <canvas id='metricsChart' width='200' height='200'></canvas>  
+            </div>
+            <div id='choice-of-metrics-div'>
+                <div id='main-focus-choice-div'>
+                    <p class='criterion-text'>Criterion:</p> 
+                    <select v-model='newMainFocus'> 
+                        <option>Gender</option>
+                        <option>Age</option>
+                        <option>Age Range</option>
+                    <select>
+
+                    <input type='number' class='mainFocusAgeSelection' v-show='showMainFocusAgeSelectionBoxes' placeholder='Age' v-model='m_f_objs'/>
+                    
+                    <div v-show='showMainFocusAgeRangeSelectionBoxes' class='mainFocusAgeRangeSelection'>
+                        <input type='number' v-model='ageUpperBound'/> -
+                        <input type='number' v-model='ageLowerBound'/>
+                    </div>
+                </div>
+
+                <div id='sub-focus-choice-div'>
+                    <p v-show='subFocusSelectionTextOne' 
+                        class='sub-focus-selection-text' v-cloak> ((subFocusSelectionTextOne))
+                    </p>
+                   
+                    <select v-show='subFocusSelectionTextOne' v-model='newSubFocus'>
+                        <option v-for='criterion in allowedSubFocusCriterion' v-if='criterion.option'> <span style='font-weight:bold;' v-cloak>((criterion.option))<span> </option>
+                        <option v-for="criterion in allowedSubFocusCriterion" v-if='!criterion.option' v-cloak> ((criterion)) </option>
+                    </select>
+
+                    <p v-show='subFocusSelectionTextTwo' 
+                        class='sub-focus-selection-text'> ((subFocusSelectionTextTwo))
+                    </p>
+
+                    <input type='number' class='subFocusAgeSelection' v-show='showSubFocusAgeSelectionBoxes' placeholder='Age'/>
+                    
+                    <div v-show='showSubFocusAgeRangeSelectionBoxes' class='subFocusAgeRangeSelection'>
+                        <input type='number'/> 
+                        <br>to<br>
+                        <input type='number'/>
+                    </div>               
+                </div>
+                <button @click='getMetrics' class='goBtn'>Go</button>
+            </div> 
+        </div>
+    
+    
+    
+    
+    
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+    <script>
+        opinion = document.getElementById('hidden-question-signifier').innerHTML;
+        opinionId = document.getElementById('hidden-id-signifier').innerHTML;
+        //we need to be able to destroy this chart, so we make it global
+        var chart1 = '';
+        
+        new Vue({
+            el: '#app',
+            delimiters: ["((", "))"],
+            data(){
+                //metrics data will be a list of object
+                //each object will contain the main_focus, and sub_focus, 
+                //the canvas in #app shall populate based on this list
+                return{
+                    loading: true,
+                    opinion: {},
+                    metricsData: [{title: 'Voters on opinion'},],
+                    s_f: '',
+                    m_f: '',
+                    newMainFocus: '',
+                    newSubFocus: '',
+                    s_f_objs: '',
+                    m_f_objs: 'som',
+                    showMainFocusAgeSelectionBoxes: false,
+                    showMainFocusAgeRangeSelectionBoxes: false,
+                    subFocusSelectionTextOne: '',
+                    subFocusSelectionTextTwo: '',
+                    showSubFocusAgeSelectionBoxes: false,
+                    showSubFocusAgeRangeSelectionBoxes: false,
+                    allowedSubFocusCriterion: [],
+                    ageUpperBound: 0,
+                    ageLowerBound: 0,
+
+
+                }
+            },
+
+            methods:{
+                changeOpinionData(id, value){
+                    this.$set(this.opinion, id, value);
+                },
+
+                createNewChartCanvas(){
+                    var length = this.chartIds.length;
+                    var newChartId = 'metricsChart' +length+1; 
+                    this.chartIds.push(newChartId);
+                    //return the name of the new Chart Canvas
+                    return newChartId;
+                },
+                
+                getOpinionDetails(){
+                    vm = this;
+                    axios.get('http://localhost:6543/opinion/' + opinionId).then(function(response){
+                        vm.changeOpinionData('options', response.data.options);
+                        vm.changeOpinionData('opinion', response.data.opinion);
+
+                    });
+                },
+ 
+                makePieChart(aLabels, aData){
+                    //destroy a previous chart
+                   // chart1.destroy();
+                    
+                    var ctx = document.getElementById('metricsChart').getContext('2d');
+
+
+                    var options = {
+                        legend:{
+                            display: true, 
+                            position: "bottom",
+                            labels:{
+                                fontColor: '#333',
+                                fontSize: 13
+                            }
+                        }
+                    };
+                    var data = {
+                        labels: aLabels,
+                        datasets: [
+                            {
+                                data: aData, 
+                                backgroundColor: [
+                                    "green",
+                                    "orange",
+                            
+                                ],
+                                borderColor: [
+                                    'green', 
+                                    'orange',
+                                ]
+                            }
+                        ]
+                    };
+
+                        
+                        
+                        chart1 = new Chart(ctx, {
+                        type: "pie",
+                        data: data,
+                        options: options
+                    });
+
+                },
+ 
+                getMetrics(){
+                    vm =this;
+                    if (this.m_f == 'age_range'){
+                        this.m_f_objs = this.ageUpperBound + '-' + this.ageLowerBound;
+                    }
+
+                    axios.get('http://localhost:6543/opinion/get-metrics/' + opinionId,{
+                        params:{
+                            m_f: this.m_f, 
+                            s_f: this.s_f, 
+                            m_f_objs: this.m_f_objs,
+                            s_f_objs: this.s_f_objs,
+                        }
+                    }).then(function(response){
+                        if (vm.m_f =='gender' && vm.s_f=='option'){
+                            labels = ["Male", "Female"];
+                            data = [response.data['M'].votes, response.data['F'].votes];
+                            vm.metricsData[0].title = 'Sex of users who voted ' + vm.newSubFocus + ' in opinion: ' + vm.opinion.opinion ;
+                            vm.makePieChart(labels, data);
+                            vm.m_f=='gender';
+                            
+                        }
+
+                        else if(vm.m_f=='age' && vm.s_f=='option'){
+                            vm.m_f = 'age';
+                            var age = vm.m_f_objs
+                            vm.metricsData[0].title = "Users, " + age + " years of age, who voted " + vm.newSubFocus +  " in opinion: " + '"' + vm.opinion.opinion + '"';
+
+                            labels = ["Voters " + age + " years of age"]
+                            data = [response.data[age].votes] 
+                            
+                            vm.makePieChart(labels, data);
+                            vm.m_f = 'age';
+                        }
+
+                        else if(vm.m_f=='age' && vm.s_f == 'options'){
+                            vm.m_f='age';
+                            var age = vm.m_f_objs
+                            var options = vm.opinion.options.map(option=>option.option);
+                            var option_ids = vm.opinion.options.map(option=>option.id);
+                            vm.metricsData[0].title = "Votes of users, " + age + " years of age, in opinion: " + '"' + vm.opinion.opinion + '"';
+
+                            labels = options
+                            data = []
+                            option_ids.forEach(function(id){
+                                var age = vm.m_f_objs;
+                                var new_data = response.data[age][id].votes;
+                                data.push(new_data);
+                            });
+
+                            vm.makePieChart(labels, data);
+
+                            vm.m_f = 'age';                            
+                        }
+
+                        else if(vm.m_f=='age_range' && vm.s_f == 'option'){
+                            vm.m_f='age_range';
+                            var ages = [];
+                            var i = vm.ageUpperBound;
+                            var upperBound = parseInt(vm.ageLowerBound) + 1;
+                            while(i < upperBound){
+                                ages.push(i);
+                                i++;
+                            }
+                 
+                            labels = ['Voters between ' + vm.ageUpperBound + ' and ' + vm.ageLowerBound + ' of age'];
+                            pre_data = []; //contains string numbers;
+                            data = [];
+                            age_vote = 0;
+                            
+                            ages.forEach(function(age){
+                                age_vote += parseInt(response.data[age].votes);
+                            });
+
+
+                            data.push(age_vote);
+
+                            vm.makePieChart(labels, data);
+
+                            vm.m_f = 'age_range';                            
+                        }
+
+                        else if(vm.m_f=='age_range' && vm.s_f == 'options'){
+                            vm.m_f='age_range';
+                            var ages = [];
+                            var i = vm.ageUpperBound;
+                            var upperBound = parseInt(vm.ageLowerBound) + 1;
+                            while(i < upperBound){
+                                ages.push(i);
+                                i++;
+                            }
+
+                            //we need to make sure that the age_range is not more than 100
+
+                            option_ids = vm.opinion.options.map(option=>option.id);
+                            options = vm.opinion.options.map(option=>option.option);
+
+                            labels = options;
+                            pre_data = []; //contains string numbers;
+                            data = [];
+                            
+                            option_ids.forEach(function(id){        //option_ids need to come_first
+                                var option_votes_sum = 0;
+                                ages.forEach(function(age){
+                                    option_votes_sum += response.data[age][id].votes;
+                                    
+                                });
+                                data.push(option_votes_sum);
+                            });
+
+
+                            vm.makePieChart(labels, data);
+
+                            vm.m_f = 'age_range';                            
+                        }
+
+
+
+                    });
+                },
+            },
+
+            watch:{
+
+                newMainFocus: function(val){
+                    if (val == 'Age'){
+                        this.showMainFocusAgeSelectionBoxes = true;
+                        this.showSubFocusAgeRangeSelectionBoxes = false;
+                        this.showSubFocusAgeSelectionBoxes = false;
+                        this.allowedSubFocusCriterion = this.opinion.options.map(i=>i.option);
+                        this.allowedSubFocusCriterion.unshift('All Options');
+                        this.m_f = '';
+                        this.m_f = 'age';
+
+                    }
+                    else{
+                        this.showMainFocusAgeSelectionBoxes = false;
+                        
+                    }
+                    if (val == "Age Range"){
+                        this.showMainFocusAgeRangeSelectionBoxes = true;
+                        this.showSubFocusAgeRangeSelectionBoxes = false;
+                        this.showSubFocusAgeSelectionBoxes = false;
+                        this.allowedSubFocusCriterion = this.opinion.options.map(i=>i.option);
+                        this.allowedSubFocusCriterion.unshift('All Options');
+                        this.m_f ='age_range';
+                    }
+
+                    else{
+                        this.showMainFocusAgeRangeSelectionBoxes = false;
+                  
+                    }
+                    if (val == 'Gender'){
+                        this.showSubFocusAgeRangeSelectionBoxes = false;
+                        this.showSubFocusAgeSelectionBoxes = false;
+                        
+                        //give each option a new value so we can render
+                        this.allowedSubFocusCriterion = this.opinion.options.map(i=>i.option);
+                        this.allowedSubFocusCriterion.unshift('All Options');
+
+                        this.m_f = 'gender';
+                        
+                    }
+
+
+                    if (val != ''){
+                        this.subFocusSelectionTextOne = 'Insights into ';
+                    }
+
+                    else{
+                        this.subFocusSelectionTextOne = '';
+                    }
+
+
+                    var isOption = this.opinion.options.filter(option=>option.option == val).length !=0;
+
+                    if (isOption){
+                        this.subFocusSelectionTextTwo= 'of voters: ';
+                        this.allowedSubFocusCriterion = ['Gender', 'Age', 'Age Range'];
+                        this.m_f = this.opinion.options.filter(option=>option.option == val)[0].id;
+
+                    }
+                    else{
+                        this.subFocusSelectionTextTwo = '';
+                    
+                    }
+                },
+
+
+                newSubFocus: function(val){
+                    if (val == 'Age'){
+                        this.newSubFocus = 'age';
+                        this.showSubFocusAgeSelectionBoxes = true;
+                        this.showSubFocusAgeRangeSelectionBoxes = false;
+                        this.s_f = "age";
+                    }
+                    else if (val == 'Age Range'){
+                        this.showSubFocusAgeRangeSelectionBoxes = true;
+                        this.showSubFocusAgeSelectionBoxes = false;
+                        this.s_f = 'age range';
+                    }
+                    else if (val == 'All Options'){
+                        this.showSubFocsusAgeRangeSelectionBoxes = false;
+                        this.showSubFocusAgeSelectionBoxes = false;
+                        this.s_f = 'options';
+                        this.s_f_objs = 'options';
+
+                    }
+                    else{
+                        this.showSubFocsusAgeRangeSelectionBoxes = false;
+                        this.showSubFocusAgeSelectionBoxes = false; 
+                        var chosenOption =  val;
+                        var optionMatch = this.opinion.options.filter(option=>option.option == chosenOption);
+                        this.s_f = 'option';
+                        this.s_f_objs = optionMatch[0].id;
+                    }
+                }
+
+            },
+
+            created(){
+                
+                this.pageLoading = true;
+                //first ge poll details
+                this.getOpinionDetails();
+                this.pageLoading = false;
+
+
+
+                //we want users to understand what this page is all about
+                //so we are automatically going to show them data on the gender distribution for the poll
+                //hence:
+
+
+                
+                vm  = this;
+                pollId = document.getElementById('hidden-id-signifier').innerHTML;
+                pollQuestion = document.getElementById('hidden-question-signifier').innerHTML;
+                
+                axios.get('http://localhost:6543/opinion/get-metrics/' + opinionId, {
+                    params: {
+                        m_f: 'gender',
+                        s_f: 'poll',
+                        m_f_objs: 'M',
+                        s_f_objs: opinionId,
+                    }
+
+
+                }).then(function(response){
+                    metricsObject = {};
+                    metricsObject['main_focus'] = "Gender Distribution";
+                    metricsObject['sub_focus'] = "Opinion";
+                    metricsObject['main_focus_objects'] = ['M', 'F'];
+                    metricsObject['sub_focus_objects'] = '';
+                    var context = this;
+                    var ctx = document.getElementById('metricsChart');
+                    var options = {
+                        
+                        legend:{
+                            display: true, 
+                            position: "bottom",
+                            labels:{
+                                fontColor: '#333',
+                                fontSize: 13
+                            }
+                        }
+                    };
+                    var data = {
+                        labels: ["Male", "Female"],
+                        datasets: [
+                            {
+                                label: "Male and Female Score",
+                                data: [response.data['M']['votes'], response.data['F']['votes']], 
+                                backgroundColor: [
+                                    "darkblue",
+                                    "red",
+                            
+                                ],
+                                borderColor: [
+                                    'darkblue', 
+                                    'red',
+                                ]
+                            }
+                        ]
+                    };
+
+                    chart1 = new Chart(ctx, {
+                        type: "pie",
+                        data: data,
+                        options: options
+                    });
+
+
+
+                });
+
+                vm.loading = false;
+            },
+        });
+
+    </script>
+
+</html>

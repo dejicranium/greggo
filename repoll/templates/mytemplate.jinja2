@@ -1,0 +1,297 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+    
+<!DOCTYPE html> 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <title>Repoll</title>
+
+</head>
+
+
+<body>
+    {% if error %}
+      <h1>{{error}}</h1>
+    {% endif %}
+
+  <header>
+    <div class="container">
+      <div id="logo">
+        <h1>Repoll</h1>
+        <nav>
+          <ul>
+            <li><a href="">Home</a></li>
+
+            {% if not auth_user %}
+              <li><a href=" {{request.route_url('register')}}"> register</a></li>
+              <li><a href='{{request.route_url('login')}}'>Sign in</a></li>
+            {% else %}
+              <img src="http://www.naijaloaded.com.ng/wp-content/uploads/2014/10/hudyx6x9g3f12skkb3lr.jpeg" title='{{auth_user.first_name}}'width='50' height="50">
+
+              <a href="{{request.route_url('view_profile', user_id=auth_user.id)}}">My Profile</a>
+              <a href="{{request.route_url('logout')}}">Logout</a>
+
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  </header>
+
+  
+
+
+  <section id="catsidebar">
+    <div class="container">
+
+      <div id="header">
+        <h3>Subscriptions</h3>
+      </div>
+
+      <div id="content">
+        <ul>
+          {% for category in categories %}
+            <li><a href="{{request.route_url('category', category_id=category.id)}}">{{category.category_name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+
+    
+  <section id="feed">
+    <div class="container">
+    {% for poll in polls %}
+      <div class="card">
+        <div class="card-content">
+
+          <div class="content">
+
+            <div class="asked-by">
+              <p>Created by 
+              {% if poll.added_by == request.user %}
+              YOU
+              {% else %}
+                <a href="{{request.route_url('view_user', id=poll.added_by.id, slug=poll.added_by.slug)}}">{{poll.added_by.full_name}}</a>
+              {% endif %}
+              .{{poll.time_added}} 
+              {% if auth_user.age %}
+              {{auth_user.age}}z</p>
+              {% endif %}
+              
+            </div>
+
+            <div class="poll-question">
+              <h2><a href="{{request.route_url('view_poll', poll_id=poll.id, slug=poll.slug)}}">{{poll.question}}</a></h2>
+            </div>
+
+            <div class="poll-categories">
+              <p>Ilorin</p><p>Location</p>
+            </div>
+
+            <div class="poll-info">
+              <p>{{poll.info}}</p>
+            </div>
+
+
+
+            <div class="poll-options">
+              <form method="post" action="{{request.route_url('vote', poll_id=poll.id)}}">
+              {% for option in poll.options %}
+              <div>
+                <input id='option_radio' v-model='check' type="radio" name="option" value="{{option.id}}">
+              <label>{{option.title}}<label>
+              </div>
+              
+              {% endfor %}
+                            <input id="vote_for_poll" type="submit">
+
+
+              
+            </div>
+
+            <div class="poll-add-details">
+              <p id="num_of_votes">{{poll.votes}} votes</p>
+              
+            </div>
+
+            <div class="poll-actions">
+              <input type="submit" value="vote">
+              <a href="{{request.route_url('add_comment', poll_id=poll.id)}}">Comment</a>
+              <a href="{{request.route_url('show_results', poll_id=poll.id)}}">Show Results</a>
+              <a href="#">View Comments</a>
+              </form>
+
+            </div>
+
+            
+
+        </div>
+      </div> 
+      </div>
+        <div class="comments-box">
+            <div class="comment">
+
+              <div class="comment-header">
+                <p>(Comments will be here)</p>
+              </div>
+
+              <div class="commenter-details">
+                <p></p>
+              </div>
+
+              <div class="comment-option">
+                <p></p>
+              </div>
+
+              <div class="comment-statement">
+                <p></p>
+              </div>
+            </div>
+        </div>
+    {% endfor %}
+
+  </section>
+
+
+  <section id="trending">
+    <div class="container">
+      <div id="card">
+        <div id="card-content">
+          <div id="header">
+            <h1>Trending</h1>
+          </div>
+
+          <div class="contents">
+            <div class="poll-title"><h3>Should I go to Ilorin for my NYSC?</h3>
+            </div>
+            <div class="poll-categories"></div>
+            <div class="poll-details">
+              <p>2 hours ago</p><span><p>244 votes</p></span>
+            </div>
+          </div>
+
+            <div class="contents">
+              <div class="poll-title"><h3>Do you think Buhari will Lose the Next Election?</h3>
+              </div>
+              <div class="poll-categories"></div>
+              <div class="poll-details">
+                <p>1 day ago</p><span><p>12k votes</p></span>
+              </div>
+            </div>
+
+            <div class="contents">
+            <div class="poll-title"><h3>What should I do if he cheats on me?</h3>
+            </div>
+            <div class="poll-categories"></div>
+            <div class="poll-details">
+              <p>5 hours ago</p><span><p>3k votes</p></span>
+            </div>
+            </div>
+
+            <div class="contents">
+            <div class="poll-title"><h3>Will you slap your bestfriend for #30 million</h3>
+            </div>
+            <div class="poll-categories"></div>
+            <div class="poll-details">
+              <p>Last month ago</p><span><p>1k votes</p></span>
+            </div>
+            </div>
+
+      </div>
+    </div>
+
+    </div>
+  </section>
+
+
+
+
+
+
+
+    <section id="contests">
+      <div class="container">
+        <div id="card">
+          <div id="card-content">
+            
+            <div id="header">
+              <h1>Ongoing Contests</h1>
+            </div>
+
+
+            <div class="contents">
+              <div class="contest">
+                <div class="contest-image">
+                  <img src="http://www.naijaloaded.com.ng/wp-content/uploads/2014/10/hudyx6x9g3f12skkb3lr.jpeg" width="100px" height="20px"/>
+                </div>
+
+                <div class="contest-name">
+                  <h4>Soundcity Live Awards</h4> 
+                </div>
+
+                <div class="contest-details">
+                  <p>Ending tomorrow</p>
+                </div>
+
+              </div>
+
+          </div>
+
+           <div class="contents">
+              <div class="contest">
+                <div class="contest-image">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRnyc-1JHYamoZToS4a81JcM8PcuZl5YXqcYYZF2N7X737kcdF" width="100px" height="20px">
+                </div>
+
+                <div class="contest-name">
+                  <h4>Peak Milk Writing Awards</h4> 
+                </div>
+
+                <div class="contest-details">
+                  <p>Ending tomorrow</p>
+                </div>
+              </div>
+
+          </div>
+
+
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <div class="mypolls">
+    <div class="container">
+      <h1>My Poll</h1>
+      {% if mypolls %}
+      {% for mypoll in mypolls%}
+        {{ mypoll.title }}
+      {% endfor %}
+      {%endif %}
+
+      <h1>Following</h1>
+        {% if followings %}
+          {% for following in followings %}
+            {{following.follower_id.first_name}}
+          {% endfor %}
+        {% else %}
+          <h2>No followers</h2>
+        {% endif %}
+    </div>
+  </div>
+  
+
+  
+<a href="{{request.route_url('create_question')}}">Create Poll</a>
+</body>
+</html>
+
+{% endblock  %}

@@ -1,0 +1,88 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<h1>Create QUestion</h1>
+
+  <form action="{{request.route_url('create_question')}}" method="post" accept-charset='utf-8' class="form" enctype="multipart/form-data">
+
+      {% for error in form.question.errors %}
+          <div class="error">{{ error }}</div>
+      {% endfor %}
+
+      <div class="form-group">
+          <label for="question">{{form.question.label}}</label>
+          {{form.question(class_='form-control')}}
+      </div>
+
+      {% for error in form.info.errors %}
+          <div class="error">{{ error }}</div>
+      {% endfor %}
+
+      <div class="form-group">
+          <label for="info">{{form.info.label}}</label>
+          {{form.info(class_='form-control')}}
+          <input type='file' name='image-info'/>
+      </div>
+
+
+
+          <label></label>
+          <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+
+      <div class="form-group">
+        <label for="option1">Option1</label>
+        <input type="text" name="option">
+
+          <input type="file"
+               id="avatar" name="option-image"
+               accept="image/png, image/jpeg" />
+      </div>
+
+
+      <div class="form-group" id="imoption" v-for="opt in options">
+        <label for="option2">Option 2</label>
+        <input type="text" name="option" v-model='opt.title'>
+
+         <input type="file"
+               id="avatar" name="option-image"
+               accept="image/png, image/jpeg" />
+      </div>
+
+      <div class="form-group" id="imoption" v-for="opt in options">
+        <label for="option3">Option 2</label>
+        <input type="text" name="option" v-model='opt.title'>
+      </div>
+
+      <div class="form-group" id="imoption" v-for="opt in options">
+        <label for="option4">Option 2</label>
+        <input type="text" name="option" v-model='opt.title'>
+      </div>
+
+      <div class="form-group" id="imoption" v-for="opt in options">
+        <label for="option5">Option 2</label>
+        <input type="text" name="option" v-model='opt.title'>
+      </div>
+
+      <select name="category">
+        {%for category in categories%}
+        <option value="{{category.id}}" selected>{{category.category_name}}</option>
+        {% endfor %}
+      </select>
+
+      <div class='location'>
+        <label for='target'></label>
+        <input type="text" name='target'>
+      </div>
+
+
+      <select name='timeDue'>
+        <option value="1">24 hours</option>
+      </select>
+  </form>
+      <div id="btn">
+        <button @click='showalert'>Click me</button>
+      </div>
+
+
+{% endblock content %}

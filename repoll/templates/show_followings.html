@@ -1,0 +1,8 @@
+{% block content %}
+	{% if followings %}
+		{% for following in followings %}
+			{{following}}
+		{% endfor %}
+	{%endif %}
+
+{% endblock content %}

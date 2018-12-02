@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet'>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">\
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+
+
+	<style type="text/css">
+		*{
+			margin:0px;
+			padding: 0px;
+			font-family: Helvetica, sans-serif;
+
+		}
+
+		.disabled{
+			display: none;
+		}
+
+		.highest{
+			background-color: darkorange;
+		}
+
+		body{
+			background-color: #F7F7F7;
+		}
+		#navbar{
+			display:flex;
+			padding: 10px 10px 10px 10px;
+			width:100%;
+			min-height: 35px;
+			background-color: white;
+			color:white;
+			position: fixed;
+			top:0;
+			flex-direction: row;
+			box-shadow: 0px 0px 2px 0px grey;
+			margin-bottom: 10px;
+			z-index: 5;
+			box-sizing:border-box;
+
+		}
+		#navbar h1{
+			font-size: 10vw;
+			text-align: center;
+
+		}
+
+		#navbar .menu{
+			width: auto;
+			height: 15px;
+			margin-top:auto;
+			display: inline-block;
+			position: relative;
+
+			
+
+		}
+
+		#navbar .menu div{
+			width: 20px;
+			height: 3px;
+			border-bottom-left-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			background-color: darkgray;
+			display: block;
+			margin-bottom: 3px;
+		}
+
+		.navbar-actions{
+			position: absolute;
+			display: flex;
+			right: 0;
+			flex-direction: row;
+		}
+
+		.nabar-actions ul{
+			text-decoration:none;
+			display:flex;
+			flex-direction: row;
+		}
+
+
+		.navbar-actions button{
+			display: inline-block;
+			background-color: transparent;
+			border:0;
+			color:darkgray;
+			height: 100%;
+			vertical-align: center; 
+			text-align: center;
+			font-size: 15px;
+			padding-right: 10px;
+		}
+
+		.navbar-icon{
+			position:relative; 
+			right: 0px;
+			margin-right: -10px;
+			width: 30px;
+			padding: 0px;
+			vertical-align:center;
+			text-align:center;
+			padding-left: 10px;
+		}
+
+		.sidebar{
+			position: fixed;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 6;
+			display:none;
+		}
+
+		.navbar .menu div:hover .sidebar{
+				display: fixed;
+		}
+
+
+		#container{
+			position: absolute;
+			top:50px;
+			width: 100%;
+
+		}
+
+		.body-container{
+			padding: 1px 0px 5px 0px;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		.feed-container{
+		}
+		.feed-container .button-icon{
+			position: relative;
+			left: 0;
+			margin-right: 0px;
+			margin-left:0px;
+			width: 20px;
+            color: rgb(79, 78, 78);
+
+			}
+		.feed-container .feed-card{
+            background-color: white;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            box-shadow: lightgrey 1px;
+            border-radius: 2px;
+			border: 0.5px solid lightgray;
+
+        }
+
+        .feed-container .feed-card .avatar {
+            height: auto;
+            width: auto;
+            margin-right: 10px;
+            float: left;
+
+        }
+        .feed-container .feed-card .avatar img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .feed-container .feed-card .beside-avatar-box{
+            display:inline-block;
+            width: 80%;
+        }
+
+        .feed-container .feed-card .beside-avatar-box .author-details p{
+            display: inline;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #a0a0a0;
+
+
+        }
+        .categories-container p{
+            display: inline;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #a0a0a0;
+
+        }
+        .feed-container .feed-card .beside-avatar-box .author-details{
+            margin-bottom: 0;
+        }
+        .feed-container .feed-card .beside-avatar-box .author-details .name{
+           font-size: 15px;
+		   	color:black;
+			color:black;
+
+
+        }
+        .feed-container .feed-card .beside-avatar-box .author-details .action{
+           font-size: 10px;
+		color:black;
+
+
+        }
+        .feed-container .feed-card .beside-avatar-box .author-details .username{
+            font-size: 10px;
+
+        }
+
+        .feed-container .feed-card .beside-avatar-box .poll-question{
+            margin-top: 3px;
+			margin-bottom:5px;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: teal;
+
+            line-height: 2ch;
+
+        }
+
+        .options{
+            height: auto;
+            font-size: 15px;
+            color:black;
+            margin-top: 0;
+        }
+
+        .options .ans-cnt{
+
+        }
+
+        .options .ans-cnt .ans{
+            position: relative;
+            margin-bottom: 10px;
+			padding: 5px 5px 5px 0px;
+        }
+
+        .options .ans-cnt .ans-voted{
+            padding: 2px 10px;
+        }
+
+
+        .percent{
+            font-weight: bold;
+			font-size: 13px;
+        }
+        .txt, .percent{
+            z-index: 2;
+            position: relative;
+			font-size: 13px;
+        }
+
+        .options .ans-cnt .ans .first-bg{
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+		background-color: #F7F7F7;
+        border-radius: 5pxpx;
+
+        }
+
+        .options .ans-cnt .bg{
+        position: absolute;
+        width: 0%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+        background-color:lightgray;
+        color:white;
+        border-radius: 5px;
+        transition: width 5s;
+        -webkit-transition: width 5s;
+
+        }
+
+
+	
+		.options label{
+			display:block;
+			position:relative;
+			cursor:pointer;
+			border-radius: 5px;
+			padding: 10px 10px 10px 45px;
+			font-size: 13px;
+			border: #F7F7F7 0.5px solid;
+
+			margin-bottom:5px;
+
+			user-select:none;
+			-moz-user-select:none;
+		
+		}
+
+		.options input{
+			opacity: 0;
+			position:absolute;
+		}
+
+		.options .checkmark{
+			position:absolute;
+			top:12px;
+			left:10px;
+			bottom:10px;
+			height: 15px;
+			width: 15px;
+			background-color: #eee;
+			border-radius: 50%;
+			margin-right: 20px;
+		}
+
+		.options label:hover{
+			background-color:#F7F7F;
+		}
+		.options label input:checked ~ .checkmark{
+			background-color: teal;
+		}
+
+
+        .feed-card .votes{
+            font-size: 10px;
+			color: darkgray;
+			margin-bottom; 5px;
+        }
+
+        .feed-card button{
+            border: 0;
+			margin-top: 5px;
+            background-color: transparent;
+			border: 0.5px solid lightgray;
+			text-align: center; 
+			vertical-align: middle; 
+			padding:4px ; 
+			padding-bottom: 3px;
+			padding-right: ;
+			border-radius: 5px;
+			font-size: 13px;
+            color: rgb(79, 78, 78);
+        }
+
+
+		.addCommentBox{
+			background-color: rgb(239, 239, 239);
+			padding: 20px;
+			margin-bottom:10px;
+			box-sizing:border-box;
+		}
+
+		.addCommentBox p{
+			font-weight: bold;
+			margin-bottom: 5px;
+
+		}
+
+		.addCommentBox textarea{
+			overflow: hidden; 
+			resize:none;
+			box-sizing: border-box;
+			display:inline-block;
+			height: 50px;
+			width:100%;
+			padding: 10px;
+			border: 0;
+		}
+
+		.addCommentBox button{
+			border: 0;
+			background-color: teal; 
+			color: white;
+			padding: 5px;
+			display:block;
+
+		}
+
+
+
+            .other-details{
+                background-color: white;
+
+                flex-wrap: wrap;
+                margin-top: 10px;
+                padding-top: 10px;
+                padding: 10px 1px 0px 1px;
+            }
+
+			.other-details .tab-content{
+                background-color:white;
+                margin-top: 5px;
+            }
+            .other-details .tab-header{
+                display: flex;
+                flex-direction: row;
+                box-shadow: 0 4px 2px -2px lightgray;
+                flex-wrap: wrap;
+            }
+
+            .other-details .tab{
+                width: auto; 
+                padding: 10px 10px 10px 5px;
+                font-size: 12px;
+                text-align: center;
+                cursor: pointer;
+                font-weight: 500;
+                min-width: 20px;
+            }
+
+
+
+
+
+
+
+
+
+		.comment-container{
+			margin-top: 10px; 
+			background-color:white; 
+			font-size: 10px;
+			border-top: 0.5px lightgrey solid;
+			border-right: 0.5px lightgrey solid;
+			border-left: 0.5px lightgrey solid;
+			box-sizing: border-box;
+			display:flex;
+			flex-direction:column;
+		}
+
+		.comment-container input{
+			display: none;
+			
+		}
+		.comment-container input{
+			background-color: none;
+
+		}
+		.comment-container input:checked{
+			background-color:none;
+		}
+
+		.comment-container input:focus{
+			background-color:none;
+		}
+		.comment-container input:hover{
+			background-color:none;
+		}
+		.comment-container input:checked > label{
+			color: teal;
+			font-weight: bold;
+			background-color: black;
+		}
+
+
+		.comment-container input:checked > .tab{
+			border-bottom: 0.2px solid teal;
+			flex:1;
+		}
+
+		isActive{
+			border-bottom: 0.5px teal solid;
+		}
+
+
+		.comment-container .tabs{
+			margin-right: 10px;
+			flex-direction: row;
+			box-sizing: border-box;
+			display:flex;
+		}
+		
+		.comment-container .tabs .tab{
+			flex:1;
+			height: 30px;
+			vertical-align:bottom;
+			text-align:center;
+		}
+
+		.comment-container .tabs .tab label{
+			vertical-align:middle;
+			height: 100%;
+		}
+
+		.comment-container .tabs .tab input{
+	
+		}
+
+		.comment-container label{
+			font-size: 13px;
+			display:inline-block;
+		}
+
+
+
+		.comment-card{
+			padding: 10px 10px 0px 10px;
+			background-color: white; 
+			box-sizing: border-box;
+			position: relative;
+			display:block;
+			font-size: 10px; 
+			text-overflow:wrap;
+			border-bottom: solid lightgrey 1px;
+		}
+
+		.comment-card .avatar {
+            height: auto;
+            width: 5%;
+			display:inline-block;
+            margin-right: 10px;
+            float: left;
+
+        }
+        .comment-card .avatar img{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+		 .comment-card .beside-avatar-box{
+            display:inline-block;
+            width: 90%;
+        }
+
+        .comment-card .beside-avatar-box .author-details p{
+            display: inline;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+			vertical-align:center;
+            color: black;
+		}
+
+
+		.comment-card .author-details{
+			font-size:10px;
+			font-weight:normal;
+			color:black;
+		}
+
+		.comment-card .author-details img{
+			border-radius: 50%;
+		}
+
+		.comment-card .author-details p{
+			color:lightgray;
+		}
+		.comment-card .chosen-option{
+			margin-bottom: 2px;
+			font-size: 13px;
+
+		}
+		.comment-card .reason{
+			margin-bottom: 5px;
+			font-size:13px;
+			overflow: hidden;
+			
+		}
+
+		.comment-card .action-buttons{
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: row;
+			align-items: flex-end;
+			
+			justify-content: flex-end;
+			width: 100%;
+			
+		}
+
+		.comment-card .action-buttons button{
+			border:0;
+			background-color: lightgray;
+			color: black;
+			font-weight: bold;
+			font-size: 10px;
+			margin-right: 5px;
+			padding: 5px; 
+			padding-left:10px; 
+			padding-right: 10px;
+		}
+
+		.comment-card .action-buttons span{
+			font-weight: normal;
+			margin-left: 5px;
+		}
+
+
+
+
+
+</style>
+
+</head>
+<body>
+
+	<!--this contains the value of the poll id. We need it to make an ajax call.
+	-->
+	<p id='idOfPollToBeViewed' style='display: none'>{{opinion_id}}</p>
+    <div id='container'>
+
+
+<!--BEGINNING OF THE ACTUAL BODY -->
+        {%include 'not_home_navbar_template.jinja2' %}
+
+	<div class="sidebar">
+		<div class="profile-info-in-sidebar">
+		</div>
+
+		<div class="sidebar-container">
+				<a href="#">Trending</a>
+				<a href="#">Sports</a>
+		</div>
+	</div> 
+
+    <div class='body-container' v-if='!loading'>
+        <div class="feed-container">
+			<div class="feed-card">
+					<div class="avatar">
+                         <img v-if='!poll.userPic' src="https://www.w3schools.com/howto/img_avatar.png"/>
+						 <img v-else :src='poll.userPic'>
+                    </div>
+				
+                    <div class="beside-avatar-box">
+
+                        <div class="author-details">
+                            <p class="name" style='color;black; font-weight:bold; font-size:12px;'>((poll.userName))</p>
+                            <p class="username"></p>
+							<p class='time-added' style='color:darkgrey; font-size:12px;'>((poll.timeAdded))<p>
+                        </div>
+
+                        <p class="comment" style='white-space:; font-size:13px; margin-bottom:5px;'>((poll.opinion))</p>
+						<p class='votes'>((poll.totalVotes)) reactions</p>
+
+
+
+						<button @click='addComment("Agree")'><i class="fa fa-check button-icon" aria-hidden="true"></i>Agree</button>
+						<button @click='addComment("Disagree")'><i class="far fa-thumbs-down button-icon"></i>Disagree</button>
+						<button  @click='openBreakDownWindow'><i class="fas fa-chart-pie button-icon"></i>View Breakdown</button>
+
+					</div>
+
+            </div>
+
+			<!--This div will be shown for poll activities --> 
+		</div>
+
+	</div>
+	<div class='addCommentBox' v-show="intent == 'toComment' && !poll.userHasVoted">
+		<form id='comment-form'>
+			<p class='chosenOption'>((chosenOptionName))</p>
+			<textarea type="text" placeholder='Reason' @click="autoResize" name='comment' id='comment-form'></textarea>
+			<button @click='comment'>Comment</button>
+		</form>
+	</div>
+
+		<div class="other-details">
+            <div class="tab-header">
+                <div class="tab all" style="border-bottom: 1px solid teal;"
+				onclick="showTabContent(this, 'polls')" 
+				id='*'
+				@click='makeTabActive("*")'
+				:class="[isActiveTab('*') ? isActiveClass : '']">
+                    <p>All</p>
+                </div>
+
+                <div class="tab" v-for='option in poll.options'
+					
+					 :option='option'
+					 :id='option.id'
+					 onclick="showTabContent(this, 'opinions')" 
+					 @click='makeTabActive(option.id)'
+					 class="tab">
+					 
+                    <p>((option.option))</p>
+                </div>
+
+
+
+
+
+				<!--
+                <div class="tab" onclick="showTabContent(this, 'c_and_s')" @click='getCommentsAndReplies'>
+                    <p>Comments & Replies</p>
+                </div>
+
+            	<div class="tab" onclick="showTabContent(this, 'l_and_s')">
+                    <p>Likes & Shares</p>
+                </div>
+
+				-->
+            </div>
+			<comment v-for='comment in sortedComments' @change_can_agree_state='changeCanAgreeWithCommentsState' :comment='comment' :replies='replies' :can_agree_to_comments='canAgreeToComments'></comment>
+
+
+		</div>
+	
+	</div>
+ </div>
+
+
+	<template id='comment-template'>
+		<div class='comment-card'>
+			<div class='avatar'>
+                <img v-if='comment.userPic == null'src="https://www.w3schools.com/howto/img_avatar.png"/>
+			    <img v-else :src="comment.userPic"/>
+
+			</div>
+
+			<div class='beside-avatar-box'>
+				<div class='author-details'>
+					<h3 class='name' style='font-weight:bold'>((comment.userName))</h3>
+					<p class='name' style='color:lightgray'>((comment.timeAdded))</p>
+
+				</div> 
+
+				<div class='chosen-option'>
+					<h4 class='option'>((comment.option))</h4>
+				</div>
+
+				<div class='reason' id=''>
+					<p>((comment.comment))</p>
+				</div>
+				
+				<div class='action-buttons'> 
+					<button v-if='can_agree_to_comments' @click='agree'>Agree<span>((numOfAgrees))</span></button> 
+					<button v-else style='background-color:transparent;'><span style='color:black; font-weight:bold;'>((comment.numOfAgrees)) Agrees </span></button> 
+					<button @click='share' v-if='!hasSharedComment'>Share ((numOfShares)) </button>
+					<button v-else style='background-color:transparent;'><span style='color:black; font-weight:bold;'>((numOfShares)) Shares </span></button> 
+
+				</div>
+
+            </div>
+
+
+			</div>
+		</div>
+
+	</template>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.js"></script>
+<script type="text/javascript">
+    
+
+	var siteUrl = "http://localhost:6543";
+
+	Vue.component('comment', {
+		template: '#comment-template',
+		delimiters: ['((', '))'],
+		props: ['comment', 'can_agree_to_comments'],
+ 
+		data(){
+			return {
+				canAgreeToComments: this.can_agree_to_comments,
+				hasSharedComment: this.comment.hasSharedComment,
+				numOfAgrees: this.comment.numOfAgrees,
+				numOfShares: this.comment.numOfShares,
+			}
+		}, 
+
+		methods:{
+			
+
+
+			share(){
+				vm = this;
+				axios.post(siteUrl+'/share/', {
+					comment_id: vm.comment.id,
+					
+				}).then(response=>{
+					vm.hasSharedComment = true;
+					vm.numOfShares += 1;
+				}).catch(error=>{
+					vm.hasSharedComment = false;
+				});
+
+			},
+			
+			agree(){
+				vm = this;
+				axios.post('http://localhost:6543/agree',{
+					comment_id: this.comment.id,
+					option_id: this.comment.optionId,
+					opinion_id: this.comment.opinionId,
+				}).then(function(response){
+					vm.numOfAgrees += 1;
+					vm.setCannotAgree();
+				}).catch(function(response){
+
+				});
+			},
+
+			setCannotAgree(){
+				var option_voted_for = this.comment_optionId;
+				vm.$emit('change_can_agree_state', option_voted_for);
+
+			},
+		},
+
+
+	});
+	
+	
+	new Vue({
+
+        el: '#container',
+        delimiters: ['((','))'],
+
+        data(){
+			return{
+            	some: 'deji',
+				loading: true,
+            	poll: {}, //it'a list because we want it to be reactive.
+				chosenOption: 0,
+				user_logged_in: false,
+				comments: [], 
+				activeTab: '*',
+				tabs: [],
+				isActiveClass: 'isActive',
+				intent: '',
+				chosenOptionName: '',
+				canAgreeToComments: false, //this will make us know whether user can press agree on another comment
+				commentToAgreeWith: 0, 
+			}
+             
+        },
+
+
+        methods:{
+
+
+			openBreakDownWindow(){
+
+				window.open(siteUrl + '/opinion/demographic-metrics/' + this.poll.id);
+			
+			
+			},
+			changeCanAgreeWithCommentsState(optionVotedFor){
+				this.canAgreeToComments = false;
+				this.changePollData('userHasVoted', true);
+				this.changePollData('totalVotes', this.poll.totalVotes + 1);
+				
+				for (var i = 0; i < this.poll.options.length; i++){
+					if (this.poll.options[i].id  == optionVotedFor){
+						this.poll.options[i].score += 1;
+						break;
+					}
+				}
+			},
+			autoResize(event){
+				event.preventDefault();
+				var textarea = event.target;
+				textarea.addEventListener('input', function(){
+					var currentHeight = textarea.offsetHeight;
+					var scrollHeight = textarea.scrollHeight;
+					if (scrollHeight > currentHeight){
+						textarea.style.height = scrollHeight + 'px';
+					}
+				});
+			},
+
+            changePollData(id, value){
+                this.$set(this.poll, id, value);
+            },
+
+			makeTabActive(tabName){
+				this.activeTab = tabName;
+
+				var tabs = document.getElementsByClassName('tab');
+				var activeTab = document.getElementById(this.activeTab);
+				
+				for (let i =0; i < tabs.length; i++){
+					tabs[i].style.borderBottom = '0px solid';
+				}
+				activeTab.style.borderBottom = "2px solid teal";
+
+				
+			},
+
+			isActiveTab(tabName){
+				this.activeTab == tabName;
+			},
+
+
+			optionChosen(id){
+				this.chosenOption = id;
+
+			},
+
+
+
+			vote(){
+				vm = this;
+				if (this.user_logged_in == false){
+					return 0;
+				}
+
+				this.changePollData('userHasVoted', true);
+				this.canAgreeToComments = false;
+				this.changePollData('totalVotes', this.poll.totalVotes + 1);
+				
+				for (var i = 0; i < this.poll.options.length; i++){
+					if (this.poll.options[i].id  == this.chosenOption){
+						this.poll.options[i].score += 1;
+						break;
+					}
+				}
+				axios.post(siteUrl + '/vote/',{
+					poll_id: vm.poll.id, 
+					option_id: vm.chosenOption,
+				}).then(function(response){
+					
+				}).catch(function(error){
+				
+				});
+
+				
+
+			
+			},
+
+			addComment(optionName){
+				if (this.user_logged_in == false){
+					return 0;
+					
+				}
+				this.chosenOptionName = optionName;
+				this.intent = 'toComment';
+
+				//look for the id of the option that has the option name;
+				var optionWithName = this.poll.options.filter(o=> o.option == optionName);
+				//make it the id of the option the chosen option
+				this.chosenOption = optionWithName[0].id;
+			},
+
+			comment(event){
+				event.preventDefault();
+				var commentForm = document.getElementById('comment-form');
+				var formData = new FormData(commentForm);
+				formData.append('opinion_id', this.poll.id);
+				formData.append('option_id', this.chosenOption);
+				var request =  new XMLHttpRequest();
+				vm = this;
+
+				request.open('POST', siteUrl + "/comment/");
+				request.onreadystatechange = function(){
+					if (request.readyState = XMLHttpRequest.DONE){
+						if (request.status == 200){
+							vm.changePollData('userHasVoted', true);
+							vm.changePollData('totalVotes', vm.poll.totalVotes + 1);
+							vm.canAgreeToComments = false;
+							for (var i = 0; i < this.poll.options.length; i++){
+								if (this.poll.options[i].id  == this.chosenOption){
+								this.poll.options[i].score += 1;
+								break;
+							}				
+						}
+
+					}
+					else{
+
+					}
+				}
+			}
+			request.send(formData);
+
+			
+
+        	},
+
+
+		},
+		computed:{
+			
+			totalVotes(){
+				return this.poll.totalVotes;
+			},
+
+
+			sortedComments(){
+				if (this.activeTab != '*'){
+					return this.comments.filter(a=> a.optionId == this.activeTab);
+				
+				}
+
+				//when active tab is "All"
+				return this.comments;
+
+			},
+
+		},
+
+        created(){
+            vm = this;
+			
+			var idOfPollToBeViewed = document.getElementById('idOfPollToBeViewed').innerHTML;
+			idOfPollToBeViewed = parseInt(idOfPollToBeViewed);
+            axios.get(siteUrl + '/opinion/' + idOfPollToBeViewed)
+			
+            .then(function(response){
+				vm.user_logged_in = response.data.user_logged_in;
+                vm.changePollData('opinion', response.data.opinion);
+                vm.changePollData('userName', response.data.userName);
+                vm.changePollData('type', response.data.type);
+                vm.changePollData('id', response.data.id);
+                vm.changePollData('userPic', response.data.userPic);
+                vm.changePollData('totalVotes', response.data.numOfVotes);
+				vm.changePollData('numOfShares', response.data.numOfShares);
+				vm.changePollData('numOfLikes', response.data.numOfLikes);
+                vm.changePollData('options', response.data.options);
+                vm.changePollData('userHasVoted', response.data.userHasVoted);
+				vm.changePollData('imageInfo', response.data.imageInfo);
+				vm.changePollData('timeAdded', response.data.timeAdded);
+				vm.changePollData('userIsFollowing', response.data.userIsFollowing);
+
+
+				//should users be allowed to agree to a comment?
+				//it all starts from knowing whether they have voted before.
+				if (vm.poll.userHasVoted){
+					vm.canAgreeToComments == false;
+				}
+				else{
+					vm.canAgreeToComments = true;
+				}
+				
+				vm.loading = false;
+            }).catch(function(error){
+					vm.loading = false;
+			    }
+            
+            );
+
+
+			axios.get('http://localhost:6543/comments/opinion/' + idOfPollToBeViewed,{
+
+			}).then(function(response){
+				vm.comments = response.data.comments;
+			})
+        },
+
+
+    });
+
+
+</script>
+
+</body>
+</html>

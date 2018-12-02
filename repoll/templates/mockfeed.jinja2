@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Activities</title>
+</head>
+
+<body>
+	<h1>Wait</h1>
+
+	{% for activity in activities%}
+		{% if hasatrr(activity, "question") %}
+			<h2>{{activity.question}}</h2>
+		
+		{% elif hasattr(activity, "question") %}
+			<h1>Comment</h1>
+			<h2>{{activity.comment}}</h2>
+		{%else %}
+			<h1>Nothing to show</h1>
+		{% endif %}
+
+
+
+	{% endfor %}
+
+</body>
+</html>
